@@ -7,12 +7,12 @@ import { ArrowRight } from 'lucide-react';
 gsap.registerPlugin(ScrollTrigger);
 
 const images = [
-    { src: '/3D-Images/1.jpg', span: 'md:col-span-2 md:row-span-2' },
-    { src: '/3D-Images/2.png', span: 'md:col-span-1 md:row-span-1' },
-    { src: '/3D-Images/1.png', span: 'md:col-span-1 md:row-span-1' },
-    { src: '/3D-Images/2 (2).jpg', span: 'md:col-span-1 md:row-span-2' },
-    { src: '/3D-Images/2-37.jpg.jpeg', span: 'md:col-span-1 md:row-span-1' },
-    { src: '/3D-Images/2-42.jpg.jpeg', span: 'md:col-span-1 md:row-span-1' },
+    { src: '/3D-Images/1.jpg', alt: 'Twilight exterior render of a modern residential villa — Ideal Visualizations', span: 'md:col-span-2 md:row-span-2' },
+    { src: '/3D-Images/2.png', alt: 'Photorealistic interior 3D rendering with cinematic lighting', span: 'md:col-span-1 md:row-span-1' },
+    { src: '/3D-Images/1.png', alt: 'Contemporary façade elevation rendering for a residential project', span: 'md:col-span-1 md:row-span-1' },
+    { src: '/3D-Images/2 (2).jpg', alt: 'Day-time exterior architectural visualization, Punjab residence', span: 'md:col-span-1 md:row-span-2' },
+    { src: '/3D-Images/2-37.jpg.jpeg', alt: 'Modern living room interior render with natural daylight', span: 'md:col-span-1 md:row-span-1' },
+    { src: '/3D-Images/2-42.jpg.jpeg', alt: 'Hospitality interior 3D rendering, lobby concept', span: 'md:col-span-1 md:row-span-1' },
 ];
 
 export default function Portfolio() {
@@ -55,9 +55,12 @@ export default function Portfolio() {
                             <div className="absolute inset-0 bg-[#52525B]/20 group-hover:bg-transparent transition-colors duration-500 z-10 mix-blend-multiply" />
                             <img
                                 src={img.src}
-                                alt={`Portfolio piece ${i + 1}`}
+                                alt={img.alt || `Portfolio piece ${i + 1}`}
+                                width="1200"
+                                height="800"
                                 className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
                                 loading="lazy"
+                                decoding="async"
                             />
                         </div>
                     ))}

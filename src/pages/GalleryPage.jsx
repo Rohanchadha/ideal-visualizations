@@ -9,7 +9,20 @@ export default function GalleryPage() {
     const [tab, setTab] = useState('images'); // 'images' | 'videos'
     const [lightboxIndex, setLightboxIndex] = useState(null);
 
-    useEffect(() => { window.scrollTo(0, 0); }, []);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        const prevTitle = document.title;
+        const prevDesc = document.querySelector('meta[name="description"]')?.getAttribute('content');
+        const prevCanon = document.querySelector('link[rel="canonical"]')?.getAttribute('href');
+        document.title = 'Gallery — Architectural 3D Renders & Walkthroughs | Ideal Visualizations';
+        document.querySelector('meta[name="description"]')?.setAttribute('content', 'Full gallery of photoreal architectural 3D renders, animated walkthroughs and 360° tours by Ideal Visualizations.');
+        document.querySelector('link[rel="canonical"]')?.setAttribute('href', 'https://ideal-visualizations.vercel.app/gallery');
+        return () => {
+            if (prevTitle) document.title = prevTitle;
+            if (prevDesc) document.querySelector('meta[name="description"]')?.setAttribute('content', prevDesc);
+            if (prevCanon) document.querySelector('link[rel="canonical"]')?.setAttribute('href', prevCanon);
+        };
+    }, []);
 
     const items = useMemo(() => (
         tab === 'images'
@@ -17,7 +30,7 @@ export default function GalleryPage() {
                 src: img.src,
                 thumb: img.thumb || img.src,
                 type: 'image',
-                alt: `3D rendering ${i + 1}`,
+                alt: `Architectural 3D rendering ${i + 1} — Ideal Visualizations gallery`,
             }))
             : GALLERY_VIDEOS.map((v) => ({ src: v.src, type: 'video' }))
     ), [tab]);

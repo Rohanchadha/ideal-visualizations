@@ -36,7 +36,11 @@ export default function Hero() {
             <div className="absolute inset-0 z-0 bg-[#111111]">
                 <img
                     src="/3D-Images/1.jpg"
-                    alt="3D Architectural Rendering"
+                    alt="Photorealistic 3D architectural exterior render by Ideal Visualizations — twilight residential project"
+                    width="1920"
+                    height="1080"
+                    fetchpriority="high"
+                    decoding="async"
                     className="w-full h-full object-cover object-center scale-105"
                 />
                 <div className="hero-image-overlay absolute inset-0 bg-gradient-to-t from-[#111111] via-[#111111]/60 to-[#111111]/20 opacity-90 z-10" />
@@ -51,6 +55,7 @@ export default function Hero() {
                     <h1 className="hero-text text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.05] tracking-tight mb-8">
                         <span className="block">Bringing architecture</span>
                         <span className="block text-[#E4E4E7]/90 mt-2 font-serif italic font-normal text-6xl md:text-8xl lg:text-[7rem]">to life.</span>
+                        <span className="sr-only">Architectural 3D rendering, walkthroughs and 360° visualization studio in Amritsar, India.</span>
                     </h1>
                     <div className="hero-text flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center">
                         <a

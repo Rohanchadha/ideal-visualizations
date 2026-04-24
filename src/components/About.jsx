@@ -30,7 +30,7 @@ export default function About() {
                 <div className="about-content order-2 lg:order-1">
                     <h2 className="text-[#F97316] font-semibold tracking-wider uppercase mb-4 text-sm md:text-base">Leading with Vision</h2>
                     <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#52525B] leading-[1.1] tracking-tight mb-8">
-                        Behind the <span className="font-serif italic font-normal text-[#F97316]">Renders.</span>
+                        About Danish — <span className="font-serif italic font-normal text-[#F97316]">Founder.</span>
                     </h3>
                     <div className="space-y-6 text-[#6B7280] text-lg leading-relaxed mix-blend-multiply">
                         <p>
@@ -50,7 +50,11 @@ export default function About() {
                         <div className="absolute inset-0 bg-[#F97316]/10 group-hover:bg-transparent transition-colors duration-500 z-10" />
                         <img
                             src="/DanishProfilePicture.png"
-                            alt="Danish - Founder"
+                            alt="Danish, founder and lead 3D visualization artist of Ideal Visualizations"
+                            width="800"
+                            height="1000"
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
                         />
                     </div>

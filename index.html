@@ -3,16 +3,231 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ideal Visualizations</title>
+
+  <!-- Primary Meta -->
+  <title>Ideal Visualizations | Architectural 3D Rendering, Walkthroughs & 360° — Amritsar, India</title>
+  <meta name="description" content="Photorealistic 3D architectural rendering studio in Amritsar. Exterior & interior visualization, animated walkthroughs and 360° tours. 1500+ projects across Delhi, Mumbai, Dubai, Chandigarh and 12+ more cities." />
+  <meta name="author" content="Ideal Visualizations" />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+  <meta name="theme-color" content="#111111" />
+  <link rel="canonical" href="https://ideal-visualizations.vercel.app/" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="apple-touch-icon" href="/favicon-96x96.png" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Ideal Visualizations" />
+  <meta property="og:title" content="Ideal Visualizations — Architectural 3D Rendering Studio" />
+  <meta property="og:description" content="Photorealistic 3D rendering, animated walkthroughs & 360° tours. 1500+ projects across 16+ cities, from Amritsar to Dubai." />
+  <meta property="og:image" content="https://ideal-visualizations.vercel.app/og-cover.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Photoreal architectural 3D render by Ideal Visualizations" />
+  <meta property="og:url" content="https://ideal-visualizations.vercel.app/" />
+  <meta property="og:locale" content="en_IN" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Ideal Visualizations — Architectural 3D Rendering Studio" />
+  <meta name="twitter:description" content="Photorealistic 3D rendering, animated walkthroughs & 360° tours. 1500+ projects across 16+ cities." />
+  <meta name="twitter:image" content="https://ideal-visualizations.vercel.app/og-cover.jpg" />
+
+  <!-- Performance hints -->
+  <link rel="preload" as="image" href="/3D-Images/1.jpg" fetchpriority="high" />
+
+  <!-- JSON-LD: ProfessionalService / LocalBusiness -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": "https://ideal-visualizations.vercel.app/#org",
+    "name": "Ideal Visualizations",
+    "alternateName": "Ideal Visualizations Studio",
+    "description": "Architectural 3D visualization studio offering exterior & interior rendering, animated walkthroughs, 360° tours, elevation design, architectural planning and turnkey construction.",
+    "url": "https://ideal-visualizations.vercel.app/",
+    "logo": "https://ideal-visualizations.vercel.app/favicon-96x96.png",
+    "image": "https://ideal-visualizations.vercel.app/og-cover.jpg",
+    "telephone": "+91-9646724313",
+    "email": "idealvisualization@gmail.com",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Amritsar",
+      "addressRegion": "Punjab",
+      "addressCountry": "IN"
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Amritsar" },
+      { "@type": "City", "name": "Chandigarh" },
+      { "@type": "City", "name": "Jalandhar" },
+      { "@type": "City", "name": "Ludhiana" },
+      { "@type": "City", "name": "Mohali" },
+      { "@type": "City", "name": "Bathinda" },
+      { "@type": "City", "name": "Manali" },
+      { "@type": "City", "name": "Shimla" },
+      { "@type": "City", "name": "Delhi" },
+      { "@type": "City", "name": "Mumbai" },
+      { "@type": "City", "name": "Bangalore" },
+      { "@type": "City", "name": "Noida" },
+      { "@type": "City", "name": "Gurgaon" },
+      { "@type": "City", "name": "Hyderabad" },
+      { "@type": "City", "name": "Kolkata" },
+      { "@type": "City", "name": "Pune" },
+      { "@type": "City", "name": "Dubai" }
+    ],
+    "founder": {
+      "@type": "Person",
+      "name": "Danish",
+      "jobTitle": "Founder & Lead 3D Visualization Artist",
+      "image": "https://ideal-visualizations.vercel.app/DanishProfilePicture.png",
+      "worksFor": { "@id": "https://ideal-visualizations.vercel.app/#org" }
+    },
+    "makesOffer": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exterior 3D Rendering" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Interior 3D Rendering" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Architectural Walkthroughs" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "360° Virtual Tours" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Architecture Planning" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Elevation Designing" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Interior Designing" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Turnkey Construction Projects" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Photoshop Rendered Plans" } }
+    ],
+    "sameAs": [
+      "https://www.instagram.com/idealvisualizations",
+      "https://www.behance.net/idealvisuali"
+    ],
+    "knowsAbout": [
+      "Architectural Visualization", "3D Rendering", "V-Ray", "Corona Renderer", "Lumion", "Unreal Engine", "Interior Design", "Exterior Design", "Walkthrough Animation", "360 Virtual Tours"
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://ideal-visualizations.vercel.app/#website",
+    "url": "https://ideal-visualizations.vercel.app/",
+    "name": "Ideal Visualizations",
+    "publisher": { "@id": "https://ideal-visualizations.vercel.app/#org" },
+    "inLanguage": "en"
+  }
+  </script>
+
+  <!-- JSON-LD: VideoObject for showcase reels -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "VideoObject", "name": "Architectural 3D Walkthrough Showcase", "description": "Cinematic architectural 3D walkthrough by Ideal Visualizations.", "thumbnailUrl": "https://i.ytimg.com/vi/BFUczoLv-7I/hqdefault.jpg", "uploadDate": "2024-01-01", "embedUrl": "https://www.youtube.com/embed/BFUczoLv-7I" },
+      { "@type": "VideoObject", "name": "Photoreal Archviz Reel", "description": "Photoreal architectural visualization reel.", "thumbnailUrl": "https://i.ytimg.com/vi/CCF8jQR_um0/hqdefault.jpg", "uploadDate": "2024-01-01", "embedUrl": "https://www.youtube.com/embed/CCF8jQR_um0" },
+      { "@type": "VideoObject", "name": "Cinematic Interior Walkthrough", "description": "Cinematic interior architectural walkthrough.", "thumbnailUrl": "https://i.ytimg.com/vi/Egmjj1btmLs/hqdefault.jpg", "uploadDate": "2024-01-01", "embedUrl": "https://www.youtube.com/embed/Egmjj1btmLs" },
+      { "@type": "VideoObject", "name": "Unreal Engine Archviz", "description": "Real-time architectural visualization in Unreal Engine.", "thumbnailUrl": "https://i.ytimg.com/vi/ejbw7iOSZTA/hqdefault.jpg", "uploadDate": "2024-01-01", "embedUrl": "https://www.youtube.com/embed/ejbw7iOSZTA" }
+    ]
+  }
+  </script>
+
+  <style>
+    .seo-prerender { position: absolute; left: -9999px; top: 0; width: 1px; height: 1px; overflow: hidden; }
+  </style>
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <!--
+      Static, crawler-visible content. React's createRoot() replaces this entirely
+      on mount, so end users only see the React app. Search engines, social
+      previewers and AI engines (Bing, DuckDuckGo, GPTBot, ClaudeBot, PerplexityBot,
+      Slack, LinkedIn, X) get a fully populated HTML body.
+    -->
+    <main class="seo-prerender">
+      <header>
+        <a href="/">Ideal Visualizations</a>
+        <nav aria-label="Primary">
+          <a href="#services">Services</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="/gallery">Gallery</a>
+          <a href="#about">About</a>
+          <a href="#locations">Locations</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+      <section>
+        <p>Ideal Visualizations</p>
+        <h1>Architectural 3D Rendering, Walkthroughs &amp; 360° Visualization Studio — Amritsar, India</h1>
+        <p>Photorealistic 3D architectural rendering for residential, commercial, hospitality and real-estate developers. Studio in Amritsar, Punjab, serving Delhi, Mumbai, Bangalore, Dubai, Chandigarh and 12+ other cities across India and the UAE.</p>
+        <p>
+          <a href="https://wa.me/919646724313">Talk on WhatsApp</a> ·
+          <a href="tel:+919646724313">Call +91 96467 24313</a> ·
+          <a href="mailto:idealvisualization@gmail.com">idealvisualization@gmail.com</a> ·
+          <a href="/gallery">View Gallery</a>
+        </p>
+      </section>
+      <section id="about">
+        <h2>About Danish — Founder, Ideal Visualizations</h2>
+        <p>Hi, I'm Danish. With over a decade of experience in architectural visualization, I founded Ideal Visualizations to bridge the gap between creative blueprints and photorealistic reality. Every line has purpose, every shadow creates depth, and every render must tell a compelling story.</p>
+        <p><em>Precision in design, passion in execution.</em></p>
+      </section>
+      <section id="services">
+        <h2>What we deliver</h2>
+        <h3>Architecture &amp; Construction Services</h3>
+        <ul>
+          <li><strong>Architecture Planning</strong> — Functional, future-ready architectural plans tailored to your site and brief.</li>
+          <li><strong>Elevation Designing</strong> — Distinctive façade and elevation design that defines your building's identity.</li>
+          <li><strong>Interior Designing</strong> — Curated interior layouts, materials and styling for residential &amp; commercial spaces.</li>
+          <li><strong>Turnkey Projects</strong> — End-to-end project execution from concept to handover.</li>
+        </ul>
+        <h3>3D Visualization Services</h3>
+        <ul>
+          <li><strong>Exterior Renders</strong> — Photorealistic exterior visualizations that bring elevations to life.</li>
+          <li><strong>Interior Renders</strong> — Detailed interior renderings with cinematic lighting and materials.</li>
+          <li><strong>Walkthroughs</strong> — Immersive animated walkthroughs that let clients experience the space.</li>
+          <li><strong>360° Views</strong> — Interactive 360° panoramas for the web, VR and presentations.</li>
+          <li><strong>Photoshop Rendered Plans</strong> — Beautifully rendered 2D plans for marketing collateral.</li>
+        </ul>
+      </section>
+      <section id="why-choose-us">
+        <h2>Why choose Ideal Visualizations</h2>
+        <ul>
+          <li><strong>Client centric</strong> — Your vision is our blueprint.</li>
+          <li><strong>Fast delivery</strong> — Optimized rendering pipelines meet critical deadlines.</li>
+          <li><strong>Global standard</strong> — Quality that meets international architecture firms' requirements.</li>
+          <li><strong>Precision driven</strong> — Translating CAD plans into 3D with photorealistic accuracy.</li>
+        </ul>
+        <ul>
+          <li>10+ years of experience</li>
+          <li>1500+ completed projects</li>
+          <li>20+ cities worldwide</li>
+          <li>500+ happy clients</li>
+        </ul>
+      </section>
+      <section id="portfolio">
+        <h2>Selected works</h2>
+        <p>Browse a curated set of recent residential, commercial and hospitality projects, then explore the <a href="/gallery">full gallery</a> for the complete archive.</p>
+      </section>
+      <section id="locations">
+        <h2>Locations we operate in</h2>
+        <p>Headquartered in Amritsar, Punjab, India. Active service area: Amritsar, Chandigarh, Mohali, Jalandhar, Ludhiana, Bathinda, Manali, Shimla, Delhi, Noida, Gurgaon, Mumbai, Bangalore, Hyderabad, Kolkata, Pune and Dubai.</p>
+      </section>
+      <footer id="contact">
+        <h2>Contact</h2>
+        <address>
+          Ideal Visualizations<br />
+          Amritsar Headquarters, Punjab, India<br />
+          Phone / WhatsApp: <a href="tel:+919646724313">+91 96467 24313</a><br />
+          Email: <a href="mailto:idealvisualization@gmail.com">idealvisualization@gmail.com</a><br />
+          <a href="https://www.instagram.com/idealvisualizations">Instagram</a> ·
+          <a href="https://www.behance.net/idealvisuali">Behance</a>
+        </address>
+      </footer>
+    </main>
+  </div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
 

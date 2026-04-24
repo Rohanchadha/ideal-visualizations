@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
-import HomePage from './pages/HomePage';
-import GalleryPage from './pages/GalleryPage';
 import { UIProvider } from './context/UIContext';
+
+const HomePage = lazy(() => import('./pages/HomePage'));
+const GalleryPage = lazy(() => import('./pages/GalleryPage'));
 
 function App() {
   const location = useLocation();
@@ -26,10 +27,12 @@ function App() {
 
         {!isGallery && <Navbar />}
 
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/gallery" element={<GalleryPage />} />
-        </Routes>
+        <Suspense fallback={<div className="min-h-screen bg-[#111111]" />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
+          </Routes>
+        </Suspense>
 
         {!isGallery && <Footer />}
         {!isGallery && <FloatingWhatsApp />}

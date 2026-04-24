@@ -1,15 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import 'lite-youtube-embed/src/lite-yt-embed.css';
+import 'lite-youtube-embed';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Placeholder realistic architectural visualization YouTube videos
+// Realistic architectural visualization YouTube videos
 const videos = [
-    "https://www.youtube.com/embed/BFUczoLv-7I", // 4K 60FPS placeholder
-    "https://www.youtube.com/embed/CCF8jQR_um0", // Archviz reel
-    "https://www.youtube.com/embed/Egmjj1btmLs", // Cinematic walkthrough
-    "https://www.youtube.com/embed/ejbw7iOSZTA"  // Unreal Engine archviz
+    { id: 'BFUczoLv-7I', title: 'Architectural 3D Walkthrough Showcase' },
+    { id: 'CCF8jQR_um0', title: 'Photoreal Archviz Reel' },
+    { id: 'Egmjj1btmLs', title: 'Cinematic Interior Walkthrough' },
+    { id: 'ejbw7iOSZTA', title: 'Unreal Engine Archviz' },
 ];
 
 export default function VideoShowcase() {
@@ -49,18 +51,14 @@ export default function VideoShowcase() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-                    {videos.map((vidUrl, i) => (
-                        <div key={i} className="video-card relative aspect-video rounded-[2rem] overflow-hidden shadow-2xl group bg-black">
-                            {/* Subtle hover overlay border effect */}
+                    {videos.map((vid, i) => (
+                        <div key={vid.id} className="video-card relative aspect-video rounded-[2rem] overflow-hidden shadow-2xl group bg-black">
                             <div className="absolute inset-0 border-4 border-transparent group-hover:border-[#F97316]/50 transition-colors duration-500 rounded-[2rem] z-20 pointer-events-none" />
-                            <iframe
-                                className="absolute inset-0 w-full h-full z-10"
-                                src={vidUrl}
-                                title={`Ideal Visualizations Showcase Video ${i + 1}`}
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                loading="lazy"
-                            ></iframe>
+                            <lite-youtube
+                                videoid={vid.id}
+                                playlabel={vid.title}
+                                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', backgroundImage: `url(https://i.ytimg.com/vi/${vid.id}/hqdefault.jpg)` }}
+                            ></lite-youtube>
                         </div>
                     ))}
                 </div>

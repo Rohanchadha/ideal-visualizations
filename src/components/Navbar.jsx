@@ -104,6 +104,7 @@ export default function Navbar() {
                 </div>
             </nav>
 
+            {/* Mobile menu */}
             {menuOpen && (
                 <div className="lg:hidden fixed top-[68px] left-0 right-0 mx-auto z-40 w-[96%] sm:w-[94%] max-w-6xl bg-[#1a1a1a]/95 backdrop-blur-xl rounded-3xl shadow-2xl p-5 text-white">
                     <div className="flex flex-col gap-1">

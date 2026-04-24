@@ -13,7 +13,7 @@ const features = [
 ];
 
 const stats = [
-    { value: "30+", label: "Years Experience" },
+    { value: "10+", label: "Years Experience" },
     { value: "1500+", label: "Completed Projects" },
     { value: "20+", label: "Cities Worldwide" },
     { value: "500+", label: "Happy Clients" }

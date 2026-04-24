@@ -1,0 +1,26 @@
+# Ideal Visualizations
+> Architectural 3D visualization studio based in Amritsar, Punjab, India. Photorealistic exterior & interior rendering, animated walkthroughs, 360° tours, elevation design, architecture planning and turnkey construction. Founded by Danish. Serving Delhi, Mumbai, Bangalore, Dubai, Chandigarh, Amritsar and 10+ other cities across India and the UAE.
+
+## Canonical pages
+- [Home](https://ideal-visualizations.vercel.app/): services overview, founder bio, portfolio highlights, locations, contact
+- [Gallery](https://ideal-visualizations.vercel.app/gallery): full archive of photoreal renders and cinematic walkthroughs
+
+## Services
+- Exterior 3D Rendering — photoreal exterior visualizations
+- Interior 3D Rendering — cinematic interior renderings
+- Architectural Walkthroughs — animated cinematic walkthroughs
+- 360° Views / Virtual Tours — interactive panoramas for web & VR
+- Architecture Planning — site-tailored architectural plans
+- Elevation Designing — façade and elevation design
+- Interior Designing — material, layout & styling
+- Turnkey Construction Projects — concept-to-handover execution
+- Photoshop Rendered Plans — marketing-ready 2D plans
+
+## Service area
+Amritsar (HQ), Chandigarh, Mohali, Jalandhar, Ludhiana, Bathinda, Manali, Shimla, Delhi, Noida, Gurgaon, Mumbai, Bangalore, Hyderabad, Kolkata, Pune, Dubai.
+
+## Contact
+- Email: idealvisualization@gmail.com
+- Phone / WhatsApp: +91 96467 24313
+- Instagram: https://www.instagram.com/idealvisualizations
+- Behance: https://www.behance.net/idealvisuali

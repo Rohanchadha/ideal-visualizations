@@ -1,4 +1,17 @@
 #!/usr/bin/env node
+/**
+ * Generates src/config/galleryManifest.js from files in:
+ *   public/gallery/optimized/  (preferred — uses *.webp full + *.thumb.webp)
+ *   public/gallery/videos/
+ *
+ * Falls back to public/gallery/images/ if no optimized assets exist.
+ *
+ * Run with:  npm run gallery:manifest
+ * Drop new originals into public/gallery/images/ then run:
+ *   npm run gallery:optimize  (creates webp variants)
+ *   npm run gallery:manifest  (rebuilds manifest)
+ * Or simply `npm run gallery:build` for both.
+ */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -19,7 +32,8 @@ const list = (dir, regex) => {
 
 const optDir = 'gallery/optimized';
 const optFiles = list(optDir, /\.webp$/i);
-const fullFiles = optFiles.filter((f) => !/\.thumb\.webp$/i.test(f));
+const fullFiles = optFiles
+    .filter((f) => !/\.thumb\.webp$/i.test(f));
 
 let images;
 if (fullFiles.length > 0) {
@@ -34,6 +48,7 @@ if (fullFiles.length > 0) {
         };
     });
 } else {
+    // Fallback: originals
     images = list('gallery/images', /\.(jpe?g|png|webp|gif)$/i)
         .map((f) => ({
             src: '/' + enc(`gallery/images/${f}`),
