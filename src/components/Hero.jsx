@@ -1,9 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ArrowDown } from 'lucide-react';
+import { ArrowRight, MessageCircle, PhoneCall } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useUI } from '../context/UIContext';
+import { whatsappLink } from '../config/site';
 
 export default function Hero() {
     const containerRef = useRef(null);
+    const { openCallback } = useUI();
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -48,14 +52,25 @@ export default function Hero() {
                         <span className="block">Bringing architecture</span>
                         <span className="block text-[#E4E4E7]/90 mt-2 font-serif italic font-normal text-6xl md:text-8xl lg:text-[7rem]">to life.</span>
                     </h1>
-                    <div className="hero-text flex flex-col sm:flex-row gap-4 items-center">
-                        <a href="#services" className="magnetic-btn bg-[#F97316] text-white px-8 py-4 rounded-full text-lg font-semibold w-full sm:w-auto text-center">
-                            Explore Our Work
+                    <div className="hero-text flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center">
+                        <a
+                            href={whatsappLink()}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="magnetic-btn bg-[#25D366] hover:bg-[#1FB855] text-white px-7 py-4 rounded-full text-base md:text-lg font-semibold w-full sm:w-auto text-center inline-flex items-center justify-center gap-2"
+                        >
+                            <MessageCircle className="w-5 h-5" /> Talk on WhatsApp
                         </a>
-                        <a href="#portfolio" className="group flex items-center gap-2 text-white/80 hover:text-white transition-colors px-6 py-4">
+                        <button
+                            onClick={openCallback}
+                            className="magnetic-btn bg-[#F97316] hover:bg-[#EA580C] text-white px-7 py-4 rounded-full text-base md:text-lg font-semibold w-full sm:w-auto inline-flex items-center justify-center gap-2"
+                        >
+                            <PhoneCall className="w-5 h-5" /> Request a Callback
+                        </button>
+                        <Link to="/gallery" className="group flex items-center justify-center sm:justify-start gap-2 text-white/80 hover:text-white transition-colors px-2 sm:px-4 py-2 sm:py-4">
                             <span>View Gallery</span>
-                            <ArrowDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
-                        </a>
+                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </Link>
                     </div>
                 </div>
             </div>

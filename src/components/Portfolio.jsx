@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -59,6 +61,15 @@ export default function Portfolio() {
                             />
                         </div>
                     ))}
+                </div>
+
+                <div className="mt-12 md:mt-16 flex justify-center">
+                    <Link
+                        to="/gallery"
+                        className="magnetic-btn inline-flex items-center gap-2 bg-[#52525B] hover:bg-[#3f3f46] text-white px-8 py-4 rounded-full font-semibold text-base md:text-lg shadow-lg"
+                    >
+                        View Full Gallery <ArrowRight className="w-5 h-5" />
+                    </Link>
                 </div>
             </div>
         </section>

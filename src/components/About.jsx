@@ -30,7 +30,7 @@ export default function About() {
                 <div className="about-content order-2 lg:order-1">
                     <h2 className="text-[#F97316] font-semibold tracking-wider uppercase mb-4 text-sm md:text-base">Leading with Vision</h2>
                     <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#52525B] leading-[1.1] tracking-tight mb-8">
-                        Behind the <span className="font-serif italic font-normal text-[#F97316]">Renderings.</span>
+                        Behind the <span className="font-serif italic font-normal text-[#F97316]">Renders.</span>
                     </h3>
                     <div className="space-y-6 text-[#6B7280] text-lg leading-relaxed mix-blend-multiply">
                         <p>

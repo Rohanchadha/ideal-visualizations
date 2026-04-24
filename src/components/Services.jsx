@@ -1,42 +1,38 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Box, Building2, Layers, Compass, Image as ImageIcon, Video, Home, Component, MonitorPlay, Ruler, BoxSelect } from 'lucide-react';
+import {
+    Building2, Compass, Sofa, KeyRound,
+    Image as ImageIcon, Home, Footprints, RotateCcw, FileImage
+} from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const services = [
-    { icon: <Building2 className="w-8 h-8" />, title: "3D Architectural Visualization", desc: "Photorealistic rendering of exterior and interior spaces." },
-    { icon: <Video className="w-8 h-8" />, title: "3D Walkthrough Services", desc: "Immersive animated walkthroughs of architectural projects." },
-    { icon: <MonitorPlay className="w-8 h-8" />, title: "3D Engineering Animation", desc: "Detailed mechanical and engineering product animations." },
-    { icon: <Box className="w-8 h-8" />, title: "3D Animations", desc: "High-quality custom 3D animation services." },
-    { icon: <BoxSelect className="w-8 h-8" />, title: "3D Product Visualization", desc: "Cinematic rendering of consumer goods and products." },
-    { icon: <Home className="w-8 h-8" />, title: "3D Interior Rendering", desc: "Stunning visualizations for interior designers and real estate." },
-    { icon: <Compass className="w-8 h-8" />, title: "360 Virtual Tour", desc: "Interactive panoramic tours and VR experiences." },
-    { icon: <Layers className="w-8 h-8" />, title: "3D Flythrough Animation", desc: "Sweeping aerial flyovers for master plans and communities." },
-    { icon: <ImageIcon className="w-8 h-8" />, title: "3D Exterior Rendering", desc: "Crystal clear exterior architecture visualizations." },
-    { icon: <Ruler className="w-8 h-8" />, title: "Architectural Plan Rendering", desc: "Beautifully rendered 2D and 3D floor plans." },
-    { icon: <Component className="w-8 h-8" />, title: "3D Product Modeling", desc: "Precision CAD to 3D polygon modeling services." },
+const archServices = [
+    { icon: <Compass className="w-7 h-7" />, title: 'Architecture Planning', desc: 'Functional, future-ready architectural plans tailored to your site and brief.' },
+    { icon: <Building2 className="w-7 h-7" />, title: 'Elevation Designing', desc: 'Distinctive façade and elevation design that defines your building\'s identity.' },
+    { icon: <Sofa className="w-7 h-7" />, title: 'Interior Designing', desc: 'Curated interior layouts, materials and styling for residential & commercial spaces.' },
+    { icon: <KeyRound className="w-7 h-7" />, title: 'Turnkey Projects', desc: 'End-to-end project execution — from concept to handover, hassle-free.' },
+];
+
+const vizServices = [
+    { icon: <ImageIcon className="w-7 h-7" />, title: 'Exterior Renders', desc: 'Photorealistic exterior visualizations that bring elevations to life.' },
+    { icon: <Home className="w-7 h-7" />, title: 'Interior Renders', desc: 'Detailed interior renderings with cinematic lighting and materials.' },
+    { icon: <Footprints className="w-7 h-7" />, title: 'Walkthroughs', desc: 'Immersive animated walkthroughs that let clients experience the space.' },
+    { icon: <RotateCcw className="w-7 h-7" />, title: '360 Views', desc: 'Interactive 360° panoramas for the web, VR and presentations.' },
+    { icon: <FileImage className="w-7 h-7" />, title: 'Photoshop Rendered Plans', desc: 'Beautifully rendered 2D plans — perfect for marketing collateral.' },
 ];
 
 export default function Services() {
     const sectionRef = useRef(null);
 
     useEffect(() => {
-        let ctx = gsap.context(() => {
-            gsap.from(".service-card", {
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top 80%",
-                },
-                y: 50,
-                opacity: 0,
-                duration: 0.8,
-                stagger: 0.08,
-                ease: "power3.out"
+        const ctx = gsap.context(() => {
+            gsap.from('.service-card', {
+                scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+                y: 50, opacity: 0, duration: 0.8, stagger: 0.06, ease: 'power3.out',
             });
         }, sectionRef);
-
         return () => ctx.revert();
     }, []);
 
@@ -47,32 +43,63 @@ export default function Services() {
                     <div className="max-w-2xl">
                         <h2 className="text-[#F97316] font-semibold tracking-wider uppercase mb-4 text-sm md:text-base">Capabilities</h2>
                         <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#52525B] leading-[1.1] tracking-tight">
-                            Comprehensive <br className="hidden md:block" />
-                            <span className="font-serif italic font-normal text-5xl md:text-6xl lg:text-7xl text-[#F97316]">3D solutions.</span>
+                            What we <br className="hidden md:block" />
+                            <span className="font-serif italic font-normal text-5xl md:text-6xl lg:text-7xl text-[#F97316]">deliver.</span>
                         </h3>
                     </div>
                     <p className="text-[#6B7280] max-w-sm text-lg text-balance">
-                        We transform blueprints, sketches, and ideas into breathtaking photo-real imagery tailored for your success.
+                        Two studios under one roof — design and build the space, then visualize it in breathtaking photoreal quality.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {services.map((service, i) => (
-                        <div
-                            key={i}
-                            className="service-card magnetic-card bg-[#E4E4E7]/30 border border-gray-100 p-8 rounded-[2rem] hover:bg-white hover:border-gray-200 transition-colors group cursor-default"
-                        >
-                            <div className="mb-6 text-[#6B7280] group-hover:text-[#F97316] transition-colors duration-300">
-                                {service.icon}
-                            </div>
-                            <h4 className="text-xl font-bold text-[#52525B] mb-3 leading-tight">{service.title}</h4>
-                            <p className="text-[#6B7280] leading-relaxed text-sm">
-                                {service.desc}
-                            </p>
-                        </div>
-                    ))}
+                {/* Category 1: Architecture & Construction */}
+                <ServiceCategory
+                    eyebrow="01 — Architecture & Construction"
+                    title="Architecture & Construction"
+                    italic="Services"
+                    services={archServices}
+                />
+
+                {/* Category 2: 3D Visualization */}
+                <div className="mt-20 md:mt-28">
+                    <ServiceCategory
+                        eyebrow="02 — 3D Visualization"
+                        title="3D Visualization"
+                        italic="Services"
+                        services={vizServices}
+                    />
                 </div>
             </div>
         </section>
+    );
+}
+
+function ServiceCategory({ eyebrow, title, italic, services }) {
+    return (
+        <div>
+            <div className="mb-10 md:mb-12 flex items-end justify-between gap-4 flex-wrap">
+                <div>
+                    <p className="text-[#F97316] font-mono text-xs sm:text-sm tracking-widest uppercase mb-3">{eyebrow}</p>
+                    <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#52525B] tracking-tight">
+                        {title} <span className="font-serif italic font-normal text-[#F97316]">{italic}</span>
+                    </h4>
+                </div>
+                <div className="hidden md:block h-px flex-1 bg-gray-200 mb-4" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                {services.map((s, i) => (
+                    <div
+                        key={i}
+                        className="service-card magnetic-card bg-[#E4E4E7]/40 border border-gray-100 p-7 rounded-[1.75rem] hover:bg-white hover:border-gray-200 transition-colors group"
+                    >
+                        <div className="mb-5 text-[#6B7280] group-hover:text-[#F97316] transition-colors duration-300">
+                            {s.icon}
+                        </div>
+                        <h5 className="text-lg md:text-xl font-bold text-[#52525B] mb-2 leading-tight">{s.title}</h5>
+                        <p className="text-[#6B7280] leading-relaxed text-sm">{s.desc}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
     );
 }

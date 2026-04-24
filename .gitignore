@@ -23,3 +23,13 @@ dist-ssr
 *.sln
 *.sw?
 public/3D-Videos/
+
+# Gallery: originals + DATA folder are heavy — keep only optimized webp in git
+DATA/
+public/gallery/images/
+public/gallery/videos/
+
+# Stray asset experiments at repo root
+/Gemini_Generated_Image_*.png
+/IV-logo-*
+
