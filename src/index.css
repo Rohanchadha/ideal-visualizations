@@ -65,3 +65,99 @@
   transform: translateY(-4px) scale(1.01);
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
+
+/* Prose styles for long-form content (services, industries, blog) */
+.prose-custom {
+  --prose-fg: #3f3f46;
+  --prose-h: #18181b;
+  --prose-link: #F97316;
+  color: var(--prose-fg);
+}
+.prose-custom h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--prose-h);
+  margin-top: 3rem;
+  margin-bottom: 1.25rem;
+}
+.prose-custom h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--prose-h);
+  margin-top: 2.25rem;
+  margin-bottom: 1rem;
+}
+.prose-custom h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--prose-h);
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+.prose-custom p {
+  margin: 0 0 1.25rem 0;
+}
+.prose-custom ul,
+.prose-custom ol {
+  margin: 0 0 1.5rem 1.25rem;
+  padding: 0;
+}
+.prose-custom ul { list-style: disc; }
+.prose-custom ol { list-style: decimal; }
+.prose-custom li { margin: 0.5rem 0; padding-left: 0.25rem; }
+.prose-custom li::marker { color: #F97316; }
+.prose-custom a {
+  color: var(--prose-link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.prose-custom a:hover { text-decoration-thickness: 2px; }
+.prose-custom strong { color: var(--prose-h); font-weight: 600; }
+.prose-custom blockquote {
+  border-left: 3px solid #F97316;
+  padding: 0.5rem 0 0.5rem 1.25rem;
+  font-style: italic;
+  font-family: ui-serif, Georgia, serif;
+  color: #52525B;
+  margin: 1.5rem 0;
+}
+.prose-custom code {
+  background: #f4f4f5;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.prose-custom table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+.prose-custom th,
+.prose-custom td {
+  border: 1px solid #e4e4e7;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+}
+.prose-custom th {
+  background: #fafafa;
+  font-weight: 600;
+  color: var(--prose-h);
+}
+.prose-custom hr { border: 0; border-top: 1px solid #e4e4e7; margin: 2.5rem 0; }
+.prose-custom img,
+.prose-custom figure { border-radius: 1.25rem; margin: 1.75rem 0; }
+
+/* Card grid utility */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+@media (min-width: 640px) { .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

@@ -9,11 +9,11 @@ import { whatsappLink } from '../config/site';
 gsap.registerPlugin(ScrollTrigger);
 
 const NAV_LINKS = [
-    { label: 'Why Us', id: '#why-choose-us' },
-    { label: 'Services', id: '#services' },
-    { label: 'Portfolio', id: '#portfolio' },
-    { label: 'Cinema', id: '#videos' },
-    { label: 'About', id: '#about' },
+    { label: 'Services', to: '/services' },
+    { label: 'Portfolio', to: '/portfolio' },
+    { label: 'Blog', to: '/blog' },
+    { label: 'About', to: '/about' },
+    { label: 'Contact', to: '/contact' },
 ];
 
 export default function Navbar() {
@@ -63,14 +63,13 @@ export default function Navbar() {
 
                 <div className="hidden lg:flex items-center gap-6 font-medium text-sm">
                     {NAV_LINKS.map((item) => (
-                        <a
+                        <Link
                             key={item.label}
-                            href={item.id}
-                            onClick={(e) => handleAnchor(e, item.id)}
+                            to={item.to}
                             className="hover:-translate-y-0.5 transition-transform"
                         >
                             {item.label}
-                        </a>
+                        </Link>
                     ))}
                     <Link to="/gallery" className="hover:-translate-y-0.5 transition-transform">Gallery</Link>
                 </div>
@@ -109,14 +108,14 @@ export default function Navbar() {
                 <div className="lg:hidden fixed top-[68px] left-0 right-0 mx-auto z-40 w-[96%] sm:w-[94%] max-w-6xl bg-[#1a1a1a]/95 backdrop-blur-xl rounded-3xl shadow-2xl p-5 text-white">
                     <div className="flex flex-col gap-1">
                         {NAV_LINKS.map((item) => (
-                            <a
+                            <Link
                                 key={item.label}
-                                href={item.id}
-                                onClick={(e) => handleAnchor(e, item.id)}
+                                to={item.to}
                                 className="px-3 py-3 rounded-xl hover:bg-white/10 font-medium"
+                                onClick={() => setMenuOpen(false)}
                             >
                                 {item.label}
-                            </a>
+                            </Link>
                         ))}
                         <Link
                             to="/gallery"

@@ -7,9 +7,10 @@
     "gallery:optimize": "node scripts/optimize-gallery.js",
     "gallery:manifest": "node scripts/build-gallery-manifest.js",
     "gallery:build": "npm run gallery:optimize && npm run gallery:manifest",
-    "predev": "npm run gallery:build",
+    "sitemap:build": "node scripts/build-sitemap.js",
+    "predev": "npm run gallery:build && npm run sitemap:build",
     "dev": "vite",
-    "prebuild": "npm run gallery:build",
+    "prebuild": "npm run gallery:build && npm run sitemap:build",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

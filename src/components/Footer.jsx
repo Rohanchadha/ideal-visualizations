@@ -41,7 +41,7 @@ export default function Footer() {
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
+            <div className="max-w-7xl mx-auto relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16">
                 <div className="lg:col-span-2">
                     <span className="font-bold text-3xl tracking-tight text-white mb-6 block">Ideal Visualizations</span>
                     <p className="text-gray-400 max-w-sm text-balance text-lg leading-relaxed mb-8">
@@ -70,44 +70,61 @@ export default function Footer() {
                 </div>
 
                 <div>
-                    <h4 className="font-semibold mb-6 text-white uppercase tracking-wider text-sm">Contact Details</h4>
-                    <ul className="space-y-5 text-gray-400">
-                        <li>
-                            <a href={`tel:${CONTACT.phoneRaw}`} className="flex items-start gap-3 hover:text-[#F97316] transition-colors group">
-                                <Phone className="w-5 h-5 shrink-0 group-hover:-rotate-12 transition-transform text-[#F97316]" />
-                                <span className="leading-snug break-all">{CONTACT.phone}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href={`mailto:${CONTACT.email}`} className="flex items-start gap-3 hover:text-[#F97316] transition-colors group">
-                                <Mail className="w-5 h-5 shrink-0 group-hover:scale-110 transition-transform text-[#F97316]" />
-                                <span className="leading-snug break-all">{CONTACT.email}</span>
-                            </a>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <MapPinned className="w-5 h-5 shrink-0 text-[#F97316]" />
-                            <span className="leading-snug text-gray-400">
-                                Amritsar Headquarters<br />
-                                Punjab, India
-                            </span>
-                        </li>
+                    <h4 className="font-semibold mb-6 text-white uppercase tracking-wider text-sm">Services</h4>
+                    <ul className="space-y-3 text-gray-400 text-sm">
+                        <li><Link to="/services/exterior-3d-rendering" className="hover:text-white">Exterior Rendering</Link></li>
+                        <li><Link to="/services/interior-3d-rendering" className="hover:text-white">Interior Rendering</Link></li>
+                        <li><Link to="/services/3d-walkthrough-animation" className="hover:text-white">3D Walkthroughs</Link></li>
+                        <li><Link to="/services/360-virtual-tour" className="hover:text-white">360° Tours</Link></li>
+                        <li><Link to="/services/architecture-planning" className="hover:text-white">Architecture Planning</Link></li>
+                        <li><Link to="/services/interior-design" className="hover:text-white">Interior Design</Link></li>
+                        <li><Link to="/services/turnkey-construction" className="hover:text-white">Turnkey Construction</Link></li>
+                        <li><Link to="/services" className="hover:text-[#F97316] font-semibold">All Services →</Link></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h4 className="font-semibold mb-6 text-white uppercase tracking-wider text-sm">Navigation</h4>
-                    <ul className="space-y-3 text-gray-400">
-                        <li><a href="#services" className="hover:text-white transition-colors">Services</a></li>
-                        <li><a href="#portfolio" className="hover:text-white transition-colors">Portfolio</a></li>
-                        <li><Link to="/gallery" className="hover:text-white transition-colors">Gallery</Link></li>
-                        <li><a href="#about" className="hover:text-white transition-colors">About Us</a></li>
-                        <li>
-                            <a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a>
-                        </li>
-                        <li>
-                            <a href={CONTACT.behance} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Behance</a>
-                        </li>
+                    <h4 className="font-semibold mb-6 text-white uppercase tracking-wider text-sm">Locations</h4>
+                    <ul className="space-y-3 text-gray-400 text-sm">
+                        <li><Link to="/locations/amritsar" className="hover:text-white">Amritsar (HQ)</Link></li>
+                        <li><Link to="/locations/chandigarh" className="hover:text-white">Chandigarh</Link></li>
+                        <li><Link to="/locations/delhi-ncr" className="hover:text-white">Delhi-NCR</Link></li>
+                        <li><Link to="/locations/mumbai" className="hover:text-white">Mumbai</Link></li>
+                        <li><Link to="/locations/dubai" className="hover:text-white">Dubai</Link></li>
+                        <li><Link to="/locations/toronto" className="hover:text-white">Toronto</Link></li>
+                        <li><Link to="/locations/new-york" className="hover:text-white">New York</Link></li>
                     </ul>
+                </div>
+
+                <div>
+                    <h4 className="font-semibold mb-6 text-white uppercase tracking-wider text-sm">Resources</h4>
+                    <ul className="space-y-3 text-gray-400 text-sm">
+                        <li><Link to="/portfolio" className="hover:text-white">Portfolio</Link></li>
+                        <li><Link to="/gallery" className="hover:text-white">Gallery</Link></li>
+                        <li><Link to="/blog" className="hover:text-white">Blog</Link></li>
+                        <li><Link to="/process" className="hover:text-white">Our Process</Link></li>
+                        <li><Link to="/pricing" className="hover:text-white">Pricing</Link></li>
+                        <li><Link to="/faq" className="hover:text-white">FAQ</Link></li>
+                        <li><Link to="/about" className="hover:text-white">About</Link></li>
+                        <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div className="max-w-7xl mx-auto relative z-10 mb-12">
+                <div className="grid sm:grid-cols-3 gap-4 text-gray-400 text-sm">
+                    <a href={`tel:${CONTACT.phoneRaw}`} className="flex items-center gap-3 hover:text-[#F97316] transition-colors">
+                        <Phone className="w-5 h-5 text-[#F97316]" />
+                        {CONTACT.phone}
+                    </a>
+                    <a href={`mailto:${CONTACT.email}`} className="flex items-center gap-3 hover:text-[#F97316] transition-colors break-all">
+                        <Mail className="w-5 h-5 text-[#F97316] shrink-0" />
+                        {CONTACT.email}
+                    </a>
+                    <span className="flex items-center gap-3">
+                        <MapPinned className="w-5 h-5 text-[#F97316] shrink-0" />
+                        Amritsar, Punjab, India
+                    </span>
                 </div>
             </div>
 
