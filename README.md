@@ -17,7 +17,7 @@ Built with React 19, Vite 7, Tailwind CSS v4, GSAP and React Router.
 - **Floating WhatsApp** button + global **"Talk on WhatsApp"** + **"Request a Callback"** primary CTAs
 - **Callback request modal** with full validation:
   - Name, Country (dropdown), City (cascades from country), Service Required, Phone (with country code), Email (regex-validated), free-text message
-  - Submits via [FormSubmit.co](https://formsubmit.co) → emails arrive at `danish@slateconcepts.com`
+  - Submits via **`/api/callback`** (nodemailer + SMTP) → branded notification email to `danish@slateconcepts.com` + auto-response to the lead
 - **Auto-generated gallery manifest** from `public/gallery/` — drop in new media and it just appears
 - **Image optimization pipeline** powered by `sharp`: every gallery image is converted to two `.webp` variants (full + thumb), shrinking ~176 MB of originals down to **~11 MB** of web-ready assets
 
@@ -114,11 +114,14 @@ ideal-visualizations/
 
 ## 📞 Contact / form delivery
 
-The Callback form posts to **[FormSubmit.co](https://formsubmit.co)** which emails the submission to `danish@slateconcepts.com`.
+The Callback form posts to **`/api/callback`** — a Vercel Serverless Function (`api/callback.js`) using **nodemailer + SMTP**. Submissions trigger:
 
-> The **first** submission triggers a confirmation email from FormSubmit — click the activation link inside it once. Every future submission then arrives directly in the inbox.
+1. A branded **notification email** to the studio inbox (`LEADS_TO`)
+2. A branded **auto-response email** to the lead
 
-To change the destination, update `CONTACT.email` in `src/config/site.js`.
+See [`CALLBACK-SETUP.md`](./CALLBACK-SETUP.md) for full setup (Resend / Zoho / Gmail / SendGrid all supported). Required env vars: `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`, `LEADS_TO`.
+
+To change the destination, update `LEADS_TO` in Vercel → Settings → Environment Variables (no code change required).
 
 ---
 
@@ -130,7 +133,7 @@ To change the destination, update `CONTACT.email` in `src/config/site.js`.
 - **GSAP + ScrollTrigger** for entrance / scroll animations
 - **lucide-react** icons
 - **sharp** for image optimization
-- **FormSubmit.co** for serverless form → email delivery
+- **nodemailer** + Vercel Serverless Functions for callback form → email delivery
 
 ---
 

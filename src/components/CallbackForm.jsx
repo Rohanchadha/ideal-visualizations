@@ -1,6 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { X, Loader2, CheckCircle2, AlertTriangle } from 'lucide-react';
-import { COUNTRIES, SERVICES_OFFERED, FORMSUBMIT_ENDPOINT } from '../config/site';
+import { COUNTRIES, SERVICES_OFFERED } from '../config/site';
+import { trackEvent } from './Analytics';
+
+const CALLBACK_ENDPOINT = '/api/callback';
 
 export default function CallbackForm({ open, onClose }) {
     const [form, setForm] = useState({
@@ -12,9 +15,11 @@ export default function CallbackForm({ open, onClose }) {
         phone: '',
         email: '',
         message: '',
+        website: '', // honeypot — must stay empty
     });
     const [errors, setErrors] = useState({});
     const [status, setStatus] = useState('idle'); // idle | submitting | success | error
+    const [errorMsg, setErrorMsg] = useState('');
 
     const country = useMemo(
         () => COUNTRIES.find(c => c.code === form.countryCode) || COUNTRIES[0],
@@ -56,34 +61,44 @@ export default function CallbackForm({ open, onClose }) {
         ev.preventDefault();
         if (!validate()) return;
         setStatus('submitting');
+        setErrorMsg('');
         try {
-            const res = await fetch(FORMSUBMIT_ENDPOINT, {
+            const res = await fetch(CALLBACK_ENDPOINT, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
                 body: JSON.stringify({
-                    _subject: `New Callback Request — ${form.name}`,
-                    _template: 'table',
-                    _captcha: 'false',
-                    Name: form.name,
-                    Country: country.name,
-                    City: form.city,
-                    Service_Required: form.service,
-                    Phone: `${country.dial} ${form.phone}`,
-                    Email: form.email,
-                    Message: form.message || '—',
+                    name: form.name,
+                    country: country.name,
+                    city: form.city,
+                    service: form.service,
+                    phone: `${country.dial} ${form.phone}`,
+                    email: form.email,
+                    message: form.message,
+                    website: form.website, // honeypot
                 }),
             });
-            if (!res.ok) throw new Error('Network response was not ok');
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok || !data.ok) {
+                throw new Error(data.error || 'Network response was not ok');
+            }
+            trackEvent('callback_submit_success', {
+                service: form.service,
+                country: country.name,
+                city: form.city,
+            });
             setStatus('success');
         } catch (err) {
             console.error(err);
+            trackEvent('callback_submit_error', { message: err.message });
+            setErrorMsg(err.message || 'Something went wrong.');
             setStatus('error');
         }
     };
 
     const reset = () => {
-        setForm({ name: '', countryCode: 'IN', city: '', service: '', dial: '+91', phone: '', email: '', message: '' });
+        setForm({ name: '', countryCode: 'IN', city: '', service: '', dial: '+91', phone: '', email: '', message: '', website: '' });
         setErrors({});
+        setErrorMsg('');
         setStatus('idle');
     };
 
@@ -126,6 +141,20 @@ export default function CallbackForm({ open, onClose }) {
                         </div>
 
                         <form onSubmit={submit} className="space-y-4">
+                            {/* Honeypot — hidden from humans, bots will fill it and get rejected */}
+                            <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
+                                <label>
+                                    Website (leave blank)
+                                    <input
+                                        type="text"
+                                        tabIndex={-1}
+                                        autoComplete="off"
+                                        value={form.website}
+                                        onChange={(e) => update('website', e.target.value)}
+                                    />
+                                </label>
+                            </div>
+
                             <Field label="Full Name" error={errors.name}>
                                 <input
                                     type="text"
@@ -214,9 +243,9 @@ export default function CallbackForm({ open, onClose }) {
                             </Field>
 
                             {status === 'error' && (
-                                <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 border border-red-200 rounded-xl p-3">
-                                    <AlertTriangle className="w-4 h-4 shrink-0" />
-                                    Something went wrong. Please try again or WhatsApp us directly.
+                                <div className="flex items-start gap-2 text-red-600 text-sm bg-red-50 border border-red-200 rounded-xl p-3">
+                                    <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                                    <span>{errorMsg || 'Something went wrong. Please try again or WhatsApp us directly.'}</span>
                                 </div>
                             )}
 

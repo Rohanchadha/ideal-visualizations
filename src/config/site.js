@@ -11,10 +11,9 @@ export const CONTACT = {
 export const whatsappLink = (msg = CONTACT.whatsappMessage) =>
     `https://wa.me/${CONTACT.phoneRaw}?text=${encodeURIComponent(msg)}`;
 
-// FormSubmit.co activates after first submission (a confirmation email
-// will be sent to the address below the first time someone submits).
-// No backend / API key required.
-export const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT.email}`;
+// Lead form endpoint — handled by api/callback.js (Vercel Serverless Function
+// using nodemailer + SMTP). Configure SMTP_* env vars in Vercel dashboard.
+export const CALLBACK_ENDPOINT = '/api/callback';
 
 export const SERVICES_OFFERED = [
     'Architecture Planning',
