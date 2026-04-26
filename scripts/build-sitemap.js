@@ -27,12 +27,17 @@ function readBlogSlugs() {
         .map((f) => f.replace(/\.jsx$/, ''));
 }
 
-// Read blog dates by parsing meta from each module file (regex; avoids importing JSX in Node)
+// Read blog meta by parsing each module file (regex; avoids importing JSX in Node)
 function readBlogMeta(slug) {
     const file = path.join(root, 'src/content/blog/posts', `${slug}.jsx`);
     const txt = fs.readFileSync(file, 'utf8');
-    const m = txt.match(/date:\s*'([^']+)'/);
-    return { slug, date: m ? m[1] : new Date().toISOString().slice(0, 10) };
+    const dateM = txt.match(/date:\s*'([^']+)'/);
+    const draftM = txt.match(/draft:\s*(true|false)/);
+    return {
+        slug,
+        date: dateM ? dateM[1] : new Date().toISOString().slice(0, 10),
+        draft: draftM ? draftM[1] === 'true' : false,
+    };
 }
 
 function urlEntry(loc, lastmod, changefreq = 'monthly', priority = 0.6) {
@@ -42,7 +47,9 @@ function urlEntry(loc, lastmod, changefreq = 'monthly', priority = 0.6) {
 async function main() {
     const today = new Date().toISOString().slice(0, 10);
     const { services, industries, locations, portfolio } = await load();
-    const blog = readBlogSlugs().map(readBlogMeta).sort((a, b) => (a.date < b.date ? 1 : -1));
+    const blog = readBlogSlugs().map(readBlogMeta).filter((b) => !b.draft).sort((a, b) => (a.date < b.date ? 1 : -1));
+
+    const published = (arr) => (arr || []).filter((x) => !x.draft);
 
     const urls = [];
     // Top-level
@@ -57,10 +64,10 @@ async function main() {
     urls.push(urlEntry('/pricing', today, 'monthly', 0.7));
     urls.push(urlEntry('/faq', today, 'monthly', 0.6));
 
-    services.SERVICES.forEach((s) => urls.push(urlEntry(`/services/${s.slug}`, today, 'monthly', 0.85)));
-    industries.INDUSTRIES.forEach((i) => urls.push(urlEntry(`/industries/${i.slug}`, today, 'monthly', 0.8)));
-    locations.LOCATIONS.forEach((l) => urls.push(urlEntry(`/locations/${l.slug}`, today, 'monthly', 0.75)));
-    portfolio.PORTFOLIO.forEach((p) => urls.push(urlEntry(`/portfolio/${p.slug}`, today, 'monthly', 0.7)));
+    published(services.SERVICES).forEach((s) => urls.push(urlEntry(`/services/${s.slug}`, today, 'monthly', 0.85)));
+    published(industries.INDUSTRIES).forEach((i) => urls.push(urlEntry(`/industries/${i.slug}`, today, 'monthly', 0.8)));
+    published(locations.LOCATIONS).forEach((l) => urls.push(urlEntry(`/locations/${l.slug}`, today, 'monthly', 0.75)));
+    published(portfolio.PORTFOLIO).forEach((p) => urls.push(urlEntry(`/portfolio/${p.slug}`, today, 'monthly', 0.7)));
     blog.forEach((b) => urls.push(urlEntry(`/blog/${b.slug}`, b.date, 'monthly', 0.65)));
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;

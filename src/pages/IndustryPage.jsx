@@ -6,12 +6,14 @@ import CtaBlock from '../components/CtaBlock';
 import { INDUSTRY_BY_SLUG } from '../content/industries';
 import { SERVICE_BY_SLUG } from '../content/services';
 import { POST_BY_SLUG } from '../content/blog';
+import { isPreviewMode } from '../config/visibility';
 import { SITE_URL, ORG_ID } from '../config/seo';
 
 export default function IndustryPage() {
     const { slug } = useParams();
     const ind = INDUSTRY_BY_SLUG[slug];
     if (!ind) return <Navigate to="/services" replace />;
+    if (ind.draft && !isPreviewMode()) return <Navigate to="/services" replace />;
 
     const breadcrumb = [
         { name: 'Home', path: '/' },
@@ -30,11 +32,11 @@ export default function IndustryPage() {
         areaServed: ['India', 'United Arab Emirates', 'United States', 'Canada'],
     };
 
-    const relatedPosts = (ind.relatedBlog || []).map((s) => POST_BY_SLUG[s]).filter(Boolean);
+    const relatedPosts = (ind.relatedBlog || []).map((s) => POST_BY_SLUG[s]).filter((p) => p && !p.draft);
 
     return (
         <>
-            <Seo title={ind.title} description={ind.description} path={`/industries/${ind.slug}`} jsonLd={jsonLd} breadcrumb={breadcrumb} />
+            <Seo title={ind.title} description={ind.description} path={`/industries/${ind.slug}`} jsonLd={jsonLd} breadcrumb={breadcrumb} noIndex={ind.draft} />
             <PageHero eyebrow={`For ${ind.audience}`} title={ind.h1} subtitle={ind.subhead} breadcrumb={breadcrumb} />
 
             <div className="px-6 md:px-12">
@@ -68,7 +70,7 @@ export default function IndustryPage() {
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {ind.servicesShown.map((sl) => {
                             const s = SERVICE_BY_SLUG[sl];
-                            if (!s) return null;
+                            if (!s || s.draft) return null;
                             return (
                                 <Link key={sl} to={`/services/${sl}`} className="block bg-white border border-gray-200 hover:border-[#F97316] rounded-2xl p-5 transition-colors">
                                     <h3 className="font-bold text-[#52525B] mb-1">{s.name}</h3>

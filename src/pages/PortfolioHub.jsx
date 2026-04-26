@@ -4,9 +4,11 @@ import Seo from '../components/Seo';
 import PageHero from '../components/PageHero';
 import CtaBlock from '../components/CtaBlock';
 import { PORTFOLIO } from '../content/portfolio';
+import { onlyPublished } from '../config/visibility';
 import { SITE_URL, ORG_ID } from '../config/seo';
 
 export default function PortfolioHub() {
+    const visible = onlyPublished(PORTFOLIO);
     const breadcrumb = [
         { name: 'Home', path: '/' },
         { name: 'Portfolio', path: '/portfolio' },
@@ -37,7 +39,7 @@ export default function PortfolioHub() {
 
             <div className="px-6 md:px-12 pb-12">
                 <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {PORTFOLIO.map((p) => (
+                    {visible.map((p) => (
                         <Link key={p.slug} to={`/portfolio/${p.slug}`} className="group block bg-white border border-gray-200 hover:border-[#F97316] rounded-3xl overflow-hidden transition-all hover:shadow-xl">
                             {p.gallery?.[0] ? (
                                 <img src={p.gallery[0]} alt={p.name} className="w-full h-52 object-cover" loading="lazy" width="800" height="500" />

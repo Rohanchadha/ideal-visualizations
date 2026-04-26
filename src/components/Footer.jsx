@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPinned, MessageCircle, PhoneCall, Instagram } from 'lucide-react';
 import { CONTACT, whatsappLink } from '../config/site';
 import { useUI } from '../context/UIContext';
+import { SERVICES } from '../content/services';
+import { LOCATIONS } from '../content/locations';
+import { onlyPublished } from '../config/visibility';
 
 export default function Footer() {
     const { openCallback } = useUI();
@@ -13,29 +16,29 @@ export default function Footer() {
 
             {/* Top CTA Band */}
             <div className="max-w-7xl mx-auto relative z-10 mb-16">
-                <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 md:p-12 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
-                    <div className="max-w-xl">
-                        <h3 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
+                <div className="bg-white/[0.04] border border-white/10 rounded-[2rem] md:rounded-[2.5rem] p-8 md:p-12 grid lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-12 items-center">
+                    <div>
+                        <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1] mb-3">
                             Have a project in mind?
                         </h3>
-                        <p className="text-gray-400 text-base md:text-lg">
-                            Let's bring your vision to life. Reach out through the channel you prefer — we typically respond within an hour.
+                        <p className="text-gray-400 text-base md:text-lg leading-relaxed">
+                            Reach out through the channel you prefer — we typically respond within an hour.
                         </p>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                    <div className="grid sm:grid-cols-2 gap-3 w-full">
                         <a
                             href={whatsappLink()}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="magnetic-btn bg-[#25D366] hover:bg-[#1FB855] text-white px-6 py-3.5 rounded-full font-semibold inline-flex items-center justify-center gap-2 whitespace-nowrap"
+                            className="bg-[#25D366] hover:bg-[#1FB855] text-white px-5 py-4 rounded-2xl font-semibold inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors"
                         >
-                            <MessageCircle className="w-5 h-5" /> Talk on WhatsApp
+                            <MessageCircle className="w-5 h-5" /> WhatsApp
                         </a>
                         <button
                             onClick={openCallback}
-                            className="magnetic-btn bg-[#F97316] hover:bg-[#EA580C] text-white px-6 py-3.5 rounded-full font-semibold inline-flex items-center justify-center gap-2 whitespace-nowrap"
+                            className="bg-[#F97316] hover:bg-[#EA580C] text-white px-5 py-4 rounded-2xl font-semibold inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors"
                         >
-                            <PhoneCall className="w-5 h-5" /> Request a Callback
+                            <PhoneCall className="w-5 h-5" /> Callback
                         </button>
                     </div>
                 </div>
@@ -72,13 +75,9 @@ export default function Footer() {
                 <div>
                     <h4 className="font-semibold mb-6 text-white uppercase tracking-wider text-sm">Services</h4>
                     <ul className="space-y-3 text-gray-400 text-sm">
-                        <li><Link to="/services/exterior-3d-rendering" className="hover:text-white">Exterior Rendering</Link></li>
-                        <li><Link to="/services/interior-3d-rendering" className="hover:text-white">Interior Rendering</Link></li>
-                        <li><Link to="/services/3d-walkthrough-animation" className="hover:text-white">3D Walkthroughs</Link></li>
-                        <li><Link to="/services/360-virtual-tour" className="hover:text-white">360° Tours</Link></li>
-                        <li><Link to="/services/architecture-planning" className="hover:text-white">Architecture Planning</Link></li>
-                        <li><Link to="/services/interior-design" className="hover:text-white">Interior Design</Link></li>
-                        <li><Link to="/services/turnkey-construction" className="hover:text-white">Turnkey Construction</Link></li>
+                        {onlyPublished(SERVICES).slice(0, 7).map((s) => (
+                            <li key={s.slug}><Link to={`/services/${s.slug}`} className="hover:text-white">{s.name}</Link></li>
+                        ))}
                         <li><Link to="/services" className="hover:text-[#F97316] font-semibold">All Services →</Link></li>
                     </ul>
                 </div>
@@ -86,13 +85,13 @@ export default function Footer() {
                 <div>
                     <h4 className="font-semibold mb-6 text-white uppercase tracking-wider text-sm">Locations</h4>
                     <ul className="space-y-3 text-gray-400 text-sm">
-                        <li><Link to="/locations/amritsar" className="hover:text-white">Amritsar (HQ)</Link></li>
-                        <li><Link to="/locations/chandigarh" className="hover:text-white">Chandigarh</Link></li>
-                        <li><Link to="/locations/delhi-ncr" className="hover:text-white">Delhi-NCR</Link></li>
-                        <li><Link to="/locations/mumbai" className="hover:text-white">Mumbai</Link></li>
-                        <li><Link to="/locations/dubai" className="hover:text-white">Dubai</Link></li>
-                        <li><Link to="/locations/toronto" className="hover:text-white">Toronto</Link></li>
-                        <li><Link to="/locations/new-york" className="hover:text-white">New York</Link></li>
+                        {onlyPublished(LOCATIONS).map((l) => (
+                            <li key={l.slug}>
+                                <Link to={`/locations/${l.slug}`} className="hover:text-white">
+                                    {l.city}{l.slug === 'amritsar' ? ' (HQ)' : ''}
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
                 </div>
 

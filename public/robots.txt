@@ -2,6 +2,8 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /*?preview=
+Disallow: /*&preview=
 
 # Friendly to AI search & answer engines
 User-agent: GPTBot

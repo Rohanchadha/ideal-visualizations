@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
 import ScrollToTop from './components/ScrollToTop';
+import Analytics from './components/Analytics';
 import { UIProvider } from './context/UIContext';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -41,6 +42,7 @@ function App() {
 
         {!isGallery && <Navbar />}
         <ScrollToTop />
+        <Analytics />
 
         <Suspense fallback={<div className="min-h-screen bg-[#111111]" />}>
           <Routes>

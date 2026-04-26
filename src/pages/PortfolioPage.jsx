@@ -4,12 +4,14 @@ import Seo from '../components/Seo';
 import PageHero from '../components/PageHero';
 import CtaBlock from '../components/CtaBlock';
 import { PORTFOLIO_BY_SLUG } from '../content/portfolio';
+import { isPreviewMode } from '../config/visibility';
 import { SITE_URL, ORG_ID } from '../config/seo';
 
 export default function PortfolioPage() {
     const { slug } = useParams();
     const p = PORTFOLIO_BY_SLUG[slug];
     if (!p) return <Navigate to="/portfolio" replace />;
+    if (p.draft && !isPreviewMode()) return <Navigate to="/portfolio" replace />;
 
     const breadcrumb = [
         { name: 'Home', path: '/' },
@@ -44,6 +46,7 @@ export default function PortfolioPage() {
                 image={p.gallery?.[0]}
                 jsonLd={jsonLd}
                 breadcrumb={breadcrumb}
+                noIndex={p.draft}
             />
             <PageHero
                 eyebrow={`${p.type} · ${p.city}`}

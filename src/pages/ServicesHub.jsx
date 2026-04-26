@@ -6,9 +6,16 @@ import PageHero from '../components/PageHero';
 import CtaBlock from '../components/CtaBlock';
 import { SERVICE_CATEGORIES, SERVICES } from '../content/services';
 import { INDUSTRIES } from '../content/industries';
+import { onlyPublished } from '../config/visibility';
 import { SITE_URL, ORG_ID } from '../config/seo';
 
 export default function ServicesHub() {
+    const visibleServices = onlyPublished(SERVICES);
+    const visibleIndustries = onlyPublished(INDUSTRIES);
+    const visibleCategories = SERVICE_CATEGORIES
+        .map((c) => ({ ...c, services: onlyPublished(c.services) }))
+        .filter((c) => c.services.length > 0);
+
     const breadcrumb = [
         { name: 'Home', path: '/' },
         { name: 'Services', path: '/services' },
@@ -19,7 +26,7 @@ export default function ServicesHub() {
         name: 'Services — Ideal Visualizations',
         url: `${SITE_URL}/services`,
         about: { '@id': ORG_ID },
-        hasPart: SERVICES.map((s) => ({
+        hasPart: visibleServices.map((s) => ({
             '@type': 'Service',
             name: s.name,
             url: `${SITE_URL}/services/${s.slug}`,
@@ -44,7 +51,7 @@ export default function ServicesHub() {
             />
             <div className="px-6 md:px-12 pb-16">
                 <div className="max-w-6xl mx-auto space-y-16">
-                    {SERVICE_CATEGORIES.map((cat) => (
+                    {visibleCategories.map((cat) => (
                         <section key={cat.name}>
                             <h2 className="text-2xl md:text-3xl font-bold text-[#52525B] mb-6 tracking-tight">{cat.name}</h2>
                             <div className="grid md:grid-cols-2 gap-5">
@@ -68,7 +75,7 @@ export default function ServicesHub() {
                     <section>
                         <h2 className="text-2xl md:text-3xl font-bold text-[#52525B] mb-6 tracking-tight">For your industry</h2>
                         <div className="grid md:grid-cols-3 gap-5">
-                            {INDUSTRIES.map((i) => (
+                            {visibleIndustries.map((i) => (
                                 <Link key={i.slug} to={`/industries/${i.slug}`} className="block bg-[#52525B] hover:bg-[#F97316] text-white rounded-3xl p-6 transition-colors">
                                     <h3 className="text-lg font-bold mb-1">{i.audience}</h3>
                                     <p className="text-white/80 text-sm">{i.subhead}</p>

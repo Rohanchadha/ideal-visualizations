@@ -4,9 +4,11 @@ import Seo from '../components/Seo';
 import PageHero from '../components/PageHero';
 import CtaBlock from '../components/CtaBlock';
 import { POSTS_BY_DATE } from '../content/blog';
+import { onlyPublished } from '../config/visibility';
 import { SITE_URL, ORG_ID } from '../config/seo';
 
 export default function BlogIndex() {
+    const visible = onlyPublished(POSTS_BY_DATE);
     const breadcrumb = [
         { name: 'Home', path: '/' },
         { name: 'Blog', path: '/blog' },
@@ -16,7 +18,7 @@ export default function BlogIndex() {
         '@type': 'Blog',
         url: `${SITE_URL}/blog`,
         about: { '@id': ORG_ID },
-        blogPost: POSTS_BY_DATE.map((p) => ({
+        blogPost: visible.map((p) => ({
             '@type': 'BlogPosting',
             headline: p.title,
             url: `${SITE_URL}/blog/${p.slug}`,
@@ -42,7 +44,7 @@ export default function BlogIndex() {
 
             <div className="px-6 md:px-12 pb-12">
                 <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-5">
-                    {POSTS_BY_DATE.map((p) => (
+                    {visible.map((p) => (
                         <Link key={p.slug} to={`/blog/${p.slug}`} className="group block bg-white border border-gray-200 hover:border-[#F97316] rounded-3xl overflow-hidden transition-all hover:shadow-xl">
                             {p.image && (
                                 <img src={p.image} alt={p.title} className="w-full h-48 object-cover" loading="lazy" width="800" height="450" />

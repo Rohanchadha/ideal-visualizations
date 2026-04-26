@@ -6,12 +6,15 @@ import PageHero from '../components/PageHero';
 import CtaBlock from '../components/CtaBlock';
 import { SERVICE_BY_SLUG } from '../content/services';
 import { POST_BY_SLUG } from '../content/blog';
+import { isPreviewMode } from '../config/visibility';
 import { SITE_URL, ORG_ID } from '../config/seo';
 
 export default function ServicePage() {
     const { slug } = useParams();
     const s = SERVICE_BY_SLUG[slug];
     if (!s) return <Navigate to="/services" replace />;
+    const preview = isPreviewMode();
+    if (s.draft && !preview) return <Navigate to="/services" replace />;
 
     const breadcrumb = [
         { name: 'Home', path: '/' },
@@ -37,7 +40,7 @@ export default function ServicePage() {
         },
     };
 
-    const relatedPosts = (s.relatedBlog || []).map((slug) => POST_BY_SLUG[slug]).filter(Boolean);
+    const relatedPosts = (s.relatedBlog || []).map((slug) => POST_BY_SLUG[slug]).filter((p) => p && !p.draft);
 
     return (
         <>
@@ -48,6 +51,7 @@ export default function ServicePage() {
                 image={s.gallery?.[0]?.src}
                 jsonLd={jsonLd}
                 breadcrumb={breadcrumb}
+                noIndex={s.draft}
             />
             <PageHero
                 eyebrow={s.category}
@@ -126,7 +130,7 @@ export default function ServicePage() {
                                 <div className="flex flex-wrap gap-3 mb-10">
                                     {s.related.map((rs) => {
                                         const rel = SERVICE_BY_SLUG[rs];
-                                        if (!rel) return null;
+                                        if (!rel || rel.draft) return null;
                                         return (
                                             <Link key={rs} to={`/services/${rs}`} className="inline-flex items-center gap-1 px-4 py-2 bg-gray-100 hover:bg-[#F97316] hover:text-white rounded-full text-sm font-medium text-[#52525B] transition-colors">
                                                 {rel.name} <ArrowRight className="w-3.5 h-3.5" />

@@ -5,12 +5,14 @@ import PageHero from '../components/PageHero';
 import CtaBlock from '../components/CtaBlock';
 import Prose from '../components/Prose';
 import { POST_BY_SLUG, POSTS_BY_DATE } from '../content/blog';
+import { isPreviewMode, onlyPublished } from '../config/visibility';
 import { SITE_URL, ORG_ID } from '../config/seo';
 
 export default function BlogPost() {
     const { slug } = useParams();
     const post = POST_BY_SLUG[slug];
     if (!post) return <Navigate to="/blog" replace />;
+    if (post.draft && !isPreviewMode()) return <Navigate to="/blog" replace />;
     const Content = post.Content;
 
     const breadcrumb = [
@@ -35,8 +37,8 @@ export default function BlogPost() {
         keywords: post.keyword,
     };
 
-    // 3 most recent other posts
-    const others = POSTS_BY_DATE.filter((p) => p.slug !== post.slug).slice(0, 3);
+    // 3 most recent other posts (published only)
+    const others = onlyPublished(POSTS_BY_DATE).filter((p) => p.slug !== post.slug).slice(0, 3);
 
     return (
         <>
@@ -48,6 +50,7 @@ export default function BlogPost() {
                 type="article"
                 jsonLd={jsonLd}
                 breadcrumb={breadcrumb}
+                noIndex={post.draft}
             />
             <PageHero
                 eyebrow={`${post.category} · ${post.readingTime} min read`}

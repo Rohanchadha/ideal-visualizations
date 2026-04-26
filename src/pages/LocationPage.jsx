@@ -5,12 +5,14 @@ import PageHero from '../components/PageHero';
 import CtaBlock from '../components/CtaBlock';
 import { LOCATION_BY_SLUG } from '../content/locations';
 import { SERVICES } from '../content/services';
+import { isPreviewMode, onlyPublished } from '../config/visibility';
 import { SITE_URL, ORG_ID } from '../config/seo';
 
 export default function LocationPage() {
     const { slug } = useParams();
     const loc = LOCATION_BY_SLUG[slug];
     if (!loc) return <Navigate to="/" replace />;
+    if (loc.draft && !isPreviewMode()) return <Navigate to="/" replace />;
 
     const breadcrumb = [
         { name: 'Home', path: '/' },
@@ -39,7 +41,7 @@ export default function LocationPage() {
 
     return (
         <>
-            <Seo title={loc.title} description={loc.description} path={`/locations/${loc.slug}`} jsonLd={jsonLd} breadcrumb={breadcrumb} />
+            <Seo title={loc.title} description={loc.description} path={`/locations/${loc.slug}`} jsonLd={jsonLd} breadcrumb={breadcrumb} noIndex={loc.draft} />
             <PageHero eyebrow={`Serving ${loc.city}, ${loc.country}`} title={loc.h1} subtitle={loc.hook} breadcrumb={breadcrumb} />
 
             <div className="px-6 md:px-12">
@@ -61,7 +63,7 @@ export default function LocationPage() {
                 <div className="max-w-5xl mx-auto pb-16">
                     <h2 className="text-2xl md:text-3xl font-bold text-[#52525B] mb-6 tracking-tight">Services we deliver to {loc.city}</h2>
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                        {SERVICES.map((s) => (
+                        {onlyPublished(SERVICES).map((s) => (
                             <Link key={s.slug} to={`/services/${s.slug}`} className="block bg-white border border-gray-200 hover:border-[#F97316] rounded-2xl p-4 transition-colors">
                                 <h3 className="font-bold text-[#52525B] text-sm">{s.name}</h3>
                             </Link>
