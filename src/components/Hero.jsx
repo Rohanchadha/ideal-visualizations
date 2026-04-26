@@ -4,6 +4,7 @@ import { ArrowRight, MessageCircle, PhoneCall } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useUI } from '../context/UIContext';
 import { whatsappLink } from '../config/site';
+import { trackEvent } from './Analytics';
 
 export default function Hero() {
     const containerRef = useRef(null);
@@ -62,12 +63,13 @@ export default function Hero() {
                             href={whatsappLink()}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => trackEvent('cta_whatsapp_click', { location: 'hero' })}
                             className="magnetic-btn bg-[#25D366] hover:bg-[#1FB855] text-white px-7 py-4 rounded-full text-base md:text-lg font-semibold w-full sm:w-auto text-center inline-flex items-center justify-center gap-2"
                         >
                             <MessageCircle className="w-5 h-5" /> Talk on WhatsApp
                         </a>
                         <button
-                            onClick={openCallback}
+                            onClick={() => { trackEvent('cta_callback_click', { location: 'hero' }); openCallback(); }}
                             className="magnetic-btn bg-[#F97316] hover:bg-[#EA580C] text-white px-7 py-4 rounded-full text-base md:text-lg font-semibold w-full sm:w-auto inline-flex items-center justify-center gap-2"
                         >
                             <PhoneCall className="w-5 h-5" /> Request a Callback

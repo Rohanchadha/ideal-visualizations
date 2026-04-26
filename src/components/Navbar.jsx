@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, MessageCircle, PhoneCall } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { whatsappLink } from '../config/site';
+import { trackEvent } from './Analytics';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -76,7 +77,7 @@ export default function Navbar() {
 
                 <div className="flex items-center gap-2">
                     <button
-                        onClick={openCallback}
+                        onClick={() => { trackEvent('cta_callback_click', { location: 'navbar' }); openCallback(); }}
                         className="hidden sm:inline-flex magnetic-btn shrink-0 bg-white/10 hover:bg-white/20 text-white border border-white/20 px-3 md:px-4 py-1.5 md:py-2.5 rounded-full text-xs md:text-sm font-semibold transition-colors items-center gap-2"
                     >
                         <PhoneCall className="w-3.5 h-3.5" />
@@ -87,6 +88,7 @@ export default function Navbar() {
                         href={whatsappLink()}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => trackEvent('cta_whatsapp_click', { location: 'navbar' })}
                         className="magnetic-btn shrink-0 bg-[#25D366] hover:bg-[#1FB855] text-white px-3 md:px-5 py-1.5 md:py-2.5 rounded-full text-xs md:text-sm font-semibold shadow-md whitespace-nowrap inline-flex items-center gap-2"
                     >
                         <MessageCircle className="w-3.5 h-3.5" />
@@ -125,7 +127,7 @@ export default function Navbar() {
                             Gallery
                         </Link>
                         <button
-                            onClick={() => { openCallback(); setMenuOpen(false); }}
+                            onClick={() => { trackEvent('cta_callback_click', { location: 'navbar_mobile' }); openCallback(); setMenuOpen(false); }}
                             className="mt-3 w-full bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-3 rounded-full text-sm font-semibold inline-flex items-center justify-center gap-2"
                         >
                             <PhoneCall className="w-4 h-4" /> Request a Callback

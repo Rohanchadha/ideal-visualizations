@@ -6,6 +6,7 @@ import { useUI } from '../context/UIContext';
 import { SERVICES } from '../content/services';
 import { LOCATIONS } from '../content/locations';
 import { onlyPublished } from '../config/visibility';
+import { trackEvent } from './Analytics';
 
 export default function Footer() {
     const { openCallback } = useUI();
@@ -30,12 +31,13 @@ export default function Footer() {
                             href={whatsappLink()}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => trackEvent('cta_whatsapp_click', { location: 'footer' })}
                             className="bg-[#25D366] hover:bg-[#1FB855] text-white px-5 py-4 rounded-2xl font-semibold inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors"
                         >
                             <MessageCircle className="w-5 h-5" /> WhatsApp
                         </a>
                         <button
-                            onClick={openCallback}
+                            onClick={() => { trackEvent('cta_callback_click', { location: 'footer' }); openCallback(); }}
                             className="bg-[#F97316] hover:bg-[#EA580C] text-white px-5 py-4 rounded-2xl font-semibold inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors"
                         >
                             <PhoneCall className="w-5 h-5" /> Callback
