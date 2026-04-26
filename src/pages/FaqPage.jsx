@@ -41,7 +41,7 @@ export default function FaqPage() {
     return (
         <>
             <Seo
-                title="FAQ | Ideal Visualizations — 3D Rendering Questions Answered"
+                title="FAQ | SLATE Concept Studios — 3D Rendering Questions Answered"
                 description="Frequently asked questions about our 3D rendering services — file formats, turnaround, pricing, revisions, NDAs, software, payment and more."
                 path="/faq"
                 jsonLd={jsonLd}

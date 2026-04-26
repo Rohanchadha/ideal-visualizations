@@ -1,4 +1,4 @@
-# robots.txt — Ideal Visualizations
+# robots.txt — SLATE Concept Studios
 User-agent: *
 Allow: /
 Disallow: /api/

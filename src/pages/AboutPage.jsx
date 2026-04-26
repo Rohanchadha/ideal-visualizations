@@ -26,8 +26,8 @@ export default function AboutPage() {
     return (
         <>
             <Seo
-                title="About Ideal Visualizations | 10+ Years of Architectural 3D Rendering"
-                description="The story behind Ideal Visualizations — founded by Danish in Amritsar, 1500+ projects across India, the UAE, the US and Canada over 10+ years."
+                title="About SLATE Concept Studios | 10+ Years of Architectural 3D Rendering"
+                description="The story behind SLATE Concept Studios — founded by Danish in Amritsar, 1500+ projects across India, the UAE, the US and Canada over 10+ years."
                 path="/about"
                 jsonLd={jsonLd}
                 breadcrumb={breadcrumb}
@@ -44,7 +44,7 @@ export default function AboutPage() {
                 <div className="max-w-3xl mx-auto">
                     <Prose>
                         <h2>How we got here</h2>
-                        <p>Ideal Visualizations was founded by Danish in Amritsar with a simple thesis: architects, designers and developers deserve photoreal visualisations that match their ambition — without paying global studio prices, missing deadlines or being passed between freelancers.</p>
+                        <p>SLATE Concept Studios was founded by Danish in Amritsar with a simple thesis: architects, designers and developers deserve photoreal visualisations that match their ambition — without paying global studio prices, missing deadlines or being passed between freelancers.</p>
                         <p>Over 10+ years, that thesis has played out across 1500+ projects. We have rendered luxury villas in Chandigarh, off-plan towers in Dubai, condo developments in Toronto, restaurant fitouts in Amritsar and commercial pitches in New York. Each project has tightened the pipeline, deepened the team and sharpened the eye.</p>
 
                         <h2>What makes us different</h2>

@@ -24,7 +24,7 @@ export default function LocationPage() {
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
         '@id': `${SITE_URL}/locations/${loc.slug}#business`,
-        name: `Ideal Visualizations — ${loc.city}`,
+        name: `SLATE Concept Studios — ${loc.city}`,
         description: loc.description,
         url: `${SITE_URL}/locations/${loc.slug}`,
         parentOrganization: { '@id': ORG_ID },
@@ -83,7 +83,7 @@ export default function LocationPage() {
                         <h2 className="text-2xl md:text-3xl font-bold text-[#52525B] mb-4 tracking-tight">Visit us in Amritsar</h2>
                         <div className="aspect-video rounded-2xl overflow-hidden bg-gray-200">
                             <iframe
-                                title="Ideal Visualizations Amritsar"
+                                title="SLATE Concept Studios Amritsar"
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d54802.0!2d74.8723!3d31.6340!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0!2zQW1yaXRzYXI!5e0!3m2!1sen!2sin!4v1700000000000"
                                 width="100%"
                                 height="100%"

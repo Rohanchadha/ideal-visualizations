@@ -21,8 +21,8 @@ export default function ContactPage() {
     return (
         <>
             <Seo
-                title="Contact Ideal Visualizations | WhatsApp, Email & Callback"
-                description="Get in touch with Ideal Visualizations. WhatsApp +91 96467 24313, email danish@slateconcepts.com, or request a callback. Studio in Amritsar."
+                title="Contact SLATE Concept Studios | WhatsApp, Email & Callback"
+                description="Get in touch with SLATE Concept Studios. WhatsApp +91 96467 24313, email danish@slateconcepts.com, or request a callback. Studio in Amritsar."
                 path="/contact"
                 jsonLd={jsonLd}
                 breadcrumb={breadcrumb}

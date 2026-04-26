@@ -10,7 +10,7 @@ export const LOCATIONS = [
         description: 'Photorealistic 3D rendering studio serving Delhi, Noida and Gurgaon. Exterior & interior renders, walkthroughs, 360° tours. India-based pricing.',
         h1: '3D Architectural Rendering in Delhi-NCR',
         hook: "Delhi-NCR is India's largest real-estate market. Noida and Gurgaon are in a commercial-tower and high-rise residential boom, the metro keeps reshaping demand corridors, and developers are competing for buyer attention with ever-better marketing assets. Photoreal 3D renders, walkthroughs and 360° tours are now table-stakes for any pre-launch.",
-        intro: "Ideal Visualizations works with architecture firms in Connaught Place and Saket, interior designers across South Delhi and Gurgaon, and developers building across Noida, Greater Noida, Gurgaon and Faridabad. We deliver remote from our Amritsar studio (a 6-hour drive) with same-day WhatsApp turnaround on briefs and revisions.",
+        intro: "SLATE Concept Studios works with architecture firms in Connaught Place and Saket, interior designers across South Delhi and Gurgaon, and developers building across Noida, Greater Noida, Gurgaon and Faridabad. We deliver remote from our Amritsar studio (a 6-hour drive) with same-day WhatsApp turnaround on briefs and revisions.",
         portfolioNote: '[Danish to provide 2–3 Delhi-NCR projects with images, scope and turnaround]',
         availability: 'We serve Delhi-NCR clients remotely with same-day WhatsApp turnaround. Site visits to Delhi, Gurgaon and Noida are arranged on request.',
         pricingNote: 'Competitive India-based pricing for Delhi-NCR clients — typically 30–50% lower than NCR-based studios.',

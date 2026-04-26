@@ -48,7 +48,18 @@ export default function Footer() {
 
             <div className="max-w-7xl mx-auto relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16">
                 <div className="lg:col-span-2">
-                    <span className="font-bold text-3xl tracking-tight text-white mb-6 block">Ideal Visualizations</span>
+                    <div className="flex items-center gap-3 mb-6">
+                        <img
+                            src="/brand/logo-mark-192.png"
+                            alt=""
+                            aria-hidden="true"
+                            className="h-10 w-auto select-none"
+                            draggable="false"
+                        />
+                        <span className="font-semibold tracking-[0.2em] text-lg uppercase text-white">
+                            SLATE <span className="font-light opacity-80">Concept Studios</span>
+                        </span>
+                    </div>
                     <p className="text-gray-400 max-w-sm text-balance text-lg leading-relaxed mb-8">
                         Precision and longevity in architectural visualization, bringing your most ambitious concepts to digital life.
                     </p>
@@ -130,7 +141,7 @@ export default function Footer() {
             </div>
 
             <div className="max-w-7xl mx-auto pt-8 border-t border-white/10 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4 relative z-10 text-gray-500 text-sm">
-                <p>© {new Date().getFullYear()} Ideal Visualizations. All rights reserved.</p>
+                <p>© {new Date().getFullYear()} SLATE Concept Studios. All rights reserved.</p>
                 <p className="flex items-center gap-1 font-mono">Powered by Design</p>
             </div>
         </footer>

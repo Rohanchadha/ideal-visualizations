@@ -57,9 +57,18 @@ export default function Navbar() {
                     : 'bg-black/30 backdrop-blur-md text-white'
                     }`}
             >
-                <Link to="/" className="flex items-center gap-2 md:gap-3 shrink-0">
-                    <img src="/logo.png" alt="Ideal Visualizations Logo" className="h-6 md:h-8 w-auto rounded-sm bg-white/90 p-0.5 md:p-1" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-                    <span className="font-bold tracking-tight text-sm md:text-lg whitespace-nowrap">Ideal Visualizations</span>
+                <Link to="/" className="flex items-center gap-2 md:gap-2.5 shrink-0" aria-label="SLATE Concept Studios — Home">
+                    <img
+                        src="/brand/logo-mark-192.png"
+                        alt=""
+                        aria-hidden="true"
+                        className="h-7 md:h-9 w-auto select-none"
+                        draggable="false"
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                    />
+                    <span className="font-semibold tracking-[0.18em] text-[11px] md:text-[13px] uppercase whitespace-nowrap text-white">
+                        SLATE <span className="font-light tracking-[0.22em] opacity-80">Concept Studios</span>
+                    </span>
                 </Link>
 
                 <div className="hidden lg:flex items-center gap-6 font-medium text-sm">

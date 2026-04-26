@@ -1,4 +1,4 @@
-# Full SEO Audit — Ideal Visualizations
+# Full SEO Audit — SLATE Concept Studios
 
 - **URL audited:** https://ideal-visualizations.vercel.app/
 - **Audit date:** 25 April 2026
@@ -29,7 +29,7 @@
 2. **`/gallery` and any other client-side route returns HTTP 404** from Vercel (no SPA rewrite to `index.html`) — Google sees the gallery page as a hard 404, will not index it.
 3. **No `robots.txt`, no `sitemap.xml`, no `llms.txt`** (all return 404) — discovery and AI-citation surfaces are absent.
 4. **No structured data** (no JSON-LD `LocalBusiness`, `Organization`, `ProfessionalService`, `ImageObject`, or `VideoObject`) on a portfolio-driven, multi-city local service site — major missed opportunity for rich results and Knowledge Panel.
-5. **Title is generic ("Ideal Visualizations") and there is no meta description, no canonical, no Open Graph / Twitter Card tags, no `favicon.ico` (404)** — every social share will look broken; SERP CTR will suffer.
+5. **Title is generic ("SLATE Concept Studios") and there is no meta description, no canonical, no Open Graph / Twitter Card tags, no `favicon.ico` (404)** — every social share will look broken; SERP CTR will suffer.
 
 ### Top 5 Quick Wins (≤ 1 day each)
 1. Add a `vercel.json` rewrite so all routes serve `index.html` (fixes /gallery 404).
@@ -91,13 +91,13 @@ Signals reconstructed from the JS bundle (Googlebot will see these post-render):
 
 | Element | Current | Recommended |
 |---|---|---|
-| `<title>` | "Ideal Visualizations" (21 chars) | "Ideal Visualizations \| Architectural 3D Rendering & Walkthroughs — Amritsar, India" (≤ 60 chars) |
+| `<title>` | "SLATE Concept Studios" (21 chars) | "SLATE Concept Studios \| Architectural 3D Rendering & Walkthroughs — Amritsar, India" (≤ 60 chars) |
 | `<meta name="description">` | **Missing** | "Photorealistic 3D architectural rendering, interior & exterior visualization, walkthroughs and 360° tours. Studio in Amritsar serving Delhi, Mumbai, Dubai & 16+ cities." (~155 chars) |
 | Canonical | **Missing** | `<link rel="canonical" href="https://ideal-visualizations.vercel.app/">` |
 | Open Graph (og:title, og:description, og:image, og:type, og:url) | **All missing** | Add full OG block + 1200×630 share image |
 | Twitter Card | **Missing** | `summary_large_image` |
 | H1 | "Bringing architecture to life." (only after JS render) | OK once SSR/prerender is added; consider adding "Architectural 3D Visualization Studio" as supporting text |
-| H2/H3 hierarchy | Present in DOM after render (Why Choose Us, Spaces in Motion, What we deliver, Behind the Renders, Locations) | OK, but rename "Behind the Renders" to include the founder's name for entity SEO ("About Danish — Founder, Ideal Visualizations") |
+| H2/H3 hierarchy | Present in DOM after render (Why Choose Us, Spaces in Motion, What we deliver, Behind the Renders, Locations) | OK, but rename "Behind the Renders" to include the founder's name for entity SEO ("About Danish — Founder, SLATE Concept Studios") |
 | Internal links | Only anchor links + `/gallery` (which 404s) | Add real pages and link to them |
 | Outbound links | Instagram, Behance, WhatsApp, YouTube embeds | Add `rel="noopener"` (already present) ✅ |
 
@@ -142,7 +142,7 @@ Field data unavailable (no CrUX entry; Google API credentials not configured loc
 
 - **GPTBot, ClaudeBot, PerplexityBot, Google-Extended:** all see an empty page (no SSR). Citability ≈ 0 right now.
 - **No `llms.txt`** to declare canonical content surfaces.
-- **No author entity / sameAs graph** — LLMs cannot disambiguate "Ideal Visualizations" from generic phrases.
+- **No author entity / sameAs graph** — LLMs cannot disambiguate "SLATE Concept Studios" from generic phrases.
 - **No FAQ-style Q&A blocks** (good for AI extraction even when not eligible for Google's FAQ rich result).
 - **No structured "About / Services / Locations / Pricing" headings in plain HTML.**
 
@@ -192,7 +192,7 @@ Strong local intent signals exist in the React tree but **none of it is in the r
 
 **Actions**
 - Convert all `/3D-Images/*` to AVIF (primary) + WebP (fallback), generate 480/768/1280/1920 widths, serve via `<picture>` + `srcset`.
-- Rewrite `alt` text to project-descriptive: e.g. *"Twilight exterior render of a 4-bedroom modern villa, Mohali, Punjab — Ideal Visualizations"*.
+- Rewrite `alt` text to project-descriptive: e.g. *"Twilight exterior render of a 4-bedroom modern villa, Mohali, Punjab — SLATE Concept Studios"*.
 - Rename files (no spaces, descriptive slug) — important for Google Images.
 - Generate an image sitemap once project pages exist.
 

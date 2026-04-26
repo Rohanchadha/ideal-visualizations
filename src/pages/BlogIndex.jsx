@@ -28,7 +28,7 @@ export default function BlogIndex() {
     return (
         <>
             <Seo
-                title="Blog | Ideal Visualizations — 3D Rendering Insights & Guides"
+                title="Blog | SLATE Concept Studios — 3D Rendering Insights & Guides"
                 description="Practical guides on architectural 3D rendering, walkthroughs, 360° tours, pricing, process, software and outsourcing — written for architects, designers and developers."
                 path="/blog"
                 jsonLd={jsonLd}

@@ -1,13 +1,13 @@
-# PLAN.md — Ideal Visualizations: SEO Content Execution Plan
+# PLAN.md — SLATE Concept Studios: SEO Content Execution Plan
 
-> **Purpose:** This document is a complete instruction set for an AI assistant to execute the SEO and content strategy for Ideal Visualizations. It contains all context, brand voice guidelines, page specifications, copy briefs, and technical requirements needed to produce production-ready content.
+> **Purpose:** This document is a complete instruction set for an AI assistant to execute the SEO and content strategy for SLATE Concept Studios. It contains all context, brand voice guidelines, page specifications, copy briefs, and technical requirements needed to produce production-ready content.
 
 ---
 
 ## 1. BUSINESS CONTEXT
 
 ### Who we are
-- **Business name:** Ideal Visualizations
+- **Business name:** SLATE Concept Studios
 - **Founder:** Danish (first name only, no surname used publicly)
 - **Founded:** ~2015 (10+ years in operation as of 2026)
 - **Headquarters:** Amritsar, Punjab, India
@@ -116,7 +116,7 @@ Build pages in the order listed. Each section below is a task.
 
 ### TASK 3.1 — `/services/` (Services Hub / Pillar Page)
 
-**Title:** `3D Rendering & Architectural Visualization Services | Ideal Visualizations`
+**Title:** `3D Rendering & Architectural Visualization Services | SLATE Concept Studios`
 **Meta description:** `Exterior & interior 3D rendering, walkthroughs, 360° tours, elevation design and architecture planning. Studio in Amritsar serving India, UAE, US & Canada.`
 **H1:** "Our 3D Rendering & Architecture Services"
 **Word count:** 800–1,200
@@ -199,7 +199,7 @@ Each: 600–800 words. Title ≤ 60 chars. Meta ≤ 155 chars. 3+ internal links
 
 > This is the first page cold-email recipients will see. It must convert.
 
-**Title:** `3D Rendering for Architecture Firms | Ideal Visualizations`
+**Title:** `3D Rendering for Architecture Firms | SLATE Concept Studios`
 **Meta description:** `Outsource your 3D rendering to a dedicated studio. Exterior renders, walkthroughs & 360° tours from your CAD/BIM files. 10+ years, 1500+ projects.`
 **H1:** "3D Rendering Partner for Architecture Firms"
 **Word count:** 1,200–1,500
@@ -236,7 +236,7 @@ Each: 600–800 words. Title ≤ 60 chars. Meta ≤ 155 chars. 3+ internal links
 ### TASK 4.2 — `/industries/interior-designers`
 
 **Same conversion-focused structure as 4.1, tailored for interior designers.**
-**Title:** `3D Rendering for Interior Designers | Ideal Visualizations`
+**Title:** `3D Rendering for Interior Designers | SLATE Concept Studios`
 **Meta description:** `Photorealistic interior 3D renders from your mood boards and floor plans. Help clients visualise before committing. 5–10 day delivery.`
 **H1:** "Bring Your Interior Concepts to Life in Photorealistic 3D"
 **Key angle:** "Your clients can't visualise from mood boards alone. Our renders close the deal."
@@ -250,7 +250,7 @@ Each: 600–800 words. Title ≤ 60 chars. Meta ≤ 155 chars. 3+ internal links
 ### TASK 4.3 — `/industries/builders-developers`
 
 **Same conversion-focused structure, tailored for builders and developers.**
-**Title:** `3D Rendering for Builders & Developers | Ideal Visualizations`
+**Title:** `3D Rendering for Builders & Developers | SLATE Concept Studios`
 **Meta description:** `3D marketing assets that sell properties before they're built. Photorealistic renders, walkthroughs & virtual tours for pre-sales and launches.`
 **H1:** "3D Marketing Assets That Sell Properties Before They're Built"
 **Key angle:** "Pre-sales require conviction. Photorealistic renders, walkthroughs, and virtual tours generate buyer confidence and accelerate bookings."
@@ -265,12 +265,12 @@ Each: 600–800 words. Title ≤ 60 chars. Meta ≤ 155 chars. 3+ internal links
 
 **Template (apply for each city):**
 
-**Title pattern:** `3D Rendering in [City] | Architectural Visualization — Ideal Visualizations`
+**Title pattern:** `3D Rendering in [City] | Architectural Visualization — SLATE Concept Studios`
 **Meta description pattern:** `Photorealistic 3D architectural rendering studio serving [City]. Exterior & interior renders, walkthroughs, 360° tours. [Unique city hook].`
 **H1 pattern:** "3D Architectural Rendering in [City]"
 **Word count:** 600–800 (minimum 60% unique content per page — HARD REQUIREMENT)
 **Content structure:**
-1. Intro: "Ideal Visualizations serves [City]'s architects, interior designers and developers with photorealistic 3D rendering." + 1 paragraph of city-specific context (architecture scene, real-estate market, notable developments)
+1. Intro: "SLATE Concept Studios serves [City]'s architects, interior designers and developers with photorealistic 3D rendering." + 1 paragraph of city-specific context (architecture scene, real-estate market, notable developments)
 2. Services available for [City] clients — link to service pages
 3. 2–3 portfolio projects from that city/region — `[Danish to provide, or use nearest region]`
 4. For Indian cities: "Visit us at our Amritsar headquarters or collaborate remotely."
@@ -297,8 +297,8 @@ Each: 600–800 words. Title ≤ 60 chars. Meta ≤ 155 chars. 3+ internal links
 
 ### TASK 7.1 — `/about`
 
-**Title:** `About Ideal Visualizations | Danish — Founder & 3D Visualization Artist`
-**H1:** "About Danish & Ideal Visualizations"
+**Title:** `About SLATE Concept Studios | Danish — Founder & 3D Visualization Artist`
+**H1:** "About Danish & SLATE Concept Studios"
 **Word count:** 800–1,000
 **Content:**
 1. Founder story — Danish's journey into architectural visualization, why he started the studio
@@ -313,7 +313,7 @@ Each: 600–800 words. Title ≤ 60 chars. Meta ≤ 155 chars. 3+ internal links
 
 ### TASK 7.2 — `/contact`
 
-**Title:** `Contact Ideal Visualizations | Get a Free 3D Rendering Quote`
+**Title:** `Contact SLATE Concept Studios | Get a Free 3D Rendering Quote`
 **H1:** "Get in Touch"
 **Content:** Contact form (name, email, phone, project type dropdown, brief, budget range, timeline) + WhatsApp button + phone + email + Amritsar address + Google Map embed
 **Schema:** `ContactPoint` + `BreadcrumbList`
@@ -362,7 +362,7 @@ Each step: 2–3 sentences + an icon/illustration placeholder. End with CTA.
 
 ### TASK 7.5 — `/faq`
 
-**Title:** `FAQ | 3D Rendering Questions Answered — Ideal Visualizations`
+**Title:** `FAQ | 3D Rendering Questions Answered — SLATE Concept Studios`
 **H1:** "Frequently Asked Questions"
 **Word count:** 1,000–1,500
 **Content:** 15–20 Q&A pairs covering:
@@ -453,7 +453,7 @@ Each step: 2–3 sentences + an icon/illustration placeholder. End with CTA.
 4. Red flags to avoid
 5. How the handoff works (file formats, feedback loops, revision process)
 6. Case for outsourcing to India (cost, talent pool, time-zone coverage)
-7. CTA: "Partner with Ideal Visualizations" → /industries/architecture-firms
+7. CTA: "Partner with SLATE Concept Studios" → /industries/architecture-firms
 **Links to:** /industries/architecture-firms, /process, /blog/3d-rendering-cost, /blog/hiring-3d-rendering-studio
 
 ---
@@ -620,9 +620,9 @@ Same as /process page but in blog format with more detail, behind-the-scenes ima
 1. What makes a great rendering studio (portfolio quality, turnaround, communication, pricing, software)
 2. The Indian archviz landscape: major hubs (Mumbai, Delhi, Bangalore, Pune, Amritsar)
 3. How to evaluate studios: checklist
-4. Ideal Visualizations: our positioning (10+ years, 1500+ projects, multi-city, international clients)
+4. SLATE Concept Studios: our positioning (10+ years, 1500+ projects, multi-city, international clients)
 5. CTA: "See our work" → /portfolio/, /gallery
-**Note:** Be objective and helpful, not salesy. Position Ideal Visualizations as one strong option, not "the best." This builds trust and ranks better than a pure self-promotion piece.
+**Note:** Be objective and helpful, not salesy. Position SLATE Concept Studios as one strong option, not "the best." This builds trust and ranks better than a pure self-promotion piece.
 **Links to:** /portfolio/, /about, /blog/hiring-3d-rendering-studio
 
 ---
@@ -710,7 +710,7 @@ For TASKS 5.1–5.12, use this template for each case study. Danish must provide
 
 **URL:** `/portfolio/[descriptive-slug-with-city]` (e.g., `/portfolio/luxury-villa-chandigarh`)
 **Title:** `[Project Name] — [City] | 3D Rendering Case Study`
-**Meta description:** `[One-line project summary with city and service type]. See the photorealistic 3D renders by Ideal Visualizations.`
+**Meta description:** `[One-line project summary with city and service type]. See the photorealistic 3D renders by SLATE Concept Studios.`
 **H1:** `[Project Name], [City]`
 **Word count:** 400–600
 

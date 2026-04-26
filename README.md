@@ -1,6 +1,6 @@
-# Ideal Visualizations — Marketing Site
+# SLATE Concept Studios — Marketing Site
 
-A modern, animated marketing site for **Ideal Visualizations**, an architecture & 3D-visualization studio.
+A modern, animated marketing site for **SLATE Concept Studios**, an architecture & 3D-visualization studio.
 Built with React 19, Vite 7, Tailwind CSS v4, GSAP and React Router.
 
 ---
@@ -149,5 +149,5 @@ Because the site uses client-side routing, configure your host to **fall back to
 
 ---
 
-© Ideal Visualizations — All rights reserved.
+© SLATE Concept Studios — All rights reserved.
 

@@ -50,7 +50,7 @@ export default function Post() {
                 <li><strong>Discuss volume pricing.</strong> Even if starting with one project.</li>
             </ol>
 
-            <h2>Where Ideal Visualizations sits</h2>
+            <h2>Where SLATE Concept Studios sits</h2>
             <p>We are an Amritsar-based full-stack studio — architecture planning, elevation design, interior design, turnkey construction and a complete 3D visualization pipeline. Founded by Danish, we have completed 1500+ projects over 10+ years for clients across India, the UAE, the US and Canada. Our edge is the combination: we render for hundreds of architects, designers and developers, but we also design and build, which gives us a working architect's eye when we visualise. Our positioning is high-quality output at India-base pricing with international-grade communication. We are one strong option. Not the only one.</p>
 
             <h2>Pricing reality check</h2>

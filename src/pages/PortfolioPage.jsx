@@ -40,7 +40,7 @@ export default function PortfolioPage() {
     return (
         <>
             <Seo
-                title={`${p.name} — ${p.type} Case Study | Ideal Visualizations`}
+                title={`${p.name} — ${p.type} Case Study | SLATE Concept Studios`}
                 description={`${p.name} (${p.city}): ${p.scope}`.slice(0, 155)}
                 path={`/portfolio/${p.slug}`}
                 image={p.gallery?.[0]}

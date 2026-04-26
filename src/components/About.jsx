@@ -34,7 +34,7 @@ export default function About() {
                     </h3>
                     <div className="space-y-6 text-[#6B7280] text-lg leading-relaxed mix-blend-multiply">
                         <p>
-                            Hi, I'm Danish. With over a decade of experience in architectural visualization, I founded Ideal Visualizations to bridge the gap between creative blueprints and photorealistic reality.
+                            Hi, I'm Danish. With over a decade of experience in architectural visualization, I founded SLATE Concept Studios to bridge the gap between creative blueprints and photorealistic reality.
                         </p>
                         <p>
                             My philosophy is simple: every line has purpose, every shadow creates depth, and every render must tell a compelling story. We don't just build 3D models; we craft digital instruments that help architects, developers, and designers communicate their ultimate vision with absolute clarity.
@@ -50,7 +50,7 @@ export default function About() {
                         <div className="absolute inset-0 bg-[#F97316]/10 group-hover:bg-transparent transition-colors duration-500 z-10" />
                         <img
                             src="/DanishProfilePicture.png"
-                            alt="Danish, founder and lead 3D visualization artist of Ideal Visualizations"
+                            alt="Danish, founder and lead 3D visualization artist of SLATE Concept Studios"
                             width="800"
                             height="1000"
                             loading="lazy"

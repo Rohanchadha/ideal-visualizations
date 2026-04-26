@@ -1,4 +1,4 @@
-# Action Plan — Ideal Visualizations
+# Action Plan — SLATE Concept Studios
 
 Prioritised by impact × effort. **Critical = ship this week. High = within 2 weeks. Medium = within 1 month. Low = backlog.**
 
@@ -26,12 +26,12 @@ Prioritised by impact × effort. **Critical = ship this week. High = within 2 we
 ### C3. Add real `<head>` metadata
 Edit `index.html` (or per-route `<Head>` if Next):
 ```html
-<title>Ideal Visualizations | Architectural 3D Rendering, Walkthroughs & 360° — Amritsar, India</title>
+<title>SLATE Concept Studios | Architectural 3D Rendering, Walkthroughs & 360° — Amritsar, India</title>
 <meta name="description" content="Photorealistic 3D architectural rendering, interior & exterior visualization, walkthroughs and 360° tours. Amritsar studio serving Delhi, Mumbai, Dubai and 16+ cities.">
 <link rel="canonical" href="https://ideal-visualizations.vercel.app/">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Ideal Visualizations — Architectural 3D Rendering Studio">
+<meta property="og:title" content="SLATE Concept Studios — Architectural 3D Rendering Studio">
 <meta property="og:description" content="Photorealistic 3D rendering, walkthroughs & 360° tours. 1500+ projects across 20+ cities.">
 <meta property="og:image" content="https://ideal-visualizations.vercel.app/og-cover-1200x630.jpg">
 <meta property="og:url" content="https://ideal-visualizations.vercel.app/">
@@ -48,7 +48,7 @@ Also generate and ship `/favicon.ico` (currently 404) and `/og-cover-1200x630.jp
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "@id": "https://ideal-visualizations.vercel.app/#org",
-  "name": "Ideal Visualizations",
+  "name": "SLATE Concept Studios",
   "image": "https://ideal-visualizations.vercel.app/og-cover-1200x630.jpg",
   "url": "https://ideal-visualizations.vercel.app/",
   "telephone": "+91-XXXXXXXXXX",
@@ -97,7 +97,7 @@ Sitemap: https://ideal-visualizations.vercel.app/sitemap.xml
 ```
 ```
 # llms.txt
-# Ideal Visualizations — Architectural 3D Visualization Studio
+# SLATE Concept Studios — Architectural 3D Visualization Studio
 - Home: https://ideal-visualizations.vercel.app/
 - Gallery: https://ideal-visualizations.vercel.app/gallery
 Contact: hello@idealvisualizations.com  |  WhatsApp: +91-…

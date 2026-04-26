@@ -67,7 +67,7 @@ export default function WhyChooseUs() {
                 <div className="text-center mb-16 md:mb-24">
                     <h2 className="text-[#F97316] font-semibold tracking-wider uppercase mb-4 text-sm md:text-base">Our Advantage</h2>
                     <h3 className="text-4xl md:text-5xl lg:text-7xl font-bold text-[#52525B] tracking-tight">
-                        Why Choose <span className="font-serif italic font-normal text-[#F97316]">Ideal Visualizations?</span>
+                        Why Choose <span className="font-serif italic font-normal text-[#F97316]">SLATE Concept Studios?</span>
                     </h3>
                 </div>
 

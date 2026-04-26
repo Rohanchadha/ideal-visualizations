@@ -14,8 +14,8 @@ export default function GalleryPage() {
         const prevTitle = document.title;
         const prevDesc = document.querySelector('meta[name="description"]')?.getAttribute('content');
         const prevCanon = document.querySelector('link[rel="canonical"]')?.getAttribute('href');
-        document.title = 'Gallery — Architectural 3D Renders & Walkthroughs | Ideal Visualizations';
-        document.querySelector('meta[name="description"]')?.setAttribute('content', 'Full gallery of photoreal architectural 3D renders, animated walkthroughs and 360° tours by Ideal Visualizations.');
+        document.title = 'Gallery — Architectural 3D Renders & Walkthroughs | SLATE Concept Studios';
+        document.querySelector('meta[name="description"]')?.setAttribute('content', 'Full gallery of photoreal architectural 3D renders, animated walkthroughs and 360° tours by SLATE Concept Studios.');
         document.querySelector('link[rel="canonical"]')?.setAttribute('href', 'https://ideal-visualizations.vercel.app/gallery');
         return () => {
             if (prevTitle) document.title = prevTitle;
@@ -30,7 +30,7 @@ export default function GalleryPage() {
                 src: img.src,
                 thumb: img.thumb || img.src,
                 type: 'image',
-                alt: `Architectural 3D rendering ${i + 1} — Ideal Visualizations gallery`,
+                alt: `Architectural 3D rendering ${i + 1} — SLATE Concept Studios gallery`,
             }))
             : GALLERY_VIDEOS.map((v) => ({ src: v.src, type: 'video' }))
     ), [tab]);
@@ -43,7 +43,10 @@ export default function GalleryPage() {
                     <Link to="/" className="inline-flex items-center gap-2 text-sm font-medium hover:text-[#F97316] transition-colors">
                         <ArrowLeft className="w-4 h-4" /> Back to Home
                     </Link>
-                    <span className="font-bold tracking-tight text-base sm:text-lg">Ideal Visualizations</span>
+                    <span className="inline-flex items-center gap-2 font-semibold tracking-[0.2em] text-xs sm:text-sm uppercase">
+                        <img src="/brand/logo-mark-192.png" alt="" aria-hidden="true" className="h-7 w-auto" />
+                        SLATE <span className="font-light opacity-80">Concept Studios</span>
+                    </span>
                 </div>
             </header>
 

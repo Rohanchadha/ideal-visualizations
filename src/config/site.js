@@ -5,7 +5,7 @@ export const CONTACT = {
     email: 'danish@slateconcepts.com',
     instagram: 'https://www.instagram.com/idealvisualizations?igsh=MWptd2d5emdxOHJrYg==',
     behance: 'https://www.behance.net/idealvisuali',
-    whatsappMessage: "Hi Ideal Visualizations! I'd like to discuss a project.",
+    whatsappMessage: "Hi SLATE Concept Studios! I'd like to discuss a project.",
 };
 
 export const whatsappLink = (msg = CONTACT.whatsappMessage) =>

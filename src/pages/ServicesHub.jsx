@@ -23,7 +23,7 @@ export default function ServicesHub() {
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'CollectionPage',
-        name: 'Services — Ideal Visualizations',
+        name: 'Services — SLATE Concept Studios',
         url: `${SITE_URL}/services`,
         about: { '@id': ORG_ID },
         hasPart: visibleServices.map((s) => ({
@@ -36,7 +36,7 @@ export default function ServicesHub() {
     return (
         <>
             <Seo
-                title="Services | Ideal Visualizations — 3D Rendering, Walkthroughs, Turnkey"
+                title="Services | SLATE Concept Studios — 3D Rendering, Walkthroughs, Turnkey"
                 description="Eight services across 3D visualization (exterior, interior, walkthrough, 360°) and architecture & construction (planning, elevation, interior design, turnkey)."
                 path="/services"
                 jsonLd={jsonLd}

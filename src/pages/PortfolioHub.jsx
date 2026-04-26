@@ -16,14 +16,14 @@ export default function PortfolioHub() {
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'CollectionPage',
-        name: 'Portfolio — Ideal Visualizations',
+        name: 'Portfolio — SLATE Concept Studios',
         url: `${SITE_URL}/portfolio`,
         about: { '@id': ORG_ID },
     };
     return (
         <>
             <Seo
-                title="Portfolio | Ideal Visualizations — Architectural 3D Rendering Case Studies"
+                title="Portfolio | SLATE Concept Studios — Architectural 3D Rendering Case Studies"
                 description="Architectural 3D rendering case studies across India, the UAE, the US and Canada — residential, commercial, hospitality and turnkey."
                 path="/portfolio"
                 jsonLd={jsonLd}

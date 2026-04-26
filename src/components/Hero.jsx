@@ -37,7 +37,7 @@ export default function Hero() {
             <div className="absolute inset-0 z-0 bg-[#111111]">
                 <img
                     src="/3D-Images/1.jpg"
-                    alt="Photorealistic 3D architectural exterior render by Ideal Visualizations — twilight residential project"
+                    alt="Photorealistic 3D architectural exterior render by SLATE Concept Studios — twilight residential project"
                     width="1920"
                     height="1080"
                     fetchpriority="high"
@@ -51,7 +51,7 @@ export default function Hero() {
             <div className="relative z-20 w-full max-w-7xl mx-auto px-6 pb-24 md:pb-32">
                 <div className="max-w-4xl text-white">
                     <p className="hero-text text-[#F97316] font-semibold tracking-wider uppercase mb-4 text-sm md:text-base">
-                        Ideal Visualizations
+                        SLATE Concept Studios
                     </p>
                     <h1 className="hero-text text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.05] tracking-tight mb-8">
                         <span className="block">Bringing architecture</span>

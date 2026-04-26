@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export const meta = {
     slug: '3d-rendering-portfolio-showcase',
     title: '3D Rendering Portfolio: 15 Projects Across 3 Continents',
-    description: 'A curated showcase of 15 architectural 3D rendering projects by Ideal Visualizations across India, the UAE and North America — residential, commercial, hospitality.',
+    description: 'A curated showcase of 15 architectural 3D rendering projects by SLATE Concept Studios across India, the UAE and North America — residential, commercial, hospitality.',
     date: '2026-05-28',
     readingTime: 5,
     category: 'Showcase',
