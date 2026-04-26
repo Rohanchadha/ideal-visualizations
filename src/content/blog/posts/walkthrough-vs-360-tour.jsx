@@ -66,7 +66,7 @@ export default function Post() {
             <h2>Budget split</h2>
             <p>A typical pre-launch package allocates roughly 60–70% of the visualisation budget to a 90-second hero walkthrough and 20–30% to a 4–6 scene 360° tour, with the balance going to still hero renders for hoardings and brochures.</p>
 
-            <p><strong>Need help picking the right format for your project?</strong> Talk to us on WhatsApp at +91 96467 24313 or email idealvisualization@gmail.com.</p>
+            <p><strong>Need help picking the right format for your project?</strong> Talk to us on WhatsApp at +91 96467 24313 or email danish@slateconcepts.com.</p>
         </>
     );
 }

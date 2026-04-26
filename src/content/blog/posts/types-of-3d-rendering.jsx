@@ -61,7 +61,7 @@ export default function Post() {
 
             <p>For more on choosing between walkthroughs and 360° tours, see our <Link to="/blog/walkthrough-vs-360-tour">walkthrough-vs-360 deep-dive</Link>.</p>
 
-            <p><strong>Need help picking the right asset mix for your project?</strong> Talk to us on WhatsApp at +91 96467 24313 or email idealvisualization@gmail.com.</p>
+            <p><strong>Need help picking the right asset mix for your project?</strong> Talk to us on WhatsApp at +91 96467 24313 or email danish@slateconcepts.com.</p>
         </>
     );
 }

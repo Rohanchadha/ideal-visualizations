@@ -95,7 +95,7 @@ export default function Post() {
 
             <h2>The takeaway</h2>
             <p>Architectural rendering is one of the highest-leverage line items on a design or development budget. The cost of a render is, almost always, dramatically less than the cost of the change order, missed pre-sale or failed planning submission it prevents.</p>
-            <p><strong>Want a custom quote for your project?</strong> Talk to us on WhatsApp at +91 96467 24313 or email idealvisualization@gmail.com — we typically reply within an hour.</p>
+            <p><strong>Want a custom quote for your project?</strong> Talk to us on WhatsApp at +91 96467 24313 or email danish@slateconcepts.com — we typically reply within an hour.</p>
         </>
     );
 }

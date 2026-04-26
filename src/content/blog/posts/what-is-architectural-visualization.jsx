@@ -55,7 +55,7 @@ export default function Post() {
 
             <h2>The takeaway</h2>
             <p>Architectural visualization is no longer optional for serious architects, designers and developers. The cost of a photoreal render is a fraction of the cost of a single change order during construction or a single missed pre-sale. If you have a project on the table, the question is not whether to render it — it is who you trust to render it well.</p>
-            <p><strong>Need photoreal renders, walkthroughs or a 360° tour?</strong> Talk to us on WhatsApp at +91 96467 24313 or email idealvisualization@gmail.com.</p>
+            <p><strong>Need photoreal renders, walkthroughs or a 360° tour?</strong> Talk to us on WhatsApp at +91 96467 24313 or email danish@slateconcepts.com.</p>
         </>
     );
 }

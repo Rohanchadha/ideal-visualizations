@@ -45,7 +45,7 @@ export default function Post() {
             <h2>More to come</h2>
             <p>This is a representative sample. Browse the <Link to="/gallery">full gallery</Link> for the complete archive of recent work, or the <Link to="/portfolio">portfolio</Link> for project-by-project case studies.</p>
 
-            <p><strong>Want to start your project?</strong> Talk to us on WhatsApp at +91 96467 24313 or email idealvisualization@gmail.com.</p>
+            <p><strong>Want to start your project?</strong> Talk to us on WhatsApp at +91 96467 24313 or email danish@slateconcepts.com.</p>
         </>
     );
 }

@@ -65,7 +65,7 @@ export default function Post() {
             <h2>How to brief us</h2>
             <p>If you only have a CAD file and a couple of reference images of buildings you like, we can usually take it from there. <Link to="/blog/files-for-3d-rendering">Our CAD prep checklist</Link> walks you through what to send and what is optional.</p>
 
-            <p><strong>Need exterior or interior renders, or both?</strong> Talk to us on WhatsApp at +91 96467 24313 or email idealvisualization@gmail.com.</p>
+            <p><strong>Need exterior or interior renders, or both?</strong> Talk to us on WhatsApp at +91 96467 24313 or email danish@slateconcepts.com.</p>
         </>
     );
 }

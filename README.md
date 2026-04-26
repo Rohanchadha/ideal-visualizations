@@ -17,7 +17,7 @@ Built with React 19, Vite 7, Tailwind CSS v4, GSAP and React Router.
 - **Floating WhatsApp** button + global **"Talk on WhatsApp"** + **"Request a Callback"** primary CTAs
 - **Callback request modal** with full validation:
   - Name, Country (dropdown), City (cascades from country), Service Required, Phone (with country code), Email (regex-validated), free-text message
-  - Submits via [FormSubmit.co](https://formsubmit.co) → emails arrive at `idealvisualization@gmail.com`
+  - Submits via [FormSubmit.co](https://formsubmit.co) → emails arrive at `danish@slateconcepts.com`
 - **Auto-generated gallery manifest** from `public/gallery/` — drop in new media and it just appears
 - **Image optimization pipeline** powered by `sharp`: every gallery image is converted to two `.webp` variants (full + thumb), shrinking ~176 MB of originals down to **~11 MB** of web-ready assets
 
@@ -114,7 +114,7 @@ ideal-visualizations/
 
 ## 📞 Contact / form delivery
 
-The Callback form posts to **[FormSubmit.co](https://formsubmit.co)** which emails the submission to `idealvisualization@gmail.com`.
+The Callback form posts to **[FormSubmit.co](https://formsubmit.co)** which emails the submission to `danish@slateconcepts.com`.
 
 > The **first** submission triggers a confirmation email from FormSubmit — click the activation link inside it once. Every future submission then arrives directly in the inbox.
 

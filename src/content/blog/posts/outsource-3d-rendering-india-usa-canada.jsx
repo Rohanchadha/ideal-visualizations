@@ -62,7 +62,7 @@ export default function Post() {
             <h2>The takeaway</h2>
             <p>Outsourcing rendering to India is a mature, low-friction workflow in 2026. Pick a studio with verifiable quality at your style ceiling, lock in a house-style intake, structure payment as monthly retainer for ongoing work, and the cost savings turn into capacity that funds a more rendered portfolio overall.</p>
 
-            <p><strong>US or Canadian firm?</strong> Talk to us on WhatsApp at +91 96467 24313 or email idealvisualization@gmail.com — we will set up an early-EST kickoff call.</p>
+            <p><strong>US or Canadian firm?</strong> Talk to us on WhatsApp at +91 96467 24313 or email danish@slateconcepts.com — we will set up an early-EST kickoff call.</p>
         </>
     );
 }

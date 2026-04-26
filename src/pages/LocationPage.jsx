@@ -36,7 +36,7 @@ export default function LocationPage() {
             addressCountry: 'IN',
         } : undefined,
         telephone: '+91-9646724313',
-        email: 'idealvisualization@gmail.com',
+        email: 'danish@slateconcepts.com',
     };
 
     return (

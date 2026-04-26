@@ -52,7 +52,7 @@ export default function Post() {
             <h2>What it actually costs to go from CAD to render</h2>
             <p>For a single hero exterior at our standard pace: ₹15,000–₹40,000 in India, $800–$3,000 internationally, delivered in 5–10 business days. Full ranges and what moves the price live in our <Link to="/blog/3d-rendering-cost">cost guide</Link>.</p>
 
-            <p><strong>Want to see your CAD files transformed?</strong> Send them to us on WhatsApp at +91 96467 24313 or email idealvisualization@gmail.com — we will turn around a quote within an hour.</p>
+            <p><strong>Want to see your CAD files transformed?</strong> Send them to us on WhatsApp at +91 96467 24313 or email danish@slateconcepts.com — we will turn around a quote within an hour.</p>
         </>
     );
 }

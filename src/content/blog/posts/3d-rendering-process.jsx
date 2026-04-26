@@ -46,7 +46,7 @@ export default function Post() {
             <h2>How to make the process faster</h2>
             <p>Send clean files. Send clear references. Designate one decision-maker. Consolidate feedback. Pay for rush when the deadline is real. Our <Link to="/blog/files-for-3d-rendering">CAD prep checklist</Link> covers this in detail.</p>
 
-            <p><strong>Ready to start a project?</strong> Talk to us on WhatsApp at +91 96467 24313 or email idealvisualization@gmail.com.</p>
+            <p><strong>Ready to start a project?</strong> Talk to us on WhatsApp at +91 96467 24313 or email danish@slateconcepts.com.</p>
         </>
     );
 }

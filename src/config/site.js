@@ -2,7 +2,7 @@
 export const CONTACT = {
     phone: '+91 9646724313',
     phoneRaw: '919646724313', // for wa.me / tel: links
-    email: 'idealvisualization@gmail.com',
+    email: 'danish@slateconcepts.com',
     instagram: 'https://www.instagram.com/idealvisualizations?igsh=MWptd2d5emdxOHJrYg==',
     behance: 'https://www.behance.net/idealvisuali',
     whatsappMessage: "Hi Ideal Visualizations! I'd like to discuss a project.",

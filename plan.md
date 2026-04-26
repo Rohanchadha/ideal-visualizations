@@ -13,7 +13,7 @@
 - **Headquarters:** Amritsar, Punjab, India
 - **What we do:** Architectural 3D visualization studio — photorealistic exterior and interior rendering, animated 3D walkthroughs, 360° virtual tours, architecture planning, elevation design, interior design, and turnkey construction projects
 - **Software stack:** 3ds Max, V-Ray, Corona Renderer, Lumion, Unreal Engine, SketchUp, AutoCAD, Revit, Photoshop, After Effects
-- **Contact:** Phone/WhatsApp: +91 96467 24313 | Email: idealvisualization@gmail.com
+- **Contact:** Phone/WhatsApp: +91 96467 24313 | Email: danish@slateconcepts.com
 - **Social:** Instagram: @idealvisualizations | Behance: behance.net/idealvisuali
 - **Website:** https://ideal-visualizations.vercel.app/ (migrating to idealvisualizations.com)
 
@@ -391,7 +391,7 @@ Each step: 2–3 sentences + an icon/illustration placeholder. End with CTA.
 - Front matter: title, meta description, publish date, author (Danish), primary keyword, word count target
 - Structure: intro (hook + what you'll learn) → 3–7 H2 sections → conclusion with CTA
 - Every post links to ≥ 2 service/industry pages + ≥ 1 other blog post
-- Every post ends with: "**Need [service]? Talk to us on WhatsApp** or email idealvisualization@gmail.com"
+- Every post ends with: "**Need [service]? Talk to us on WhatsApp** or email danish@slateconcepts.com"
 - Add 1 relevant image per 300 words with descriptive alt text — use `[INSERT IMAGE: description]` placeholder where Danish needs to provide
 
 ### TASK 8.1 — `/blog/what-is-architectural-visualization`

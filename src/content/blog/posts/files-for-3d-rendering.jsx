@@ -90,7 +90,7 @@ export default function Post() {
             <h2>The TL;DR checklist</h2>
             <p>One CAD/SketchUp/Revit file. One material spec. One mood board. One layout overlay (interiors). One reference render. One preferred camera angle marked on plan. One named approver. Hit send.</p>
 
-            <p><strong>Ready to brief us?</strong> Talk to us on WhatsApp at +91 96467 24313 or email idealvisualization@gmail.com — see <Link to="/process">our full process</Link> for what happens next.</p>
+            <p><strong>Ready to brief us?</strong> Talk to us on WhatsApp at +91 96467 24313 or email danish@slateconcepts.com — see <Link to="/process">our full process</Link> for what happens next.</p>
         </>
     );
 }
