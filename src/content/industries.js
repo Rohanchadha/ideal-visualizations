@@ -39,7 +39,7 @@ export const INDUSTRIES = [
             { q: "What's your turnaround time?", a: '5–10 business days for stills, 10–15 days for walkthroughs, 7–12 days for 360° tours. Rush available at 30–50% premium.' },
             { q: 'Do you offer bulk or retainer pricing?', a: 'Yes. Firms running 10+ views/month get a dedicated artist and discounted rates. We also offer per-project, per-view and monthly retainer models.' },
         ],
-        relatedBlog: ['outsource-3d-rendering-architecture-firms', '3d-rendering-cost', 'hiring-3d-rendering-studio'],
+        relatedBlog: ['case-study-ideal-home-designers-amritsar', 'case-study-concept-designs-ottawa', 'case-study-design-anthem-forum-mohali', 'outsource-3d-rendering-architecture-firms', '3d-rendering-cost', 'hiring-3d-rendering-studio'],
     },
     {
         slug: 'interior-designers',
@@ -76,7 +76,7 @@ export const INDUSTRIES = [
             { q: "Can you match my supplier's exact materials?", a: 'Yes. Send the supplier link, sample photo or material code and we will match it to within visual tolerance.' },
             { q: 'How many revisions are included?', a: 'Two free revision rounds per view.' },
         ],
-        relatedBlog: ['3d-rendering-for-interior-designers'],
+        relatedBlog: ['case-study-kitchen-decor-amritsar', '3d-rendering-for-interior-designers'],
     },
     {
         slug: 'builders-developers',

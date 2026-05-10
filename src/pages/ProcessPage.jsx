@@ -71,7 +71,7 @@ export default function ProcessPage() {
 
                         <h2>What we need from you</h2>
                         <ul>
-                            <li>Plans, elevations and sections (CAD, SketchUp, Revit, BIM or PDF).</li>
+                            <li>Plans, elevations and sections (CAD, SketchUp, BIM or PDF).</li>
                             <li>Material references (supplier links, sample photos, brand books).</li>
                             <li>Reference images of renders you like — style, lighting and mood.</li>
                             <li>Time-of-day preference (daylight, twilight, night) and any specific atmospheric notes.</li>

@@ -57,8 +57,8 @@ export default function ContactPage() {
                     <div className="bg-white border border-gray-200 rounded-3xl p-8">
                         <MapPinned className="w-10 h-10 text-[#F97316] mb-4" />
                         <h2 className="text-2xl font-bold mb-2 text-[#52525B]">Visit us</h2>
-                        <p className="text-[#6B7280] mb-2">Walk-in consultations at our Amritsar HQ.</p>
-                        <p className="text-[#52525B] font-semibold">Amritsar, Punjab, India</p>
+                        <p className="text-[#6B7280] mb-2">Walk-in consultations at any of our offices.</p>
+                        <p className="text-[#52525B] font-semibold">Amritsar · Delhi · Chandigarh</p>
                         <div className="flex gap-3 mt-4">
                             <a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gray-100 hover:bg-[#F97316] hover:text-white flex items-center justify-center transition-colors">
                                 <Instagram className="w-5 h-5" />

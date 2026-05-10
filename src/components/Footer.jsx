@@ -48,18 +48,7 @@ export default function Footer() {
 
             <div className="max-w-7xl mx-auto relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16">
                 <div className="lg:col-span-2">
-                    <div className="flex items-center gap-3 mb-6">
-                        <img
-                            src="/brand/logo-mark-192.png"
-                            alt=""
-                            aria-hidden="true"
-                            className="h-10 w-auto select-none"
-                            draggable="false"
-                        />
-                        <span className="font-semibold tracking-[0.2em] text-lg uppercase text-white">
-                            SLATE <span className="font-light opacity-80">Concept Studios</span>
-                        </span>
-                    </div>
+                    <span className="font-bold text-3xl tracking-tight text-white mb-6 block">SLATE Concept Studios</span>
                     <p className="text-gray-400 max-w-sm text-balance text-lg leading-relaxed mb-8">
                         Precision and longevity in architectural visualization, bringing your most ambitious concepts to digital life.
                     </p>
@@ -112,10 +101,9 @@ export default function Footer() {
                     <h4 className="font-semibold mb-6 text-white uppercase tracking-wider text-sm">Resources</h4>
                     <ul className="space-y-3 text-gray-400 text-sm">
                         <li><Link to="/portfolio" className="hover:text-white">Portfolio</Link></li>
-                        <li><Link to="/gallery" className="hover:text-white">Gallery</Link></li>
+                        <li><Link to="/portfolio" className="hover:text-white">Gallery</Link></li>
                         <li><Link to="/blog" className="hover:text-white">Blog</Link></li>
                         <li><Link to="/process" className="hover:text-white">Our Process</Link></li>
-                        <li><Link to="/pricing" className="hover:text-white">Pricing</Link></li>
                         <li><Link to="/faq" className="hover:text-white">FAQ</Link></li>
                         <li><Link to="/about" className="hover:text-white">About</Link></li>
                         <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
@@ -135,7 +123,7 @@ export default function Footer() {
                     </a>
                     <span className="flex items-center gap-3">
                         <MapPinned className="w-5 h-5 text-[#F97316] shrink-0" />
-                        Amritsar, Punjab, India
+                        Amritsar · Delhi · Chandigarh
                     </span>
                 </div>
             </div>

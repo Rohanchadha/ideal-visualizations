@@ -21,7 +21,8 @@ const locations = [
     "Noida",
     "Gurgaon",
     "Hyderabad",
-    "Kolkata"
+    "Kolkata",
+    "Canada"
 ];
 
 export default function Locations() {

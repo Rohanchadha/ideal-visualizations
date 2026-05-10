@@ -137,7 +137,10 @@ export default function CallbackForm({ open, onClose }) {
                             <h3 className="text-2xl sm:text-3xl font-bold text-[#52525B] tracking-tight">
                                 Request a <span className="font-serif italic font-normal text-[#F97316]">Callback</span>
                             </h3>
-                            <p className="text-[#6B7280] text-sm mt-2">Fill in the details and we'll get back to you within 24 hours.</p>
+                            <span className="mt-3 inline-flex items-center gap-1.5 bg-[#F97316]/10 text-[#F97316] px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+                                ✦ First consultation is FREE
+                            </span>
+                            <p className="text-[#6B7280] text-sm mt-3">Fill in the details and we'll get back to you within 24 hours.</p>
                         </div>
 
                         <form onSubmit={submit} className="space-y-4">

@@ -1,11 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Loader2 } from 'lucide-react';
 import Seo from '../components/Seo';
 import PageHero from '../components/PageHero';
 import CtaBlock from '../components/CtaBlock';
 import { POSTS_BY_DATE } from '../content/blog';
 import { onlyPublished } from '../config/visibility';
 import { SITE_URL, ORG_ID } from '../config/seo';
+
+// Generate a smaller derivative for the listing card (Drive CDN supports =w<size>)
+function listingThumb(src) {
+    if (!src) return src;
+    return src.replace(/=w\d+(?:-h\d+)?$/, '=w800');
+}
+
+function PostThumb({ src, alt }) {
+    const [loaded, setLoaded] = useState(false);
+    return (
+        <div className="relative w-full h-48 bg-[#F4F4F5] overflow-hidden">
+            {!loaded && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                    <Loader2 className="w-5 h-5 text-[#F97316] animate-spin" />
+                </div>
+            )}
+            <img
+                src={listingThumb(src)}
+                alt={alt}
+                width="800"
+                height="450"
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+                referrerPolicy="no-referrer"
+                onLoad={() => setLoaded(true)}
+                onError={() => setLoaded(true)}
+                className={`w-full h-48 object-cover transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+            />
+        </div>
+    );
+}
 
 export default function BlogIndex() {
     const visible = onlyPublished(POSTS_BY_DATE);
@@ -47,7 +80,7 @@ export default function BlogIndex() {
                     {visible.map((p) => (
                         <Link key={p.slug} to={`/blog/${p.slug}`} className="group block bg-white border border-gray-200 hover:border-[#F97316] rounded-3xl overflow-hidden transition-all hover:shadow-xl">
                             {p.image && (
-                                <img src={p.image} alt={p.title} className="w-full h-48 object-cover" loading="lazy" width="800" height="450" />
+                                <PostThumb src={p.image} alt={p.title} />
                             )}
                             <div className="p-6">
                                 <div className="flex items-center gap-2 text-xs text-[#6B7280] mb-2">

@@ -3,16 +3,20 @@ import { useParams, Navigate, Link } from 'react-router-dom';
 import Seo from '../components/Seo';
 import PageHero from '../components/PageHero';
 import CtaBlock from '../components/CtaBlock';
+import GalleryGrid from '../components/GalleryGrid';
 import { LOCATION_BY_SLUG } from '../content/locations';
 import { SERVICES } from '../content/services';
 import { isPreviewMode, onlyPublished } from '../config/visibility';
 import { SITE_URL, ORG_ID } from '../config/seo';
+import { imagesForLocation } from '../config/galleryHelpers';
 
 export default function LocationPage() {
     const { slug } = useParams();
     const loc = LOCATION_BY_SLUG[slug];
     if (!loc) return <Navigate to="/" replace />;
     if (loc.draft && !isPreviewMode()) return <Navigate to="/" replace />;
+
+    const locImages = imagesForLocation(loc.slug, 6);
 
     const breadcrumb = [
         { name: 'Home', path: '/' },
@@ -49,14 +53,10 @@ export default function LocationPage() {
                     <p className="text-[#6B7280] text-base md:text-lg leading-relaxed">{loc.intro}</p>
                 </div>
 
-                <div className="max-w-5xl mx-auto pb-16 grid md:grid-cols-2 gap-4">
+                <div className="max-w-5xl mx-auto pb-16">
                     <div className="bg-[#52525B] text-white rounded-2xl p-6">
                         <h2 className="text-xs uppercase tracking-wider opacity-70 mb-2">Availability in {loc.city}</h2>
                         <p className="text-sm leading-relaxed">{loc.availability}</p>
-                    </div>
-                    <div className="bg-[#F97316] text-white rounded-2xl p-6">
-                        <h2 className="text-xs uppercase tracking-wider opacity-90 mb-2">Pricing for {loc.city} clients</h2>
-                        <p className="text-sm leading-relaxed">{loc.pricingNote}</p>
                     </div>
                 </div>
 
@@ -71,12 +71,17 @@ export default function LocationPage() {
                     </div>
                 </div>
 
-                <div className="max-w-5xl mx-auto pb-16">
-                    <h2 className="text-2xl md:text-3xl font-bold text-[#52525B] mb-4 tracking-tight">Recent {loc.city} projects</h2>
-                    <div className="bg-gray-50 border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center">
-                        <p className="text-[#6B7280] italic">{loc.portfolioNote}</p>
+                {locImages.length > 0 && (
+                    <div className="max-w-7xl mx-auto pb-16">
+                        <div className="flex items-baseline justify-between mb-5">
+                            <h2 className="text-2xl md:text-3xl font-bold text-[#52525B] tracking-tight">Recent {loc.city} projects</h2>
+                            <Link to="/portfolio" className="text-sm text-[#F97316] hover:underline font-semibold whitespace-nowrap">
+                                See all →
+                            </Link>
+                        </div>
+                        <GalleryGrid items={locImages} variant="image" />
                     </div>
-                </div>
+                )}
 
                 {loc.showMap && (
                     <div className="max-w-5xl mx-auto pb-16">

@@ -61,7 +61,17 @@ export default function BlogPost() {
             <article className="px-6 md:px-12 pb-12">
                 {post.image && (
                     <div className="max-w-5xl mx-auto pb-10">
-                        <img src={post.image} alt={post.title} className="w-full h-64 md:h-96 object-cover rounded-3xl" width="1200" height="600" />
+                        <img
+                            src={post.image}
+                            alt={post.title}
+                            className="w-full h-64 md:h-96 object-cover rounded-3xl bg-[#F4F4F5]"
+                            width="1200"
+                            height="600"
+                            loading="eager"
+                            decoding="async"
+                            fetchpriority="high"
+                            referrerPolicy="no-referrer"
+                        />
                     </div>
                 )}
                 <div className="max-w-3xl mx-auto">

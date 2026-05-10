@@ -4,10 +4,12 @@ import { Check, ArrowRight } from 'lucide-react';
 import Seo from '../components/Seo';
 import PageHero from '../components/PageHero';
 import CtaBlock from '../components/CtaBlock';
+import GalleryGrid from '../components/GalleryGrid';
 import { SERVICE_BY_SLUG } from '../content/services';
 import { POST_BY_SLUG } from '../content/blog';
 import { isPreviewMode } from '../config/visibility';
 import { SITE_URL, ORG_ID } from '../config/seo';
+import { imagesForService } from '../config/galleryHelpers';
 
 export default function ServicePage() {
     const { slug } = useParams();
@@ -31,16 +33,10 @@ export default function ServicePage() {
         provider: { '@id': ORG_ID },
         areaServed: ['India', 'United Arab Emirates', 'United States', 'Canada', 'United Kingdom'],
         serviceType: s.category,
-        offers: {
-            '@type': 'Offer',
-            url: `${SITE_URL}/services/${s.slug}`,
-            availability: 'https://schema.org/InStock',
-            priceCurrency: 'INR',
-            description: s.pricing,
-        },
     };
 
     const relatedPosts = (s.relatedBlog || []).map((slug) => POST_BY_SLUG[slug]).filter((p) => p && !p.draft);
+    const galleryImages = imagesForService(s.slug, 6);
 
     return (
         <>
@@ -48,7 +44,7 @@ export default function ServicePage() {
                 title={s.title}
                 description={s.description}
                 path={`/services/${s.slug}`}
-                image={s.gallery?.[0]?.src}
+                image={galleryImages[0]?.src || s.gallery?.[0]?.src}
                 jsonLd={jsonLd}
                 breadcrumb={breadcrumb}
                 noIndex={s.draft}
@@ -65,21 +61,17 @@ export default function ServicePage() {
                     <p className="text-[#6B7280] text-base md:text-lg leading-relaxed">{s.secondary}</p>
                 </div>
 
-                {s.gallery && s.gallery.length > 0 && (
-                    <div className="max-w-6xl mx-auto pb-16">
-                        <div className="grid sm:grid-cols-2 gap-4">
-                            {s.gallery.map((img, i) => (
-                                <img
-                                    key={i}
-                                    src={img.src}
-                                    alt={img.alt}
-                                    width="800"
-                                    height="600"
-                                    loading="lazy"
-                                    className="w-full h-64 md:h-80 object-cover rounded-2xl"
-                                />
-                            ))}
+                {galleryImages.length > 0 && (
+                    <div className="max-w-7xl mx-auto pb-16">
+                        <div className="flex items-baseline justify-between mb-5">
+                            <h2 className="text-2xl md:text-3xl font-bold text-[#52525B] tracking-tight">
+                                Recent {s.name.toLowerCase()} projects
+                            </h2>
+                            <Link to="/portfolio" className="text-sm text-[#F97316] hover:underline font-semibold whitespace-nowrap">
+                                See all →
+                            </Link>
                         </div>
+                        <GalleryGrid items={galleryImages} variant="image" />
                     </div>
                 )}
 
@@ -107,7 +99,7 @@ export default function ServicePage() {
                     </ol>
                 </div>
 
-                <div className="max-w-5xl mx-auto pb-16 grid md:grid-cols-3 gap-4">
+                <div className="max-w-5xl mx-auto pb-16 grid md:grid-cols-2 gap-4">
                     <div className="bg-[#52525B] text-white rounded-2xl p-6">
                         <h3 className="text-xs uppercase tracking-wider opacity-70 mb-2">Software</h3>
                         <p className="text-sm leading-relaxed">{s.software}</p>
@@ -115,10 +107,6 @@ export default function ServicePage() {
                     <div className="bg-[#52525B] text-white rounded-2xl p-6">
                         <h3 className="text-xs uppercase tracking-wider opacity-70 mb-2">Turnaround</h3>
                         <p className="text-sm leading-relaxed">{s.turnaround}</p>
-                    </div>
-                    <div className="bg-[#F97316] text-white rounded-2xl p-6">
-                        <h3 className="text-xs uppercase tracking-wider opacity-90 mb-2">Pricing</h3>
-                        <p className="text-sm leading-relaxed">{s.pricing}</p>
                     </div>
                 </div>
 

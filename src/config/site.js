@@ -3,7 +3,7 @@ export const CONTACT = {
     phone: '+91 9646724313',
     phoneRaw: '919646724313', // for wa.me / tel: links
     email: 'danish@slateconcepts.com',
-    instagram: 'https://www.instagram.com/idealvisualizations?igsh=MWptd2d5emdxOHJrYg==',
+    instagram: 'https://www.instagram.com/slate.concepts/',
     behance: 'https://www.behance.net/idealvisuali',
     whatsappMessage: "Hi SLATE Concept Studios! I'd like to discuss a project.",
 };

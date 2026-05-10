@@ -55,17 +55,14 @@ export default function AboutPage() {
                             <li><strong>NDA-first.</strong> Every project starts with your NDA signed. Your unbuilt work stays confidential.</li>
                         </ul>
 
-                        <h2>The team</h2>
-                        <p><em>[Danish to add: team size, key team member names + roles, headshots if available.]</em></p>
-
                         <h2>Software & tools</h2>
-                        <p>3ds Max + V-Ray and Corona for photorealism. Lumion for fast turnarounds. Unreal Engine for real-time and VR. AutoCAD, Revit and SketchUp for planning. Adobe Photoshop and After Effects for post-production.</p>
+                        <p>SketchUp and AutoCAD for modelling and planning. Lumion for photoreal rendering and fast turnarounds. Adobe Photoshop for post-production and finishing. A focused toolkit, refined over 10+ years and 1500+ projects.</p>
 
                         <h2>Where we work from</h2>
-                        <p>Our headquarters is in Amritsar, Punjab. Walk-in consultations are available for local clients. Everyone else, we serve remotely with same-day WhatsApp turnaround.</p>
+                        <p>We have offices in <strong>Amritsar, Delhi and Chandigarh</strong>. Walk-in consultations are available at all three locations. Everyone else, we serve remotely with same-day WhatsApp turnaround.</p>
 
                         <h2>Where to next</h2>
-                        <p>Browse our <Link to="/services">services</Link>, see <Link to="/portfolio">recent case studies</Link>, read the <Link to="/blog">blog</Link>, or jump straight to the <Link to="/contact">contact page</Link>.</p>
+                        <p>Browse our <Link to="/services">services</Link>, see <Link to="/portfolio">our portfolio</Link>, read the <Link to="/blog">blog</Link>, or jump straight to the <Link to="/contact">contact page</Link>.</p>
                     </Prose>
                 </div>
             </div>

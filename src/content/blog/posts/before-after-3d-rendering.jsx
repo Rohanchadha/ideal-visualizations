@@ -1,58 +1,56 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { driveImg } from '../_galleryImg';
 
 export const meta = {
     slug: 'before-after-3d-rendering',
-    title: 'Before & After: 10 CAD Plans Transformed into Photorealistic Renders',
-    description: 'See 10 architectural projects transformed from CAD line drawings into photoreal 3D renders — residential, commercial and hospitality, India and abroad.',
+    title: 'CAD to Photoreal: A Tour of Recent Slate Concepts Renders',
+    description: 'A walkthrough of recent residential, commercial and hospitality renders from real Slate Concepts projects across India and Canada — what kind of input we get and what kind of output it becomes.',
     date: '2026-03-05',
     readingTime: 6,
     category: 'Showcase',
     keyword: 'before after 3d rendering',
-    image: '/3D-Images/1.jpg',
+    image: driveImg('1PpxhA81OqmT_yL3ky7UUrD5_GoCIKxO8', 1600),
     author: 'Danish',
 };
+
+const Img = ({ id, alt }) => (
+    <img
+        src={driveImg(id, 1200)}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        referrerPolicy="no-referrer"
+        className="w-full rounded-2xl border border-gray-200 my-4"
+    />
+);
 
 export default function Post() {
     return (
         <>
-            <p>The fastest way to understand what architectural visualization actually delivers is to see the input next to the output. Below are ten of our recent projects, each shown as the CAD or SketchUp file the client sent in alongside the photoreal render we delivered. Use them to calibrate what you can expect from your own briefs.</p>
-            <p><em>Project images, before-state CAD screenshots and final renders to be inserted by Danish.</em></p>
+            <p>The fastest way to understand what architectural visualization actually delivers is to look at the kind of brief that comes in and the kind of render that goes out. Below is a walk through recent Slate Concepts projects — real clients, real renders — grouped by typology so you can calibrate against your own work.</p>
 
-            <h2>1. Modern villa, Mohali — exterior twilight</h2>
-            <p>SketchUp model in: clean massing, no materials. Render out: photoreal Kota-stone façade at twilight with warm interior glow. <em>[INSERT IMAGE: SketchUp screenshot + final render]</em></p>
+            <h2>Classical residential villa — Concept Designs, Ottawa</h2>
+            <p>SketchUp model and CAD plans in. Hero exterior render out: dressed-stone façade, slate roof, classical fenestration, daylight. Two camera angles delivered. Full project notes in the <Link to="/blog/case-study-concept-designs-ottawa">Concept Designs case study</Link>.</p>
+            <Img id="1PpxhA81OqmT_yL3ky7UUrD5_GoCIKxO8" alt="Classical residential villa exterior — Concept Designs, Ottawa" />
 
-            <h2>2. Apartment interior, Mumbai — living room</h2>
-            <p>AutoCAD floor plan in. Render out: lived-in living room with soft evening lighting. <em>[INSERT IMAGE]</em></p>
+            <h2>Modern residential house — Design Anthem Forum, Mohali</h2>
+            <p>Architect-finalised design in. Photoreal exterior render plus a full 3D walkthrough animation out — the still does the brochure work, the walkthrough wins the in-meeting moment. See the <Link to="/blog/case-study-design-anthem-forum-mohali">Design Anthem Forum case study</Link>.</p>
+            <Img id="1APBR9B_S-bSbvdA2jfDrI5QrzJ2EkBbi" alt="Modern residential house exterior — Design Anthem Forum, Mohali" />
 
-            <h2>3. Boutique hotel lobby, Dubai</h2>
-            <p>Revit model in. Render out: dramatic hospitality lobby with feature lighting. <em>[INSERT IMAGE]</em></p>
+            <h2>Modern residence — Ideal Home Designers, Amritsar</h2>
+            <p>One of 45 assets we have delivered for this long-running partnership. Clean modern massing in, photoreal evening exterior out. The full breadth of the work — modern residences, jewellery showrooms, resorts, schools, temples and farmhouses — is in the <Link to="/blog/case-study-ideal-home-designers-amritsar">Ideal Home Designers case study</Link>.</p>
+            <Img id="1Wow86cMLyz54OXEZG3iVZC-2svF_WJDZ" alt="Modern residence exterior render — Ideal Home Designers, Amritsar" />
 
-            <h2>4. Restaurant interior, Amritsar</h2>
-            <p>SketchUp + mood board in. Render out: 80-cover restaurant with warm pendant lighting. <em>[INSERT IMAGE]</em></p>
+            <h2>Interior set — Kitchen Decor (Jatin Narula), Amritsar</h2>
+            <p>SketchUp model plus material specs in. Lived-in interior render out — accurate laminates, calibrated lighting, real reflections. See the <Link to="/blog/case-study-kitchen-decor-amritsar">Kitchen Decor case study</Link> for how we work with interior-designer firms.</p>
+            <Img id="1aBcaF9OTygggq61myhahb2wUccr4sT1y" alt="Interior render — Kitchen Decor, Amritsar" />
 
-            <h2>5. Commercial tower, Gurgaon — exterior</h2>
-            <p>Revit + brand guidelines in. Render out: glass-and-steel hero render at golden hour. <em>[INSERT IMAGE]</em></p>
+            <h2>What this kind of work actually costs</h2>
+            <p>For a single hero exterior at our standard pace: in the Indian range you would typically expect ₹15,000–₹40,000 per render and 5–10 business days; for international clients it sits in the $800–$3,000 band. The exact figure moves with site context, materials complexity, and how many revision rounds you want bundled in. The full ranges and what moves the price are in our <Link to="/blog/3d-rendering-cost">cost guide</Link>.</p>
 
-            <h2>6. Villa cluster, Noida — aerial master plan</h2>
-            <p>AutoCAD site plan in. Render out: aerial master-plan render with landscape and amenities. <em>[INSERT IMAGE]</em></p>
-
-            <h2>7. Co-working office, Bangalore</h2>
-            <p>SketchUp in. Render out: bright daylight workspace with brand-aligned colour palette. <em>[INSERT IMAGE]</em></p>
-
-            <h2>8. Penthouse, Dubai — interior</h2>
-            <p>3ds Max model in. Render out: full-floor penthouse master bedroom at dusk. <em>[INSERT IMAGE]</em></p>
-
-            <h2>9. Heritage haveli renovation, Amritsar</h2>
-            <p>Hand-measured drawings in. Render out: courtyard render preserving original jharokhas and lime plaster. <em>[INSERT IMAGE]</em></p>
-
-            <h2>10. Condo development, Toronto — exterior</h2>
-            <p>Revit + architect's house style guide in. Render out: 22-storey tower at street level, daylight. <em>[INSERT IMAGE]</em></p>
-
-            <h2>What it actually costs to go from CAD to render</h2>
-            <p>For a single hero exterior at our standard pace: ₹15,000–₹40,000 in India, $800–$3,000 internationally, delivered in 5–10 business days. Full ranges and what moves the price live in our <Link to="/blog/3d-rendering-cost">cost guide</Link>.</p>
-
-            <p><strong>Want to see your CAD files transformed?</strong> Send them to us on WhatsApp at +91 96467 24313 or email danish@slateconcepts.com — we will turn around a quote within an hour.</p>
+            <h2>Want to see what your CAD becomes?</h2>
+            <p>Send your CAD or SketchUp files on WhatsApp at +91 96467 24313 or email <a href="mailto:danish@slateconcepts.com">danish@slateconcepts.com</a>. We will turn around a quote within an hour, and you can browse the live <Link to="/portfolio">gallery</Link> in the meantime.</p>
         </>
     );
 }

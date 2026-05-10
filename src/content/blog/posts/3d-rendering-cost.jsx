@@ -71,7 +71,7 @@ export default function Post() {
                     </tr>
                 </tbody>
             </table>
-            <p>For our published rates see the <Link to="/pricing">pricing page</Link>. Custom quotes available on request.</p>
+            <p>For a custom quote tailored to your project, <Link to="/contact">get in touch</Link>.</p>
 
             <h2>Cost by service type</h2>
             <p><strong>Exterior renders</strong> sit at the bottom of the price ladder for stills because the geometry is more straightforward — fewer interior props, simpler lighting. <strong>Interior renders</strong> cost slightly more on average because of furniture and material complexity. <strong>Walkthroughs</strong> are the most expensive deliverable per unit because they multiply scene complexity by frame count: 60 frames per second × 90 seconds = 5,400 frames to render. <strong>360° tours</strong> are priced per scene rather than per frame, so a multi-room tour scales linearly with scene count.</p>

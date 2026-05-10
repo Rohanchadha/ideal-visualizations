@@ -14,7 +14,6 @@ const NAV_LINKS = [
     { label: 'Portfolio', to: '/portfolio' },
     { label: 'Blog', to: '/blog' },
     { label: 'About', to: '/about' },
-    { label: 'Contact', to: '/contact' },
 ];
 
 export default function Navbar() {
@@ -52,22 +51,25 @@ export default function Navbar() {
         <>
             <nav
                 ref={navRef}
-                className={`fixed top-3 md:top-6 left-0 right-0 mx-auto z-40 transition-all duration-500 rounded-full px-3 md:px-6 py-2 md:py-3 flex items-center justify-between gap-3 md:gap-8 w-[96%] sm:w-[94%] max-w-6xl ${scrolled
+                className={`fixed top-3 md:top-6 left-0 right-0 mx-auto z-40 transition-all duration-500 rounded-full px-3 md:px-6 py-2 md:py-3 flex items-center gap-3 md:gap-6 w-[96%] sm:w-[94%] max-w-6xl ${scrolled
                     ? 'bg-[#52525B]/95 backdrop-blur-xl shadow-xl text-white'
                     : 'bg-black/30 backdrop-blur-md text-white'
                     }`}
             >
-                <Link to="/" className="flex items-center gap-2 md:gap-2.5 shrink-0" aria-label="SLATE Concept Studios — Home">
+                <Link
+                    to="/"
+                    className="flex items-center gap-3 md:gap-4 shrink-0 group mr-auto"
+                    aria-label="SLATE Concept Studios — Home"
+                >
                     <img
-                        src="/brand/logo-mark-192.png"
+                        src="/brand/slate-mark-white.svg"
                         alt=""
                         aria-hidden="true"
-                        className="h-7 md:h-9 w-auto select-none"
+                        className="h-5 md:h-6 w-auto select-none transition-transform duration-300 group-hover:scale-[1.05]"
                         draggable="false"
-                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
                     />
-                    <span className="font-semibold tracking-[0.18em] text-[11px] md:text-[13px] uppercase whitespace-nowrap text-white">
-                        SLATE <span className="font-light tracking-[0.22em] opacity-80">Concept Studios</span>
+                    <span className="font-semibold tracking-[0.2em] text-base md:text-lg text-white select-none whitespace-nowrap">
+                        SLATE CONCEPTS
                     </span>
                 </Link>
 
@@ -81,7 +83,6 @@ export default function Navbar() {
                             {item.label}
                         </Link>
                     ))}
-                    <Link to="/gallery" className="hover:-translate-y-0.5 transition-transform">Gallery</Link>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -98,11 +99,11 @@ export default function Navbar() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => trackEvent('cta_whatsapp_click', { location: 'navbar' })}
-                        className="magnetic-btn shrink-0 bg-[#25D366] hover:bg-[#1FB855] text-white px-3 md:px-5 py-1.5 md:py-2.5 rounded-full text-xs md:text-sm font-semibold shadow-md whitespace-nowrap inline-flex items-center gap-2"
+                        aria-label="Talk on WhatsApp"
+                        className="magnetic-btn shrink-0 bg-[#25D366] hover:bg-[#1FB855] text-white shadow-md whitespace-nowrap hidden sm:inline-flex items-center justify-center gap-2 rounded-full p-2 md:px-5 md:py-2.5 md:text-sm md:font-semibold"
                     >
-                        <MessageCircle className="w-3.5 h-3.5" />
+                        <MessageCircle className="w-4 h-4 md:w-3.5 md:h-3.5" />
                         <span className="hidden md:inline">Talk on WhatsApp</span>
-                        <span className="md:hidden">WhatsApp</span>
                     </a>
                     <button
                         onClick={() => setMenuOpen(v => !v)}
@@ -128,13 +129,6 @@ export default function Navbar() {
                                 {item.label}
                             </Link>
                         ))}
-                        <Link
-                            to="/gallery"
-                            className="px-3 py-3 rounded-xl hover:bg-white/10 font-medium"
-                            onClick={() => setMenuOpen(false)}
-                        >
-                            Gallery
-                        </Link>
                         <button
                             onClick={() => { trackEvent('cta_callback_click', { location: 'navbar_mobile' }); openCallback(); setMenuOpen(false); }}
                             className="mt-3 w-full bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-3 rounded-full text-sm font-semibold inline-flex items-center justify-center gap-2"

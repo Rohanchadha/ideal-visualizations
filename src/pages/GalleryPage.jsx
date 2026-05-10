@@ -1,159 +1,209 @@
-import React, { useMemo, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft, Image as ImageIcon, Film, Play, Maximize2 } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { ChevronDown, X, SlidersHorizontal } from 'lucide-react';
+import PageHero from '../components/PageHero';
+import Seo from '../components/Seo';
+import { ImageCard, VideoCard } from '../components/GalleryGrid';
 import Lightbox from '../components/Lightbox';
-import FloatingWhatsApp from '../components/FloatingWhatsApp';
-import { GALLERY_IMAGES, GALLERY_VIDEOS } from '../config/site';
+import { GALLERY_IMAGES, GALLERY_VIDEOS } from '../config/galleryManifest';
+
+const ALL = '__all__';
+const PAGE_SIZE = 24;
+
+function uniq(arr) {
+    return Array.from(new Set(arr.filter(Boolean))).sort((a, b) => a.localeCompare(b));
+}
+
+function buildOptions(items, key) {
+    const flat = items.flatMap((it) => {
+        const v = it[key];
+        return Array.isArray(v) ? v : [v];
+    });
+    return uniq(flat);
+}
+
+/**
+ * Minimal native-looking select. Inline, not a card.
+ */
+function MiniSelect({ label, value, onChange, options }) {
+    const isActive = value !== ALL;
+    return (
+        <div className="relative">
+            <select
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className={`appearance-none text-sm pl-3 pr-8 py-2 rounded-full border transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#F97316]/30 ${
+                    isActive
+                        ? 'bg-[#F97316] border-[#F97316] text-white font-medium'
+                        : 'bg-white border-gray-200 text-[#52525B] hover:border-gray-300'
+                }`}
+            >
+                <option value={ALL}>{label}</option>
+                {options.map((o) => (
+                    <option key={o} value={o}>{o}</option>
+                ))}
+            </select>
+            <ChevronDown className={`absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none ${isActive ? 'text-white' : 'text-[#6B7280]'}`} />
+        </div>
+    );
+}
 
 export default function GalleryPage() {
-    const [tab, setTab] = useState('images'); // 'images' | 'videos'
-    const [lightboxIndex, setLightboxIndex] = useState(null);
+    const [tab, setTab] = useState('images');
+    const [lbIndex, setLbIndex] = useState(null);
+    const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
+    const [theme, setTheme] = useState(ALL);
+    const [country, setCountry] = useState(ALL);
+    const [service, setService] = useState(ALL);
+
+    const source = tab === 'images' ? GALLERY_IMAGES : GALLERY_VIDEOS;
+
+    const themeOptions = useMemo(() => buildOptions(source, 'theme'), [source]);
+    const countryOptions = useMemo(() => buildOptions(source, 'country'), [source]);
+    const serviceOptions = useMemo(() => buildOptions(source, 'services'), [source]);
+
+    const filtered = useMemo(() => {
+        return source.filter((it) => {
+            if (theme !== ALL && it.theme !== theme) return false;
+            if (country !== ALL && it.country !== country) return false;
+            if (service !== ALL && !(it.services || []).includes(service)) return false;
+            return true;
+        });
+    }, [source, theme, country, service]);
+
+    const activeCount = [theme, country, service].filter((v) => v !== ALL).length;
+
+    function resetFilters() {
+        setTheme(ALL); setCountry(ALL); setService(ALL);
+    }
+
+    function switchTab(t) {
+        setTab(t);
+        resetFilters();
+        setVisibleCount(PAGE_SIZE);
+    }
+
+    // Reset visible count when filters change
+    useEffect(() => { setVisibleCount(PAGE_SIZE); }, [theme, country, service, tab]);
+
+    // Infinite scroll sentinel
+    const sentinelRef = useRef(null);
     useEffect(() => {
-        window.scrollTo(0, 0);
-        const prevTitle = document.title;
-        const prevDesc = document.querySelector('meta[name="description"]')?.getAttribute('content');
-        const prevCanon = document.querySelector('link[rel="canonical"]')?.getAttribute('href');
-        document.title = 'Gallery — Architectural 3D Renders & Walkthroughs | SLATE Concept Studios';
-        document.querySelector('meta[name="description"]')?.setAttribute('content', 'Full gallery of photoreal architectural 3D renders, animated walkthroughs and 360° tours by SLATE Concept Studios.');
-        document.querySelector('link[rel="canonical"]')?.setAttribute('href', 'https://ideal-visualizations.vercel.app/gallery');
-        return () => {
-            if (prevTitle) document.title = prevTitle;
-            if (prevDesc) document.querySelector('meta[name="description"]')?.setAttribute('content', prevDesc);
-            if (prevCanon) document.querySelector('link[rel="canonical"]')?.setAttribute('href', prevCanon);
-        };
-    }, []);
+        const el = sentinelRef.current;
+        if (!el) return;
+        const io = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                setVisibleCount((c) => Math.min(c + PAGE_SIZE, filtered.length));
+            }
+        }, { rootMargin: '600px' });
+        io.observe(el);
+        return () => io.disconnect();
+    }, [filtered.length]);
 
-    const items = useMemo(() => (
-        tab === 'images'
-            ? GALLERY_IMAGES.map((img, i) => ({
-                src: img.src,
-                thumb: img.thumb || img.src,
-                type: 'image',
-                alt: `Architectural 3D rendering ${i + 1} — SLATE Concept Studios gallery`,
-            }))
-            : GALLERY_VIDEOS.map((v) => ({ src: v.src, type: 'video' }))
-    ), [tab]);
+    const visibleItems = filtered.slice(0, visibleCount);
 
     return (
-        <div className="min-h-screen bg-[#E4E4E7] text-[#52525B]">
-            {/* Top Bar */}
-            <header className="sticky top-0 z-30 bg-[#111111]/95 backdrop-blur-xl text-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
-                    <Link to="/" className="inline-flex items-center gap-2 text-sm font-medium hover:text-[#F97316] transition-colors">
-                        <ArrowLeft className="w-4 h-4" /> Back to Home
-                    </Link>
-                    <span className="inline-flex items-center gap-2 font-semibold tracking-[0.2em] text-xs sm:text-sm uppercase">
-                        <img src="/brand/logo-mark-192.png" alt="" aria-hidden="true" className="h-7 w-auto" />
-                        SLATE <span className="font-light opacity-80">Concept Studios</span>
-                    </span>
-                </div>
-            </header>
+        <div className="bg-[#E4E4E7] min-h-screen">
+            <Seo
+                title="Portfolio | SLATE Concept Studios"
+                description="Browse our complete portfolio of architectural visualizations, 3D renderings, walkthroughs and interior design projects."
+                path="/portfolio"
+            />
 
-            {/* Hero */}
-            <section className="px-4 sm:px-6 pt-12 sm:pt-20 pb-8 sm:pb-12 bg-white">
-                <div className="max-w-7xl mx-auto text-center">
-                    <h1 className="text-[#F97316] font-semibold tracking-wider uppercase mb-3 text-xs sm:text-sm">Our Work</h1>
-                    <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
-                        Full <span className="font-serif italic font-normal text-[#F97316]">Gallery</span>
-                    </h2>
-                    <p className="mt-5 max-w-2xl mx-auto text-[#6B7280] text-base sm:text-lg">
-                        Browse our complete archive of photoreal renders, walkthroughs and cinematic showcases.
-                    </p>
-                </div>
-            </section>
+            <PageHero
+                eyebrow="Portfolio"
+                title="Every project, in one place"
+                subtitle="Filter by theme, region or service to find work like yours."
+            />
 
-            {/* Tab Switcher */}
-            <div className="sticky top-[60px] z-20 bg-white/85 backdrop-blur-md border-b border-gray-200">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex justify-center">
-                    <div className="inline-flex bg-[#E4E4E7] rounded-full p-1 shadow-inner">
-                        <TabBtn active={tab === 'images'} onClick={() => setTab('images')} icon={<ImageIcon className="w-4 h-4" />}>
-                            Images <span className="opacity-60 ml-1">({GALLERY_IMAGES.length})</span>
-                        </TabBtn>
-                        <TabBtn active={tab === 'videos'} onClick={() => setTab('videos')} icon={<Film className="w-4 h-4" />}>
-                            Videos <span className="opacity-60 ml-1">({GALLERY_VIDEOS.length})</span>
-                        </TabBtn>
+            {/* Toolbar — sticky on mobile, static on desktop */}
+            <div className="sticky top-16 md:static z-30 bg-[#E4E4E7]/85 md:bg-transparent backdrop-blur md:backdrop-blur-0 border-b md:border-b-0 border-gray-200/70">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-3 overflow-x-auto no-scrollbar">
+                    {/* Tabs */}
+                    <div className="flex items-center bg-white border border-gray-200 rounded-full p-0.5 shrink-0">
+                        <button
+                            onClick={() => switchTab('images')}
+                            className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition ${tab === 'images' ? 'bg-[#52525B] text-white' : 'text-[#6B7280] hover:text-[#52525B]'}`}
+                        >
+                            Images <span className="opacity-60 text-xs">· {GALLERY_IMAGES.length}</span>
+                        </button>
+                        <button
+                            onClick={() => switchTab('videos')}
+                            className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition ${tab === 'videos' ? 'bg-[#52525B] text-white' : 'text-[#6B7280] hover:text-[#52525B]'}`}
+                        >
+                            Videos <span className="opacity-60 text-xs">· {GALLERY_VIDEOS.length}</span>
+                        </button>
+                    </div>
+
+                    <div className="hidden sm:block w-px h-6 bg-gray-300 shrink-0" />
+
+                    {/* Inline filter selects */}
+                    <div className="flex items-center gap-2 shrink-0">
+                        <SlidersHorizontal className="w-4 h-4 text-[#6B7280] hidden sm:block" />
+                        <MiniSelect label="Theme" value={theme} onChange={setTheme} options={themeOptions} />
+                        <MiniSelect label="Region" value={country} onChange={setCountry} options={countryOptions} />
+                        <MiniSelect label="Service" value={service} onChange={setService} options={serviceOptions} />
+                    </div>
+
+                    {activeCount > 0 && (
+                        <button
+                            onClick={resetFilters}
+                            className="shrink-0 inline-flex items-center gap-1 text-xs text-[#6B7280] hover:text-[#52525B] font-medium"
+                        >
+                            <X className="w-3.5 h-3.5" /> Clear
+                        </button>
+                    )}
+
+                    <div className="ml-auto text-xs text-[#6B7280] shrink-0 hidden md:block">
+                        {filtered.length} {filtered.length === 1 ? 'result' : 'results'}
                     </div>
                 </div>
             </div>
 
-            {/* Grid */}
-            <section className="px-4 sm:px-6 py-10 sm:py-16">
+            <section className="px-4 sm:px-6 lg:px-8 py-8">
                 <div className="max-w-7xl mx-auto">
-                    {tab === 'images' ? (
-                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
-                            {items.map((it, i) => (
-                                <button
-                                    type="button"
-                                    key={it.src}
-                                    onClick={() => setLightboxIndex(i)}
-                                    className="group relative aspect-square overflow-hidden rounded-2xl bg-gray-200 focus:outline-none focus:ring-2 focus:ring-[#F97316]"
-                                >
-                                    <img
-                                        src={it.thumb}
-                                        alt={it.alt}
-                                        loading="lazy"
-                                        decoding="async"
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                    />
-                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
-                                        <Maximize2 className="w-7 h-7 text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-lg" />
-                                    </div>
-                                </button>
-                            ))}
-                        </div>
+                    {filtered.length > 0 ? (
+                        <>
+                            <div className={`grid gap-5 ${tab === 'images'
+                                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                                : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+                                }`}>
+                                {visibleItems.map((item, i) =>
+                                    tab === 'images' ? (
+                                        <ImageCard key={item.id || i} item={item} onOpen={() => setLbIndex(i)} />
+                                    ) : (
+                                        <VideoCard key={item.id || i} item={item} onOpen={() => setLbIndex(i)} />
+                                    )
+                                )}
+                            </div>
+                            {visibleCount < filtered.length && (
+                                <div ref={sentinelRef} className="h-20 flex items-center justify-center text-sm text-[#6B7280]">
+                                    Loading more…
+                                </div>
+                            )}
+                        </>
                     ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                            {items.map((it, i) => (
-                                <button
-                                    type="button"
-                                    key={it.src}
-                                    onClick={() => setLightboxIndex(i)}
-                                    className="group relative aspect-video overflow-hidden rounded-2xl bg-black focus:outline-none focus:ring-2 focus:ring-[#F97316]"
-                                >
-                                    <video
-                                        src={it.src}
-                                        muted
-                                        playsInline
-                                        preload="metadata"
-                                        className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#F97316]/90 group-hover:bg-[#F97316] flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-all">
-                                            <Play className="w-6 h-6 sm:w-7 sm:h-7 text-white fill-white ml-1" />
-                                        </div>
-                                    </div>
-                                </button>
-                            ))}
+                        <div className="text-center py-20 bg-white border border-dashed border-gray-300 rounded-3xl">
+                            <p className="text-[#52525B] mb-3 font-medium">No {tab} match these filters.</p>
+                            <button
+                                onClick={resetFilters}
+                                className="text-sm text-[#F97316] hover:underline font-semibold"
+                            >
+                                Clear filters
+                            </button>
                         </div>
                     )}
                 </div>
             </section>
 
-            {lightboxIndex !== null && (
+            {lbIndex !== null && (
                 <Lightbox
-                    items={items}
-                    index={lightboxIndex}
-                    onClose={() => setLightboxIndex(null)}
-                    onIndexChange={setLightboxIndex}
+                    items={visibleItems}
+                    index={lbIndex}
+                    onClose={() => setLbIndex(null)}
+                    onIndexChange={setLbIndex}
                 />
             )}
-
-            <FloatingWhatsApp />
         </div>
-    );
-}
-
-function TabBtn({ active, onClick, icon, children }) {
-    return (
-        <button
-            type="button"
-            onClick={onClick}
-            className={`inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-sm font-semibold transition-all ${active ? 'bg-[#F97316] text-white shadow' : 'text-[#52525B] hover:text-[#F97316]'}`}
-        >
-            {icon}
-            {children}
-        </button>
     );
 }

@@ -49,7 +49,7 @@ export default function ServicesHub() {
                 subtitle="From a single render to a complete turnkey building. Eight services, one accountable team, one studio."
                 breadcrumb={breadcrumb}
             />
-            <div className="px-6 md:px-12 pb-16">
+            <div className="px-6 md:px-12 pb-16 pt-8 md:pt-12">
                 <div className="max-w-6xl mx-auto space-y-16">
                     {visibleCategories.map((cat) => (
                         <section key={cat.name}>
@@ -84,10 +84,9 @@ export default function ServicesHub() {
                         </div>
                     </section>
 
-                    <section className="grid sm:grid-cols-3 gap-4">
+                    <section className="grid sm:grid-cols-2 gap-4">
                         <Link to="/portfolio" className="text-center bg-gray-100 hover:bg-gray-200 rounded-2xl p-6 font-semibold text-[#52525B]">See portfolio →</Link>
                         <Link to="/process" className="text-center bg-gray-100 hover:bg-gray-200 rounded-2xl p-6 font-semibold text-[#52525B]">Our process →</Link>
-                        <Link to="/pricing" className="text-center bg-gray-100 hover:bg-gray-200 rounded-2xl p-6 font-semibold text-[#52525B]">Pricing →</Link>
                     </section>
                 </div>
             </div>

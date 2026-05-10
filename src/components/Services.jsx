@@ -39,17 +39,20 @@ export default function Services() {
     return (
         <section id="services" ref={sectionRef} className="py-24 md:py-32 px-6 md:px-12 bg-white selection:bg-[#F97316] selection:text-white relative">
             <div className="max-w-7xl mx-auto">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24 gap-8">
-                    <div className="max-w-2xl">
+                <div className="mb-16 md:mb-24 grid lg:grid-cols-12 gap-x-12 gap-y-8 items-end">
+                    <div className="lg:col-span-7">
                         <h2 className="text-[#F97316] font-semibold tracking-wider uppercase mb-4 text-sm md:text-base">Capabilities</h2>
-                        <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#52525B] leading-[1.1] tracking-tight">
-                            What we <br className="hidden md:block" />
-                            <span className="font-serif italic font-normal text-5xl md:text-6xl lg:text-7xl text-[#F97316]">deliver.</span>
+                        <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#52525B] leading-[1.05] tracking-tight">
+                            What we{' '}
+                            <span className="font-serif italic font-normal text-[#F97316]">deliver.</span>
                         </h3>
                     </div>
-                    <p className="text-[#6B7280] max-w-sm text-lg text-balance">
-                        Two studios under one roof — design and build the space, then visualize it in breathtaking photoreal quality.
-                    </p>
+                    <div className="lg:col-span-5 lg:pb-2">
+                        <div className="hidden lg:block h-px w-12 bg-[#F97316] mb-5" />
+                        <p className="text-[#6B7280] text-base md:text-lg leading-relaxed max-w-md">
+                            Two studios under one roof — we design and build the space, then visualize it in breathtaking photoreal quality.
+                        </p>
+                    </div>
                 </div>
 
                 {/* Category 1: Architecture & Construction */}

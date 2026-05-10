@@ -1,12 +1,13 @@
 {
-  "name": "slate-concept-studios",
+  "name": "ideal-visualizations",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "gallery:optimize": "node scripts/optimize-gallery.js",
     "gallery:manifest": "node scripts/build-gallery-manifest.js",
-    "gallery:build": "npm run gallery:optimize && npm run gallery:manifest",
+    "gallery:sheet": "node scripts/build-gallery-from-sheet.js",
+    "gallery:build": "node scripts/build-gallery-from-sheet.js",
     "sitemap:build": "node scripts/build-sitemap.js",
     "predev": "npm run gallery:build && npm run sitemap:build",
     "dev": "vite",
@@ -38,6 +39,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "png-to-ico": "^3.0.1",
     "postcss": "^8.5.8",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.2.1",

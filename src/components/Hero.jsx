@@ -54,7 +54,7 @@ export default function Hero() {
                         SLATE Concept Studios
                     </p>
                     <h1 className="hero-text text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.05] tracking-tight mb-8">
-                        <span className="block">Bringing architecture</span>
+                        <span className="block">Bringing concepts</span>
                         <span className="block text-[#E4E4E7]/90 mt-2 font-serif italic font-normal text-6xl md:text-8xl lg:text-[7rem]">to life.</span>
                         <span className="sr-only">Architectural 3D rendering, walkthroughs and 360° visualization studio in Amritsar, India.</span>
                     </h1>
@@ -74,11 +74,15 @@ export default function Hero() {
                         >
                             <PhoneCall className="w-5 h-5" /> Request a Callback
                         </button>
-                        <Link to="/gallery" className="group flex items-center justify-center sm:justify-start gap-2 text-white/80 hover:text-white transition-colors px-2 sm:px-4 py-2 sm:py-4">
+                        <Link to="/portfolio" className="group flex items-center justify-center sm:justify-start gap-2 text-white/80 hover:text-white transition-colors px-2 sm:px-4 py-2 sm:py-4">
                             <span>View Gallery</span>
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </div>
+                    <p className="hero-text mt-5 text-sm md:text-base text-white/70 flex items-center gap-2">
+                        <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#F97316] animate-pulse" />
+                        Your first consultation is <span className="font-semibold text-white">FREE</span>.
+                    </p>
                 </div>
             </div>
         </section>

@@ -4,6 +4,7 @@ import { X, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, RotateCcw } from 'lucide
 export default function Lightbox({ items, index, onClose, onIndexChange }) {
     const [scale, setScale] = useState(1);
     const [pos, setPos] = useState({ x: 0, y: 0 });
+    const [imgLoaded, setImgLoaded] = useState(false);
     const dragRef = useRef({ active: false, startX: 0, startY: 0, baseX: 0, baseY: 0 });
     const pinchRef = useRef({ active: false, startDist: 0, startScale: 1 });
 
@@ -14,7 +15,7 @@ export default function Lightbox({ items, index, onClose, onIndexChange }) {
         setPos({ x: 0, y: 0 });
     }, []);
 
-    useEffect(() => { reset(); }, [index, reset]);
+    useEffect(() => { reset(); setImgLoaded(false); }, [index, reset]);
 
     useEffect(() => {
         if (item) document.body.style.overflow = 'hidden';
@@ -138,7 +139,7 @@ export default function Lightbox({ items, index, onClose, onIndexChange }) {
 
             {/* Media */}
             <div
-                className="w-full h-full flex items-center justify-center overflow-hidden touch-none"
+                className="w-full h-full flex items-center justify-center overflow-hidden touch-none px-4 sm:pr-[22rem] sm:pl-12"
                 onClick={(e) => e.stopPropagation()}
                 onWheel={onWheel}
                 onMouseDown={onMouseDown}
@@ -150,28 +151,111 @@ export default function Lightbox({ items, index, onClose, onIndexChange }) {
                 onTouchEnd={onTouchEnd}
             >
                 {isVideo ? (
-                    <video
-                        src={item.src}
-                        controls
-                        autoPlay
-                        playsInline
-                        className="max-w-[95vw] max-h-[85vh] rounded-lg shadow-2xl"
-                    />
+                    /\/preview$/.test(item.src || '') ? (
+                        <iframe
+                            key={item.src}
+                            src={`${item.src}?vq=hd1080`}
+                            allow="autoplay; fullscreen"
+                            allowFullScreen
+                            title={item.description || 'Walkthrough'}
+                            className="w-[90vw] sm:w-[60vw] aspect-video max-h-[85vh] rounded-lg shadow-2xl bg-black"
+                        />
+                    ) : (
+                        <video
+                            key={item.src}
+                            src={item.src}
+                            controls
+                            autoPlay
+                            playsInline
+                            className="max-w-[95vw] max-h-[85vh] rounded-lg shadow-2xl"
+                        />
+                    )
                 ) : (
-                    <img
-                        src={item.src}
-                        alt={item.alt || ''}
-                        draggable={false}
-                        style={{
-                            transform: `translate(${pos.x}px, ${pos.y}px) scale(${scale})`,
-                            cursor: scale > 1 ? (dragRef.current.active ? 'grabbing' : 'grab') : 'zoom-in',
-                            transition: dragRef.current.active || pinchRef.current.active ? 'none' : 'transform 0.2s ease-out',
-                        }}
-                        onDoubleClick={() => setScale(s => (s > 1 ? 1 : 2))}
-                        className="max-w-[95vw] max-h-[85vh] object-contain rounded-lg shadow-2xl will-change-transform"
-                    />
+                    <>
+                        {!imgLoaded && (
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <div className="w-12 h-12 rounded-full border-4 border-white/20 border-t-[#F97316] animate-spin" />
+                            </div>
+                        )}
+                        <img
+                            key={item.src}
+                            src={item.src}
+                            alt={item.alt || item.description || ''}
+                            draggable={false}
+                            referrerPolicy="no-referrer"
+                            onLoad={() => setImgLoaded(true)}
+                            style={{
+                                transform: `translate(${pos.x}px, ${pos.y}px) scale(${scale})`,
+                                cursor: scale > 1 ? (dragRef.current.active ? 'grabbing' : 'grab') : 'zoom-in',
+                                transition: dragRef.current.active || pinchRef.current.active ? 'none' : 'transform 0.2s ease-out, opacity 0.25s ease-out',
+                                opacity: imgLoaded ? 1 : 0,
+                            }}
+                            onDoubleClick={() => setScale(s => (s > 1 ? 1 : 2))}
+                            className="max-w-[95vw] max-h-[85vh] object-contain rounded-lg shadow-2xl will-change-transform"
+                        />
+                    </>
                 )}
             </div>
+
+            {/* Metadata side panel */}
+            <MetaPanel item={item} />
+        </div>
+    );
+}
+
+function MetaPanel({ item }) {
+    const hasMeta = item && (item.description || item.clientName || item.city || item.theme || item.services?.length || item.software?.length);
+    if (!hasMeta) return null;
+    const locationLine = [item.city, item.state, item.country].filter(Boolean).join(', ');
+    return (
+        <aside
+            className="hidden sm:flex flex-col absolute right-0 top-0 bottom-0 w-80 bg-[#0a0a0a]/95 backdrop-blur-xl border-l border-white/10 text-white z-[5] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+        >
+            <div className="p-6 pt-20 space-y-5 text-sm">
+                {item.theme && (
+                    <span className="inline-block bg-[#F97316] text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">
+                        {item.theme}
+                    </span>
+                )}
+                {item.description && (
+                    <h2 className="text-xl font-bold leading-tight">{item.description}</h2>
+                )}
+                {item.clientName && (
+                    <MetaRow label="Client">
+                        <div>{item.clientName}</div>
+                        {item.clientType && <div className="text-white/50 text-xs mt-0.5">{item.clientType}</div>}
+                    </MetaRow>
+                )}
+                {locationLine && <MetaRow label="Location">{locationLine}</MetaRow>}
+                {item.services?.length > 0 && (
+                    <MetaRow label="Services">
+                        <div className="flex flex-wrap gap-1.5">
+                            {item.services.map(s => (
+                                <span key={s} className="bg-white/10 text-white/90 text-xs px-2 py-1 rounded-md">{s}</span>
+                            ))}
+                        </div>
+                    </MetaRow>
+                )}
+                {item.software?.length > 0 && (
+                    <MetaRow label="Software">
+                        <div className="flex flex-wrap gap-1.5">
+                            {item.software.map(s => (
+                                <span key={s} className="bg-white/5 text-white/70 text-xs px-2 py-1 rounded-md">{s}</span>
+                            ))}
+                        </div>
+                    </MetaRow>
+                )}
+            </div>
+        </aside>
+    );
+}
+
+function MetaRow({ label, children }) {
+    return (
+        <div>
+            <div className="text-[10px] uppercase tracking-wider text-white/40 font-semibold mb-1.5">{label}</div>
+            <div className="text-white/90">{children}</div>
         </div>
     );
 }

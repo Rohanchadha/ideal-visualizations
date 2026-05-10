@@ -37,7 +37,7 @@ export const SERVICES = [
             { src: '/3D-Images/2.png', alt: 'Photorealistic exterior with cinematic lighting' },
         ],
         related: ['interior-3d-rendering', '3d-walkthrough-animation', '360-virtual-tour'],
-        relatedBlog: ['exterior-vs-interior-rendering', '3d-rendering-cost'],
+        relatedBlog: ['case-study-concept-designs-ottawa', 'case-study-ideal-home-designers-amritsar', 'exterior-vs-interior-rendering', '3d-rendering-cost'],
     },
     {
         slug: 'interior-3d-rendering',
@@ -72,7 +72,7 @@ export const SERVICES = [
             { src: '/3D-Images/2-42.jpg.jpeg', alt: 'Hospitality lobby interior 3D render' },
         ],
         related: ['exterior-3d-rendering', '360-virtual-tour', 'interior-design'],
-        relatedBlog: ['3d-rendering-for-interior-designers', 'exterior-vs-interior-rendering'],
+        relatedBlog: ['case-study-kitchen-decor-amritsar', '3d-rendering-for-interior-designers', 'exterior-vs-interior-rendering'],
     },
     {
         slug: '3d-walkthrough-animation',
@@ -103,7 +103,7 @@ export const SERVICES = [
         pricing: 'Starts from ₹[AMOUNT] per minute of animation / $[AMOUNT] internationally.',
         gallery: [],
         related: ['360-virtual-tour', 'exterior-3d-rendering', 'interior-3d-rendering'],
-        relatedBlog: ['walkthrough-vs-360-tour', '3d-rendering-real-estate-presales'],
+        relatedBlog: ['case-study-design-anthem-forum-mohali', 'walkthrough-vs-360-tour', '3d-rendering-real-estate-presales'],
     },
     {
         slug: '360-virtual-tour',
@@ -259,6 +259,6 @@ export const SERVICES = [
 export const SERVICE_BY_SLUG = Object.fromEntries(SERVICES.map((s) => [s.slug, s]));
 
 export const SERVICE_CATEGORIES = [
-    { name: '3D Visualization', services: SERVICES.filter((s) => s.category === '3D Visualization') },
     { name: 'Architecture & Construction', services: SERVICES.filter((s) => s.category === 'Architecture & Construction') },
+    { name: '3D Visualization', services: SERVICES.filter((s) => s.category === '3D Visualization') },
 ];

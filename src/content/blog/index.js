@@ -21,8 +21,12 @@ import * as p17 from './posts/types-of-3d-rendering.jsx';
 import * as p18 from './posts/3d-rendering-studio-dubai.jsx';
 import * as p19 from './posts/outsource-3d-rendering-india-usa-canada.jsx';
 import * as p20 from './posts/3d-rendering-portfolio-showcase.jsx';
+import * as p21 from './posts/case-study-ideal-home-designers-amritsar.jsx';
+import * as p22 from './posts/case-study-concept-designs-ottawa.jsx';
+import * as p23 from './posts/case-study-kitchen-decor-amritsar.jsx';
+import * as p24 from './posts/case-study-design-anthem-forum-mohali.jsx';
 
-const modules = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20];
+const modules = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22, p23, p24];
 
 export const POSTS = modules.map((m) => ({ ...m.meta, Content: m.default }));
 export const POST_BY_SLUG = Object.fromEntries(POSTS.map((p) => [p.slug, p]));
