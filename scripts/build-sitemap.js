@@ -8,7 +8,7 @@ import url from 'node:url';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
-const SITE_URL = 'https://ideal-visualizations.vercel.app';
+const SITE_URL = 'https://slateconcepts.com';
 
 // Static read of slug arrays from the data modules via dynamic import.
 async function load() {

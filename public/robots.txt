@@ -21,4 +21,4 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://ideal-visualizations.vercel.app/sitemap.xml
+Sitemap: https://slateconcepts.com/sitemap.xml

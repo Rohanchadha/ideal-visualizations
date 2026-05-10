@@ -1,5 +1,5 @@
 // Centralized SEO constants
-export const SITE_URL = 'https://ideal-visualizations.vercel.app';
+export const SITE_URL = 'https://slateconcepts.com';
 export const ORG_ID = `${SITE_URL}/#org`;
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-cover.jpg`;
 export const DEFAULT_TITLE = 'SLATE Concept Studios | Architectural 3D Rendering, Walkthroughs & 360° — Amritsar, India';
