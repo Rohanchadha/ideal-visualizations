@@ -39,17 +39,15 @@ export default function Services() {
     return (
         <section id="services" ref={sectionRef} className="py-24 md:py-32 px-6 md:px-12 bg-white selection:bg-[#F97316] selection:text-white relative">
             <div className="max-w-7xl mx-auto">
-                <div className="mb-16 md:mb-24 grid lg:grid-cols-12 gap-x-12 gap-y-8 items-end">
-                    <div className="lg:col-span-7">
-                        <h2 className="text-[#F97316] font-semibold tracking-wider uppercase mb-4 text-sm md:text-base">Capabilities</h2>
-                        <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#52525B] leading-[1.05] tracking-tight">
-                            What we{' '}
-                            <span className="font-serif italic font-normal text-[#F97316]">deliver.</span>
-                        </h3>
-                    </div>
-                    <div className="lg:col-span-5 lg:pb-2">
-                        <div className="hidden lg:block h-px w-12 bg-[#F97316] mb-5" />
-                        <p className="text-[#6B7280] text-base md:text-lg leading-relaxed max-w-md">
+                <div className="mb-16 md:mb-24 max-w-4xl">
+                    <h2 className="text-[#F97316] font-semibold tracking-wider uppercase mb-4 text-sm md:text-base">Capabilities</h2>
+                    <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#52525B] leading-[1.05] tracking-tight">
+                        What we{' '}
+                        <span className="font-serif italic font-normal text-[#F97316]">deliver.</span>
+                    </h3>
+                    <div className="mt-6 md:mt-8 flex items-start gap-4">
+                        <div className="hidden md:block h-px w-12 bg-[#F97316] mt-3 shrink-0" />
+                        <p className="text-[#6B7280] text-base md:text-lg leading-relaxed max-w-2xl">
                             Two studios under one roof — we design and build the space, then visualize it in breathtaking photoreal quality.
                         </p>
                     </div>

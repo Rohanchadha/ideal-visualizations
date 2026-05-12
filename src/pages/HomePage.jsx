@@ -4,6 +4,7 @@ import WhyChooseUs from '../components/WhyChooseUs';
 import VideoShowcase from '../components/VideoShowcase';
 import Services from '../components/Services';
 import Portfolio from '../components/Portfolio';
+import FurnitureTeaser from '../components/FurnitureTeaser';
 import About from '../components/About';
 import Locations from '../components/Locations';
 
@@ -15,6 +16,7 @@ export default function HomePage() {
             <Services />
             <WhyChooseUs />
             <Portfolio />
+            <FurnitureTeaser />
             <VideoShowcase />
             <Locations />
         </>

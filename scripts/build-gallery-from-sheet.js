@@ -102,13 +102,21 @@ async function main() {
         services: idx('Services Offered'),
         software: idx('Softwares Used'),
         description: idx('Description'),
+        useFlag: idx('Use for website?'),
     };
 
     const images = [];
     const videos = [];
     let skipped = 0;
+    let excluded = 0;
 
     for (const r of rows.slice(1)) {
+        // Honor the "Use for website?" column: blank or Y/Yes/True = include, N/No/False = exclude.
+        if (cols.useFlag !== -1) {
+            const flag = (r[cols.useFlag] || '').trim().toLowerCase();
+            if (flag && /^(n|no|false|0)$/.test(flag)) { excluded++; continue; }
+        }
+
         const link = (r[cols.link] || '').trim();
         const id = extractDriveId(link);
         if (!id) { skipped++; continue; }
@@ -155,7 +163,7 @@ async function main() {
     fs.writeFileSync(out, manifest);
 
     console.log(`✓ Wrote ${out}`);
-    console.log(`   Images: ${images.length}   Videos: ${videos.length}   Skipped (no Drive id): ${skipped}`);
+    console.log(`   Images: ${images.length}   Videos: ${videos.length}   Skipped (no Drive id): ${skipped}   Excluded (Use for website?=N): ${excluded}`);
 }
 
 main().catch(e => { console.error(e); process.exit(1); });

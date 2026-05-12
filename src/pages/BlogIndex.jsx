@@ -96,7 +96,10 @@ export default function BlogIndex() {
                 </div>
             </div>
 
-            <CtaBlock />
+            <CtaBlock
+                title="Ready to bring your vision to life?"
+                subtitle="Share your CAD files, sketches, references, or even just an idea — and our team will provide a customized quote within one business day. Whether you need architectural design, planning, or photorealistic visualization, SLATE Concept Studios is here to turn concepts into compelling spaces."
+            />
         </>
     );
 }

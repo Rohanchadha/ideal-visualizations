@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPinned, MessageCircle, PhoneCall, Instagram } from 'lucide-react';
+import { Phone, Mail, MapPinned, MessageCircle, PhoneCall, Instagram, Linkedin } from 'lucide-react';
 import { CONTACT, whatsappLink } from '../config/site';
 import { useUI } from '../context/UIContext';
 import { SERVICES } from '../content/services';
@@ -50,7 +50,7 @@ export default function Footer() {
                 <div className="lg:col-span-2">
                     <span className="font-bold text-3xl tracking-tight text-white mb-6 block">SLATE Concept Studios</span>
                     <p className="text-gray-400 max-w-sm text-balance text-lg leading-relaxed mb-8">
-                        Precision and longevity in architectural visualization, bringing your most ambitious concepts to digital life.
+                        Precision and longevity in architectural services and 3D visualization, bringing your most ambitious concepts to life.
                     </p>
                     <div className="flex items-center gap-3">
                         <a
@@ -61,6 +61,15 @@ export default function Footer() {
                             aria-label="Instagram"
                         >
                             <Instagram className="w-5 h-5" />
+                        </a>
+                        <a
+                            href={CONTACT.linkedin}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-11 h-11 rounded-full bg-white/5 hover:bg-[#F97316] border border-white/10 flex items-center justify-center transition-colors"
+                            aria-label="LinkedIn"
+                        >
+                            <Linkedin className="w-5 h-5" />
                         </a>
                         <a
                             href={CONTACT.behance}
@@ -102,6 +111,7 @@ export default function Footer() {
                     <ul className="space-y-3 text-gray-400 text-sm">
                         <li><Link to="/portfolio" className="hover:text-white">Portfolio</Link></li>
                         <li><Link to="/portfolio" className="hover:text-white">Gallery</Link></li>
+                        <li><Link to="/furniture" className="hover:text-white">Furniture Collection</Link></li>
                         <li><Link to="/blog" className="hover:text-white">Blog</Link></li>
                         <li><Link to="/process" className="hover:text-white">Our Process</Link></li>
                         <li><Link to="/faq" className="hover:text-white">FAQ</Link></li>

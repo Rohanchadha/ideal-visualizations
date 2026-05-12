@@ -19,6 +19,7 @@ const ProcessPage = lazy(() => import('./pages/ProcessPage'));
 const FaqPage = lazy(() => import('./pages/FaqPage'));
 const BlogIndex = lazy(() => import('./pages/BlogIndex'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
+const FurniturePage = lazy(() => import('./pages/FurniturePage'));
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/blog" element={<BlogIndex />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/furniture" element={<FurniturePage />} />
           </Routes>
         </Suspense>
 

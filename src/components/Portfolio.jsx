@@ -9,7 +9,6 @@ gsap.registerPlugin(ScrollTrigger);
 const images = [
     { src: '/3D-Images/1.jpg', alt: 'Twilight exterior render of a modern residential villa — SLATE Concept Studios', span: 'md:col-span-2 md:row-span-2' },
     { src: '/3D-Images/2.png', alt: 'Photorealistic interior 3D rendering with cinematic lighting', span: 'md:col-span-1 md:row-span-1' },
-    { src: '/3D-Images/1.png', alt: 'Contemporary façade elevation rendering for a residential project', span: 'md:col-span-1 md:row-span-1' },
     { src: '/3D-Images/2 (2).jpg', alt: 'Day-time exterior architectural visualization, Punjab residence', span: 'md:col-span-1 md:row-span-2' },
     { src: '/3D-Images/2-37.jpg.jpeg', alt: 'Modern living room interior render with natural daylight', span: 'md:col-span-1 md:row-span-1' },
     { src: '/3D-Images/2-42.jpg.jpeg', alt: 'Hospitality interior 3D rendering, lobby concept', span: 'md:col-span-1 md:row-span-1' },

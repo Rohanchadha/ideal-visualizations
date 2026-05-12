@@ -204,9 +204,22 @@ export default function Lightbox({ items, index, onClose, onIndexChange }) {
 }
 
 function MetaPanel({ item }) {
-    const hasMeta = item && (item.description || item.clientName || item.city || item.theme || item.services?.length || item.software?.length);
+    const isFurniture = item?.theme === 'Furniture';
+
+    // Furniture descriptions are formatted as "NAME\n\nMaterial: ...\n\nDesign: ...".
+    // For the lightbox we only want to show the heading (the name).
+    let displayTitle = item?.description || null;
+    if (isFurniture && displayTitle) {
+        const firstLine = displayTitle.split(/\r?\n/).map(s => s.trim()).find(Boolean);
+        displayTitle = firstLine && !/^material/i.test(firstLine) ? firstLine : null;
+    }
+
+    const hasMeta = item && (
+        displayTitle || (!isFurniture && (item.clientName || item.city || item.theme || item.services?.length || item.software?.length))
+    );
     if (!hasMeta) return null;
     const locationLine = [item.city, item.state, item.country].filter(Boolean).join(', ');
+
     return (
         <aside
             className="hidden sm:flex flex-col absolute right-0 top-0 bottom-0 w-80 bg-[#0a0a0a]/95 backdrop-blur-xl border-l border-white/10 text-white z-[5] overflow-y-auto"
@@ -218,17 +231,17 @@ function MetaPanel({ item }) {
                         {item.theme}
                     </span>
                 )}
-                {item.description && (
-                    <h2 className="text-xl font-bold leading-tight">{item.description}</h2>
+                {displayTitle && (
+                    <h2 className="text-xl font-bold leading-tight">{displayTitle}</h2>
                 )}
-                {item.clientName && (
+                {!isFurniture && item.clientName && (
                     <MetaRow label="Client">
                         <div>{item.clientName}</div>
                         {item.clientType && <div className="text-white/50 text-xs mt-0.5">{item.clientType}</div>}
                     </MetaRow>
                 )}
-                {locationLine && <MetaRow label="Location">{locationLine}</MetaRow>}
-                {item.services?.length > 0 && (
+                {!isFurniture && locationLine && <MetaRow label="Location">{locationLine}</MetaRow>}
+                {!isFurniture && item.services?.length > 0 && (
                     <MetaRow label="Services">
                         <div className="flex flex-wrap gap-1.5">
                             {item.services.map(s => (
@@ -237,7 +250,7 @@ function MetaPanel({ item }) {
                         </div>
                     </MetaRow>
                 )}
-                {item.software?.length > 0 && (
+                {!isFurniture && item.software?.length > 0 && (
                     <MetaRow label="Software">
                         <div className="flex flex-wrap gap-1.5">
                             {item.software.map(s => (

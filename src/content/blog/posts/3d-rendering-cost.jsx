@@ -11,6 +11,7 @@ export const meta = {
     keyword: '3d rendering cost',
     image: '/3D-Images/2.png',
     author: 'Danish',
+    draft: true,
 };
 
 export default function Post() {

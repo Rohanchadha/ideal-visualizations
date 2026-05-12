@@ -55,6 +55,7 @@ async function main() {
     urls.push(urlEntry('/', today, 'weekly', 1.0));
     urls.push(urlEntry('/services', today, 'monthly', 0.9));
     urls.push(urlEntry('/portfolio', today, 'weekly', 0.9));
+    urls.push(urlEntry('/furniture', today, 'monthly', 0.85));
     urls.push(urlEntry('/blog', today, 'weekly', 0.8));
     urls.push(urlEntry('/about', today, 'yearly', 0.6));
     urls.push(urlEntry('/contact', today, 'yearly', 0.7));

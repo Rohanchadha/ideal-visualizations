@@ -5,6 +5,7 @@ export const CONTACT = {
     email: 'danish@slateconcepts.com',
     instagram: 'https://www.instagram.com/slate.concepts/',
     behance: 'https://www.behance.net/idealvisuali',
+    linkedin: 'https://www.linkedin.com/in/danish-seth-59a3601b6/',
     whatsappMessage: "Hi SLATE Concept Studios! I'd like to discuss a project.",
 };
 

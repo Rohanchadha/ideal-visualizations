@@ -34,10 +34,13 @@ export default function About() {
                     </h3>
                     <div className="space-y-6 text-[#6B7280] text-lg leading-relaxed mix-blend-multiply">
                         <p>
-                            Hi, I'm Danish. With over a decade of experience in architectural visualization, I founded SLATE Concept Studios to bridge the gap between creative blueprints and photorealistic reality.
+                            Hi, I'm Danish, founder of SLATE Concept Studios. With over a decade of experience in architectural services and visualization, I specialize in transforming ideas into spaces that are both functional and visually compelling.
                         </p>
                         <p>
-                            My philosophy is simple: every line has purpose, every shadow creates depth, and every render must tell a compelling story. We don't just build 3D models; we craft digital instruments that help architects, developers, and designers communicate their ultimate vision with absolute clarity.
+                            At SLATE Concept Studios, we bridge the gap between concept and reality through thoughtful architectural design, detailed planning, and photorealistic visualization. From architectural drawings and spatial solutions to immersive 3D renders and presentations, every project is crafted with precision and purpose.
+                        </p>
+                        <p>
+                            Our philosophy is simple: every line has intent, every material adds character, and every visualization should tell a compelling story. We don&rsquo;t just create buildings or renders &mdash; we develop complete design experiences that help architects, developers, and homeowners communicate their vision with clarity and confidence.
                         </p>
                         <p className="border-l-2 border-[#F97316] pl-6 italic font-serif text-xl text-[#52525B] mt-10">
                             "Precision in design, passion in execution."
