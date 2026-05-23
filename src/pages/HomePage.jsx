@@ -12,10 +12,10 @@ export default function HomePage() {
     return (
         <>
             <Hero />
-            <About />
             <Services />
             <WhyChooseUs />
             <Portfolio />
+            <About />
             <FurnitureTeaser />
             <VideoShowcase />
             <Locations />
