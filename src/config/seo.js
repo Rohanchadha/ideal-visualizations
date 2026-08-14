@@ -2,5 +2,5 @@
 export const SITE_URL = 'https://slateconcepts.com';
 export const ORG_ID = `${SITE_URL}/#org`;
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-cover.jpg`;
-export const DEFAULT_TITLE = 'SLATE Concept Studios | Architectural 3D Rendering, Walkthroughs & 360° — Amritsar, India';
-export const DEFAULT_DESCRIPTION = 'Photorealistic 3D architectural rendering studio in Amritsar. Exterior & interior visualization, animated walkthroughs and 360° tours. 1500+ projects across Delhi, Mumbai, Dubai, Chandigarh and 12+ more cities.';
+export const DEFAULT_TITLE = 'SLATE Concept Studios | Architectural planning, Interiors and Turnkey Construction';
+export const DEFAULT_DESCRIPTION = 'Architectural planning, interior and turnkey construction studio delivering premium custom homes. Specializing in exterior and interior design, 3D visualization, serving clients from Amritsar across Punjab, Chandigarh and Delhi.';
