@@ -1,0 +1,35 @@
+PRODUCTION WORKFLOW — every post moves through these stages,,,,
+Stage,Owner,What Happens,Handoff Trigger,SLA (max time)
+1. Idea,Creative Lead,"Pick pillar from Ideas Bank, write working title + hook, add to Calendar","Status set to 'Scripting'",Ongoing
+2. Scripting,Creative Lead,"Write the hook + on-screen text + shot list + CTA","Shot list ready in Concept Notes",1 day
+3. Shooting,Producer,"Capture footage/photos, log each in Raw Assets same day","Raw Asset IDs added to Calendar row",By next shoot day
+4. Editing,Editor,"Cut Reel, add captions/text/audio, follow brand kit","Draft in shared Drive, Status 'Ready'",2 days
+5. Caption + Hashtags,Editor,"Write caption from Bank, pick hashtag set, add CTA","Caption Ready? = Yes",Same as edit
+6. Review,Creative Lead,"Approve or send back. Check hook + CTA + brand","Status 'Scheduled' or 'Needs Rework'",1 day
+7. Schedule/Publish,Editor,"Schedule in Meta/Later at the planned time","Status 'Posted'",On date
+8. Engage,All 3,"Reply to comments in first 60 min, share to stories","-",First hour
+9. Log Results,Creative Lead,"After 48h fill Performance + Metrics tab","-",Weekly
+,,,,
+RESPONSIBILITY MATRIX (RACI),,,,
+Task,Creative Lead,Producer,Editor,
+Calendar planning,Responsible,Consulted,Consulted,
+Idea approval,Accountable,Informed,Informed,
+Shooting,Consulted,Responsible,Informed,
+Editing,Consulted,Informed,Responsible,
+Captions/Hashtags,Consulted,Informed,Responsible,
+Final approval,Accountable,Informed,Consulted,
+Scheduling,Informed,Informed,Responsible,
+Community mgmt,Responsible,Responsible,Responsible,
+Metrics review,Accountable,Consulted,Consulted,
+,,,,
+WEEKLY RITUALS,,,,
+When,What,Who,Duration,
+Monday,Planning call — fill next 2 weeks,All 3,30 min,
+Wednesday,Shoot day — batch capture,Producer,Half day,
+Friday,Edit + schedule the coming week,Editor,Half day,
+Sunday,Metrics review + note wins,Creative Lead,20 min,
+,,,,
+COMMUNICATION,,,,
+Daily updates,WhatsApp group,,,
+This calendar,Single source of truth — if it's not here it's not happening,,,
+Files,Google Drive (linked in Dashboard),,,
