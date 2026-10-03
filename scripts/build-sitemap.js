@@ -61,6 +61,7 @@ async function main() {
     urls.push(urlEntry('/contact', today, 'yearly', 0.7));
     urls.push(urlEntry('/process', today, 'yearly', 0.6));
     urls.push(urlEntry('/faq', today, 'monthly', 0.6));
+    urls.push(urlEntry('/privacy-policy', today, 'yearly', 0.3));
 
     published(services.SERVICES).forEach((s) => urls.push(urlEntry(`/services/${s.slug}`, today, 'monthly', 0.85)));
     published(industries.INDUSTRIES).forEach((i) => urls.push(urlEntry(`/industries/${i.slug}`, today, 'monthly', 0.8)));

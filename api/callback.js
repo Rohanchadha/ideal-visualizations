@@ -62,6 +62,9 @@ function notificationHtml(lead) {
                     ${row('Country', lead.country)}
                     ${row('City', lead.city)}
                     ${row('Service', lead.service)}
+                    ${row('Approx. area', lead.area || 'Not provided')}
+                    ${row('Investment range', lead.budget || 'Not provided')}
+                    ${row('Preferred start', lead.startDate || 'Not provided')}
                     ${row('Message', lead.message || '—')}
                     ${row('Submitted', lead.submittedAt)}
                     ${row('Source IP', lead.ip || '—')}
@@ -88,7 +91,7 @@ function autoResponseHtml(lead) {
                 <hr style="border:0;border-top:1px solid #27272a;margin:28px 0;" />
                 <p style="margin:0;color:#71717a;font-size:13px;line-height:1.6;">
                     <strong style="color:#a1a1aa;">In the meantime</strong> — feel free to browse our recent work at
-                    <a href="https://ideal-visualizations.vercel.app/portfolio" style="color:#F97316;text-decoration:none;">our portfolio</a>.
+                    <a href="https://slateconcepts.com/portfolio" style="color:#F97316;text-decoration:none;">our portfolio</a>.
                 </p>
             </div>
             <p style="text-align:center;color:#71717a;font-size:12px;margin:20px 0 0 0;">
@@ -135,6 +138,9 @@ export default async function handler(req, res) {
         service: clean(body.service, 120),
         phone: clean(body.phone, 40),
         email: clean(body.email, 160),
+        area: clean(body.area, 120),
+        budget: clean(body.budget, 120),
+        startDate: clean(body.startDate, 120),
         message: clean(body.message, 2000),
         submittedAt: new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC',
         ip,
@@ -175,7 +181,7 @@ export default async function handler(req, res) {
             replyTo: `${lead.name} <${lead.email}>`,
             subject: `New callback — ${lead.name} · ${lead.service}`,
             html: notificationHtml(lead),
-            text: `New Callback Request\n\nName: ${lead.name}\nPhone: ${lead.phone}\nEmail: ${lead.email}\nCountry: ${lead.country}\nCity: ${lead.city}\nService: ${lead.service}\nMessage: ${lead.message || '—'}\nSubmitted: ${lead.submittedAt}\nIP: ${lead.ip}`,
+            text: `New Callback Request\n\nName: ${lead.name}\nPhone: ${lead.phone}\nEmail: ${lead.email}\nCountry: ${lead.country}\nCity: ${lead.city}\nService: ${lead.service}\nApprox. area: ${lead.area || 'Not provided'}\nInvestment range: ${lead.budget || 'Not provided'}\nPreferred start: ${lead.startDate || 'Not provided'}\nMessage: ${lead.message || '—'}\nSubmitted: ${lead.submittedAt}\nIP: ${lead.ip}`,
         });
 
         // 2) Auto-response to lead (best-effort — don't fail the whole request if this errors)

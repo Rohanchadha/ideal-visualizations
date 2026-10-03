@@ -6,6 +6,29 @@ import CtaBlock from '../components/CtaBlock';
 import Prose from '../components/Prose';
 import { SITE_URL, ORG_ID } from '../config/seo';
 
+const HOME_STAGES = [
+    {
+        n: 1,
+        title: 'Discuss your home',
+        body: 'Tell us your city, the approximate area you are planning, what you need, your investment range and when you want to start. You do not need existing drawings to enquire.',
+    },
+    {
+        n: 2,
+        title: 'Agree the scope',
+        body: 'We define whether the work is design-only or turnkey, then set out fees, revision rounds, milestones, responsibilities and exclusions before anyone is appointed.',
+    },
+    {
+        n: 3,
+        title: 'Develop and review the design',
+        body: 'You review layouts, materials, elevations and — where visualization is included in the scope — 3D views. Decisions are approved before execution or further changes.',
+    },
+    {
+        n: 4,
+        title: 'Execute and hand over',
+        body: 'Turnkey projects proceed through the agreed execution scope to handover. Design-only clients use their own appointed execution team; any site support from us is agreed separately.',
+    },
+];
+
 const STEPS = [
     { n: 1, title: 'Brief', body: 'You send us your CAD, SketchUp, Revit or PDF plans, plus a few reference images and a one-paragraph brief. We respond within one business day with scope clarifications.' },
     { n: 2, title: 'Quote & timeline', body: 'We send a fixed-fee quote with deliverables, revision policy and a specific business-day delivery date. NDA signed before any file moves.' },
@@ -31,36 +54,74 @@ export default function ProcessPage() {
     return (
         <>
             <Seo
-                title="Our 3D Rendering Process | From Brief to Delivery in 8 Steps"
-                description="The 8-step process we follow on every architectural 3D rendering project — from brief through modeling, lighting, rendering, post-production and final delivery."
+                title="Our Process | Planning, Designing and Building Your Home"
+                description="How a home project runs with Slate — discussing your requirements, agreeing the scope, developing the design and executing it — plus our separate visualization-only workflow."
                 path="/process"
                 jsonLd={jsonLd}
                 breadcrumb={breadcrumb}
             />
             <PageHero
                 eyebrow="How we work"
-                title="From brief to"
-                italic="final delivery"
-                subtitle="Eight steps. One named project lead. Predictable turnaround. Two free revision rounds per view."
+                title="From first conversation to"
+                italic="handover"
+                subtitle="A clear residential journey — and a separate workflow for visualization-only commissions."
                 breadcrumb={breadcrumb}
             />
 
             <div className="px-6 md:px-12 pb-12">
-                <div className="max-w-4xl mx-auto space-y-4">
-                    {STEPS.map((s) => (
-                        <div key={s.n} className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 flex gap-5">
-                            <div className="shrink-0 w-12 h-12 rounded-full bg-[#F97316] text-white font-bold text-lg flex items-center justify-center">{s.n}</div>
-                            <div>
-                                <h2 className="text-xl md:text-2xl font-bold text-[#52525B] mb-2">{s.title}</h2>
-                                <p className="text-[#6B7280] leading-relaxed">{s.body}</p>
+                {/* Residential journey */}
+                <div className="max-w-4xl mx-auto">
+                    <h2 className="text-3xl md:text-4xl font-bold text-[#52525B] tracking-tight mb-3">
+                        Your home, step by step
+                    </h2>
+                    <p className="text-[#6B7280] leading-relaxed mb-8">
+                        For homeowners planning a new residence, interiors or a renovation.
+                    </p>
+                    <div className="space-y-4">
+                        {HOME_STAGES.map((s) => (
+                            <div key={s.n} className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 flex gap-5">
+                                <div className="shrink-0 w-12 h-12 rounded-full bg-[#F97316] text-white font-bold text-lg flex items-center justify-center">{s.n}</div>
+                                <div>
+                                    <h3 className="text-xl md:text-2xl font-bold text-[#52525B] mb-2">{s.title}</h3>
+                                    <p className="text-[#6B7280] leading-relaxed">{s.body}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+                    <p className="text-sm text-[#6B7280] mt-6">
+                        Programme and cost depend on the brief, the site and the specifications, so we do not
+                        publish a single universal delivery schedule for home projects.
+                    </p>
+                </div>
+
+                {/* Visualization-only workflow */}
+                <div className="max-w-4xl mx-auto mt-20 pt-12 border-t border-gray-200">
+                    <h2 className="text-3xl md:text-4xl font-bold text-[#52525B] tracking-tight mb-3">
+                        Visualization-only workflow
+                    </h2>
+                    <p className="text-[#6B7280] leading-relaxed mb-8">
+                        A separate service for architects, designers, developers and clients who only need
+                        renders, walkthroughs or 360° tours. The turnaround times and revision allowances
+                        below apply to image delivery only — they are not construction schedules or
+                        residential design terms.
+                    </p>
+                    <div className="space-y-4">
+                        {STEPS.map((s) => (
+                            <div key={s.n} className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 flex gap-5">
+                                <div className="shrink-0 w-12 h-12 rounded-full bg-[#52525B] text-white font-bold text-lg flex items-center justify-center">{s.n}</div>
+                                <div>
+                                    <h3 className="text-xl md:text-2xl font-bold text-[#52525B] mb-2">{s.title}</h3>
+                                    <p className="text-[#6B7280] leading-relaxed">{s.body}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
                 <div className="max-w-3xl mx-auto mt-12">
                     <Prose>
-                        <h2>Typical turnaround</h2>
+                        <h2>Typical visualization turnaround</h2>
+                        <p>These apply to visualization deliverables only.</p>
                         <ul>
                             <li>Exterior or interior still: <strong>5–10 business days</strong> per view.</li>
                             <li>3D walkthrough: <strong>10–15 business days</strong> per minute of finished animation.</li>
@@ -69,7 +130,7 @@ export default function ProcessPage() {
                         </ul>
                         <p>For more on what drives turnaround, see our <Link to="/blog/3d-rendering-turnaround-time">turnaround guide</Link>.</p>
 
-                        <h2>What we need from you</h2>
+                        <h2>What we need for a visualization brief</h2>
                         <ul>
                             <li>Plans, elevations and sections (CAD, SketchUp, BIM or PDF).</li>
                             <li>Material references (supplier links, sample photos, brand books).</li>

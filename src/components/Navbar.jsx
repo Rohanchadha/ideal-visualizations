@@ -11,6 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const NAV_LINKS = [
     { label: 'Services', to: '/services' },
+    { label: 'Process', to: '/process' },
     { label: 'Portfolio', to: '/portfolio' },
     { label: 'Blog', to: '/blog' },
     { label: 'About', to: '/about' },

@@ -5,7 +5,7 @@ export const INDUSTRIES = [
         slug: 'architecture-firms',
         audience: 'Architecture Firms',
         title: '3D Rendering for Architecture Firms | SLATE Concept Studios',
-        description: 'Outsource your 3D rendering to a dedicated studio. Exterior renders, walkthroughs & 360° tours from your CAD/BIM files. 10+ years, 1500+ projects.',
+        description: 'Outsource your 3D rendering to a dedicated studio. Exterior renders, walkthroughs & 360° tours from your CAD/BIM files. 10+ years of studio practice.',
         h1: '3D Rendering Partner for Architecture Firms',
         subhead: "Your team designs. We visualise. No hiring overhead, no render-farm costs, no missed deadlines.",
         priority: true,
