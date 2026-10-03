@@ -126,6 +126,26 @@ If spam still becomes an issue, add **hCaptcha** or **Cloudflare Turnstile** —
 
 ---
 
+## 5b. Request payload fields
+
+Required: `name`, `country`, `city`, `service`, `phone`, `email`.
+Optional: `message`, plus three qualification fields added for residential enquiries.
+
+| Field | API key | Notes |
+|---|---|---|
+| Approximate plot / built-up area | `area` | Free text, e.g. "2,000 sq ft built-up". Capped at 120 chars in the UI and server-side. |
+| Expected investment range | `budget` | Free text with currency; "not decided yet" is acceptable. Capped at 120 chars. |
+| Preferred start date | `startDate` | Free text, e.g. "in 3 months" or "just exploring". Not a booking date. Capped at 120 chars. |
+
+All three are optional so early-stage and visualization-only leads can still submit.
+They are carried into both the HTML and plain-text studio notification, and show as
+**"Not provided"** when omitted. Older submissions that omit these keys remain valid.
+
+**No additional SMTP or environment variables are required for these fields.**
+The values are never sent to analytics.
+
+---
+
 ## 6. Customizing the emails
 
 Both email templates live in `api/callback.js`:

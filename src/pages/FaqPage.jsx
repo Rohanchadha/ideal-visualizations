@@ -69,7 +69,7 @@ export default function FaqPage() {
                 </div>
             </div>
 
-            <CtaBlock title="Still have questions?" subtitle="WhatsApp us — we usually respond within an hour." />
+            <CtaBlock title="Still have questions?" subtitle="Message us and we'll talk it through — your city, scope and what you need." />
         </>
     );
 }

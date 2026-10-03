@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MessageCircle, Mail, PhoneCall, ArrowUpRight, Clock } from 'lucide-react';
-import { whatsappLink, CONTACT } from '../config/site';
+import { MessageCircle, Mail, PhoneCall, ArrowUpRight, MessagesSquare } from 'lucide-react';
+import { whatsappLink, CONTACT, WHATSAPP_PROJECT_BRIEF } from '../config/site';
 import { useUI } from '../context/UIContext';
 import { trackEvent } from './Analytics';
 
 export default function CtaBlock({
-    title = 'Ready to start your project?',
-    subtitle = "Send us your CAD files, sketches, or just an idea — we'll come back with a quote within one business day.",
-    whatsappMessage,
+    title = 'Planning a home? Let’s talk it through.',
+    subtitle = 'Tell us your city, roughly how much area you are building and what you need — architecture, interiors, turnkey execution or visualization. We will come back to discuss scope and fit.',
+    whatsappMessage = WHATSAPP_PROJECT_BRIEF,
     showCallback = true,
 }) {
     const { openCallback } = useUI();
@@ -27,9 +27,9 @@ export default function CtaBlock({
                         <p className="text-gray-400 text-base md:text-lg leading-relaxed max-w-md">
                             {subtitle}
                         </p>
-                        <div className="mt-6 inline-flex items-center gap-2 text-sm text-white/50">
-                            <Clock className="w-4 h-4" />
-                            Typically responds within an hour
+                        <div className="mt-6 inline-flex items-start gap-2 text-sm text-white/50 max-w-md">
+                            <MessagesSquare className="w-4 h-4 mt-0.5 shrink-0" />
+                            The first conversation is about your requirements, project fit and next steps — meetings and any site support are confirmed there.
                         </div>
                     </div>
 
@@ -44,7 +44,7 @@ export default function CtaBlock({
                         >
                             <span className="inline-flex items-center gap-3">
                                 <MessageCircle className="w-5 h-5 shrink-0" />
-                                Talk on WhatsApp
+                                Discuss your project
                             </span>
                             <ArrowUpRight className="w-5 h-5 opacity-80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                         </a>

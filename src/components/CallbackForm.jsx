@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { X, Loader2, CheckCircle2, AlertTriangle } from 'lucide-react';
-import { COUNTRIES, SERVICES_OFFERED } from '../config/site';
+import { COUNTRIES, SERVICES_OFFERED, CALLBACK_ENDPOINT, whatsappLink, WHATSAPP_PROJECT_BRIEF } from '../config/site';
 import { trackEvent } from './Analytics';
 
-const CALLBACK_ENDPOINT = '/api/callback';
+const MAX_QUALIFIER = 120;
 
 export default function CallbackForm({ open, onClose }) {
     const [form, setForm] = useState({
@@ -14,6 +14,9 @@ export default function CallbackForm({ open, onClose }) {
         dial: '+91',
         phone: '',
         email: '',
+        area: '',
+        budget: '',
+        startDate: '',
         message: '',
         website: '', // honeypot — must stay empty
     });
@@ -73,6 +76,9 @@ export default function CallbackForm({ open, onClose }) {
                     service: form.service,
                     phone: `${country.dial} ${form.phone}`,
                     email: form.email,
+                    area: form.area,
+                    budget: form.budget,
+                    startDate: form.startDate,
                     message: form.message,
                     website: form.website, // honeypot
                 }),
@@ -96,7 +102,7 @@ export default function CallbackForm({ open, onClose }) {
     };
 
     const reset = () => {
-        setForm({ name: '', countryCode: 'IN', city: '', service: '', dial: '+91', phone: '', email: '', message: '', website: '' });
+        setForm({ name: '', countryCode: 'IN', city: '', service: '', dial: '+91', phone: '', email: '', area: '', budget: '', startDate: '', message: '', website: '' });
         setErrors({});
         setErrorMsg('');
         setStatus('idle');
@@ -108,7 +114,10 @@ export default function CallbackForm({ open, onClose }) {
             onClick={onClose}
         >
             <div
-                className="relative w-full max-w-xl max-h-[92vh] overflow-y-auto bg-white rounded-3xl shadow-2xl p-6 sm:p-8"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Request a callback"
+                className="relative w-full max-w-xl max-h-[92vh] overflow-y-auto overscroll-contain bg-white rounded-3xl shadow-2xl p-6 sm:p-8"
                 onClick={(e) => e.stopPropagation()}
             >
                 <button
@@ -123,7 +132,7 @@ export default function CallbackForm({ open, onClose }) {
                     <div className="py-12 text-center">
                         <CheckCircle2 className="w-16 h-16 mx-auto text-green-500 mb-4" />
                         <h3 className="text-2xl font-bold text-[#52525B] mb-2">Request received!</h3>
-                        <p className="text-[#6B7280] mb-6">Thanks for reaching out. We'll call you back shortly.</p>
+                        <p className="text-[#6B7280] mb-6">Thanks for reaching out. We'll get in touch to discuss your requirements and whether the project is a fit.</p>
                         <button
                             onClick={() => { reset(); onClose?.(); }}
                             className="bg-[#F97316] hover:bg-[#EA580C] text-white px-6 py-3 rounded-full font-semibold transition-colors"
@@ -138,9 +147,13 @@ export default function CallbackForm({ open, onClose }) {
                                 Request a <span className="font-serif italic font-normal text-[#F97316]">Callback</span>
                             </h3>
                             <span className="mt-3 inline-flex items-center gap-1.5 bg-[#F97316]/10 text-[#F97316] px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
-                                ✦ First consultation is FREE
+                                ✦ A conversation about project fit
                             </span>
-                            <p className="text-[#6B7280] text-sm mt-3">Fill in the details and we'll get back to you within 24 hours.</p>
+                            <p className="text-[#6B7280] text-sm mt-3">
+                                Share your details and we'll get back to talk through your requirements, the
+                                likely scope and next steps. Submitting this form doesn't book an appointment
+                                or purchase a service.
+                            </p>
                         </div>
 
                         <form onSubmit={submit} className="space-y-4">
@@ -235,20 +248,69 @@ export default function CallbackForm({ open, onClose }) {
                                 />
                             </Field>
 
+                            <div className="pt-1">
+                                <p className="text-xs font-semibold uppercase tracking-wider text-[#6B7280] mb-3">
+                                    Helpful, but optional
+                                </p>
+                                <div className="space-y-4">
+                                    <Field label="Approximate plot / built-up area (optional)">
+                                        <input
+                                            type="text"
+                                            value={form.area}
+                                            onChange={(e) => update('area', e.target.value)}
+                                            maxLength={MAX_QUALIFIER}
+                                            placeholder="e.g. 2,000 sq ft built-up"
+                                            className={inputCls(false)}
+                                        />
+                                    </Field>
+                                    <Field label="Expected investment range (optional)">
+                                        <input
+                                            type="text"
+                                            value={form.budget}
+                                            onChange={(e) => update('budget', e.target.value)}
+                                            maxLength={MAX_QUALIFIER}
+                                            placeholder="e.g. ₹40–50 lakh, or 'not decided yet'"
+                                            className={inputCls(false)}
+                                        />
+                                    </Field>
+                                    <Field label="Preferred start date (optional)">
+                                        <input
+                                            type="text"
+                                            value={form.startDate}
+                                            onChange={(e) => update('startDate', e.target.value)}
+                                            maxLength={MAX_QUALIFIER}
+                                            placeholder="e.g. in 3 months, or 'just exploring'"
+                                            className={inputCls(false)}
+                                        />
+                                    </Field>
+                                </div>
+                            </div>
+
                             <Field label="Tell us about your project (optional)">
                                 <textarea
                                     value={form.message}
                                     onChange={(e) => update('message', e.target.value)}
-                                    placeholder="Project type, timeline, references…"
+                                    placeholder="Project type, requirements, references…"
                                     rows={4}
                                     className={inputCls(false) + ' resize-none'}
                                 />
                             </Field>
 
                             {status === 'error' && (
-                                <div className="flex items-start gap-2 text-red-600 text-sm bg-red-50 border border-red-200 rounded-xl p-3">
-                                    <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
-                                    <span>{errorMsg || 'Something went wrong. Please try again or WhatsApp us directly.'}</span>
+                                <div className="flex flex-col gap-2 text-red-600 text-sm bg-red-50 border border-red-200 rounded-xl p-3">
+                                    <div className="flex items-start gap-2">
+                                        <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                                        <span>{errorMsg || 'Something went wrong. Your details are still here — please try again.'}</span>
+                                    </div>
+                                    <a
+                                        href={whatsappLink(WHATSAPP_PROJECT_BRIEF)}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={() => trackEvent('cta_whatsapp_click', { location: 'callback_error' })}
+                                        className="self-start font-semibold text-[#128C7E] underline underline-offset-4"
+                                    >
+                                        Message us on WhatsApp instead →
+                                    </a>
                                 </div>
                             )}
 

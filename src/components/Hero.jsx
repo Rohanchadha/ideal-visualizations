@@ -1,10 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ArrowRight, MessageCircle, PhoneCall } from 'lucide-react';
+import { ArrowRight, PhoneCall } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useUI } from '../context/UIContext';
-import { whatsappLink } from '../config/site';
 import { trackEvent } from './Analytics';
+
+// Hero cover image — "Modern Farmhouse" (Mr. Raman, Ideal Home Designers,
+// Amritsar), sno 19 in the gallery manifest. Served from the same Google Drive
+// CDN as the rest of the gallery.
+const HERO_IMAGE = {
+    src: 'https://lh3.googleusercontent.com/d/1sJJmeSj3CouF9161yIJApf2SuBaxw4HG=w1920',
+    alt: 'Exterior 3D visualization of a modern farmhouse in Amritsar by SLATE Concept Studios',
+};
 
 export default function Hero() {
     const containerRef = useRef(null);
@@ -22,7 +29,7 @@ export default function Hero() {
             });
 
             gsap.to(".hero-image-overlay", {
-                opacity: 0.7,
+                opacity: 0.95,
                 duration: 2,
                 ease: "power2.inOut"
             });
@@ -32,57 +39,50 @@ export default function Hero() {
     }, []);
 
     return (
-        <section ref={containerRef} className="relative w-full h-[100dvh] overflow-hidden flex items-end">
+        <section ref={containerRef} className="relative w-full min-h-[100svh] overflow-hidden flex items-end">
             {/* Background Image Container */}
             <div className="absolute inset-0 z-0 bg-[#111111]">
                 <img
-                    src="/3D-Images/1.jpg"
-                    alt="Photorealistic 3D architectural exterior render by SLATE Concept Studios — twilight residential project"
+                    src={HERO_IMAGE.src}
+                    alt={HERO_IMAGE.alt}
                     width="1920"
                     height="1080"
                     fetchpriority="high"
                     decoding="async"
+                    referrerPolicy="no-referrer"
                     className="w-full h-full object-cover object-center scale-105"
                 />
-                <div className="hero-image-overlay absolute inset-0 bg-gradient-to-t from-[#111111] via-[#111111]/60 to-[#111111]/20 opacity-90 z-10" />
+                <div className="hero-image-overlay absolute inset-0 bg-gradient-to-t from-[#0B0B0B] via-[#0B0B0B]/35 via-45% to-transparent opacity-95 z-10" />
+                {/* Gentle left-side falloff so the bottom-left copy stays legible
+                    without flattening the render. */}
+                <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#0B0B0B]/45 via-transparent to-transparent" />
             </div>
 
             {/* Content Container positioned at bottom-left */}
-            <div className="relative z-20 w-full max-w-7xl mx-auto px-6 pb-24 md:pb-32">
-                <div className="max-w-4xl text-white">
-                    <p className="hero-text text-[#F97316] font-semibold tracking-wider uppercase mb-4 text-sm md:text-base">
-                        SLATE Concept Studios
-                    </p>
-                    <h1 className="hero-text text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.05] tracking-tight mb-8">
-                        <span className="block">Bringing concepts</span>
-                        <span className="block text-[#E4E4E7]/90 mt-2 font-serif italic font-normal text-6xl md:text-8xl lg:text-[7rem]">to life.</span>
-                        <span className="sr-only">Architectural 3D rendering, walkthroughs and 360° visualization studio in Amritsar, India.</span>
+            <div className="relative z-20 w-full max-w-7xl mx-auto px-6 pt-28 pb-16 md:pb-24">
+                <div className="max-w-3xl text-white">
+                    <h1 className="hero-text text-[2.25rem] leading-[1.08] sm:text-5xl md:text-6xl font-bold tracking-[-0.02em] mb-5 [text-shadow:0_2px_14px_rgba(0,0,0,0.6)]">
+                        <span className="block">Your home, from</span>
+                        <span className="block text-[#F5F5F4] mt-1 font-serif italic font-normal">first plan to handover.</span>
                     </h1>
+                    <p className="hero-text text-base md:text-lg text-white/90 leading-[1.65] max-w-lg mb-8 [text-shadow:0_1px_8px_rgba(0,0,0,0.6)]">
+                        Architecture, interiors and turnkey execution, shaped around how you live.
+                    </p>
                     <div className="hero-text flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center">
-                        <a
-                            href={whatsappLink()}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={() => trackEvent('cta_whatsapp_click', { location: 'hero' })}
-                            className="magnetic-btn bg-[#25D366] hover:bg-[#1FB855] text-white px-7 py-4 rounded-full text-base md:text-lg font-semibold w-full sm:w-auto text-center inline-flex items-center justify-center gap-2"
-                        >
-                            <MessageCircle className="w-5 h-5" /> Talk on WhatsApp
-                        </a>
                         <button
                             onClick={() => { trackEvent('cta_callback_click', { location: 'hero' }); openCallback(); }}
-                            className="magnetic-btn bg-[#F97316] hover:bg-[#EA580C] text-white px-7 py-4 rounded-full text-base md:text-lg font-semibold w-full sm:w-auto inline-flex items-center justify-center gap-2"
+                            className="magnetic-btn bg-[#F97316] hover:bg-[#EA580C] text-white px-7 py-3.5 rounded-full text-base font-semibold w-full sm:w-auto inline-flex items-center justify-center gap-2 shadow-lg shadow-black/30"
                         >
                             <PhoneCall className="w-5 h-5" /> Request a Callback
                         </button>
-                        <Link to="/portfolio" className="group flex items-center justify-center sm:justify-start gap-2 text-white/80 hover:text-white transition-colors px-2 sm:px-4 py-2 sm:py-4">
-                            <span>View Gallery</span>
+                        <Link
+                            to="/portfolio"
+                            className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 rounded-full text-base font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/25 backdrop-blur-sm transition-colors"
+                        >
+                            <span>Explore our work</span>
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </div>
-                    <p className="hero-text mt-5 text-sm md:text-base text-white/70 flex items-center gap-2">
-                        <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#F97316] animate-pulse" />
-                        Your first consultation is <span className="font-semibold text-white">FREE</span>.
-                    </p>
                 </div>
             </div>
         </section>

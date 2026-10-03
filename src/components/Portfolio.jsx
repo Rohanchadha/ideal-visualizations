@@ -41,26 +41,33 @@ export default function Portfolio() {
                 <div className="text-center mb-16 md:mb-24">
                     <h2 className="text-[#F97316] font-semibold tracking-wider uppercase mb-4 text-sm md:text-base">Selected Works</h2>
                     <h3 className="text-4xl md:text-5xl lg:text-7xl font-bold text-[#52525B] tracking-tight">
-                        Our <span className="font-serif italic font-normal">Gallery</span>
+                        Design <span className="font-serif italic font-normal">visualizations</span>
                     </h3>
+                    <p className="mt-6 text-[#6B7280] text-base md:text-lg max-w-2xl mx-auto">
+                        These images are 3D visualizations produced by our studio, not photographs of
+                        completed sites. We use them to show how a design is intended to look and to
+                        agree decisions before anything is built.
+                    </p>
                 </div>
 
                 <div className="portfolio-grid grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[250px] md:auto-rows-[300px]">
                     {images.map((img, i) => (
                         <div
                             key={i}
-                            className={`portfolio-item relative overflow-hidden rounded-[2rem] group cursor-pointer ${img.span || ''}`}
+                            className={`portfolio-item relative overflow-hidden rounded-[2rem] ${img.span || ''}`}
                         >
-                            <div className="absolute inset-0 bg-[#52525B]/20 group-hover:bg-transparent transition-colors duration-500 z-10 mix-blend-multiply" />
                             <img
                                 src={img.src}
-                                alt={img.alt || `Portfolio piece ${i + 1}`}
+                                alt={img.alt || `3D visualization ${i + 1}`}
                                 width="1200"
                                 height="800"
-                                className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                                className="w-full h-full object-cover"
                                 loading="lazy"
                                 decoding="async"
                             />
+                            <span className="absolute bottom-3 left-3 z-10 bg-black/55 backdrop-blur-sm text-white/90 text-[11px] px-2.5 py-1 rounded-full tracking-wide">
+                                3D visualization
+                            </span>
                         </div>
                     ))}
                 </div>

@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import Seo from '../components/Seo';
 import PageHero from '../components/PageHero';
 import CtaBlock from '../components/CtaBlock';
+import HomeProjectGuide from '../components/HomeProjectGuide';
 import { SERVICE_CATEGORIES, SERVICES } from '../content/services';
 import { INDUSTRIES } from '../content/industries';
 import { onlyPublished } from '../config/visibility';
@@ -90,6 +91,7 @@ export default function ServicesHub() {
                     </section>
                 </div>
             </div>
+            <HomeProjectGuide />
             <CtaBlock />
         </>
     );

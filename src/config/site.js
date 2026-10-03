@@ -9,8 +9,23 @@ export const CONTACT = {
     whatsappMessage: "Hi SLATE Concept Studios! I'd like to discuss a project.",
 };
 
+// Editable brief prefilled into WhatsApp. Every line is optional for the
+// visitor — it is a prompt, not a required form.
+export const WHATSAPP_PROJECT_BRIEF = [
+    "Hi SLATE Concept Studios! I'd like to discuss a project.",
+    'City:',
+    'Approximate plot / built-up area (with units):',
+    'Service needed (architecture, interiors, turnkey or visualization):',
+    'Expected investment range:',
+    'Preferred start date:',
+].join('\n');
+
 export const whatsappLink = (msg = CONTACT.whatsappMessage) =>
     `https://wa.me/${CONTACT.phoneRaw}?text=${encodeURIComponent(msg)}`;
+
+// Priority residential service cities. Amritsar is the studio base.
+export const PRIORITY_CITIES = ['Amritsar', 'Ludhiana', 'Chandigarh', 'Delhi'];
+export const STUDIO_BASE_CITY = 'Amritsar';
 
 // Lead form endpoint — handled by api/callback.js (Vercel Serverless Function
 // using nodemailer + SMTP). Configure SMTP_* env vars in Vercel dashboard.

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPinned, MessageCircle, PhoneCall, Instagram, Linkedin } from 'lucide-react';
-import { CONTACT, whatsappLink } from '../config/site';
+import { CONTACT, whatsappLink, WHATSAPP_PROJECT_BRIEF } from '../config/site';
 import { useUI } from '../context/UIContext';
 import { SERVICES } from '../content/services';
 import { LOCATIONS } from '../content/locations';
@@ -23,12 +23,12 @@ export default function Footer() {
                             Have a project in mind?
                         </h3>
                         <p className="text-gray-400 text-base md:text-lg leading-relaxed">
-                            Reach out through the channel you prefer — we typically respond within an hour.
+                            Reach out through the channel you prefer. The first conversation covers your requirements, project fit and next steps.
                         </p>
                     </div>
                     <div className="grid sm:grid-cols-2 gap-3 w-full">
                         <a
-                            href={whatsappLink()}
+                            href={whatsappLink(WHATSAPP_PROJECT_BRIEF)}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={() => trackEvent('cta_whatsapp_click', { location: 'footer' })}
@@ -140,7 +140,10 @@ export default function Footer() {
 
             <div className="max-w-7xl mx-auto pt-8 border-t border-white/10 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4 relative z-10 text-gray-500 text-sm">
                 <p>© {new Date().getFullYear()} SLATE Concept Studios. All rights reserved.</p>
-                <p className="flex items-center gap-1 font-mono">Powered by Design</p>
+                <div className="flex items-center gap-4">
+                    <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+                    <p className="flex items-center gap-1 font-mono">Powered by Design</p>
+                </div>
             </div>
         </footer>
     );

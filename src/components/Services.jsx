@@ -9,10 +9,10 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 const archServices = [
-    { icon: <Compass className="w-7 h-7" />, title: 'Architecture Planning', desc: 'Functional, future-ready architectural plans tailored to your site and brief.' },
-    { icon: <Building2 className="w-7 h-7" />, title: 'Elevation Designing', desc: 'Distinctive façade and elevation design that defines your building\'s identity.' },
-    { icon: <Sofa className="w-7 h-7" />, title: 'Interior Designing', desc: 'Curated interior layouts, materials and styling for residential & commercial spaces.' },
-    { icon: <KeyRound className="w-7 h-7" />, title: 'Turnkey Projects', desc: 'End-to-end project execution — from concept to handover, hassle-free.' },
+    { icon: <Compass className="w-7 h-7" />, title: 'Architecture Planning', desc: 'Layouts planned around your household — circulation, room sizes, storage, daylight and ventilation for your specific plot.' },
+    { icon: <Building2 className="w-7 h-7" />, title: 'Elevation Designing', desc: 'Façade and elevation design, with material and finish choices explained before you commit to them.' },
+    { icon: <Sofa className="w-7 h-7" />, title: 'Interior Designing', desc: 'Interior layouts, joinery, storage, lighting and material selection for residential and commercial spaces.' },
+    { icon: <KeyRound className="w-7 h-7" />, title: 'Turnkey Projects', desc: 'Design plus execution through to handover, with scope, site supervision, payment stages and exclusions agreed in the proposal.' },
 ];
 
 const vizServices = [
@@ -48,7 +48,9 @@ export default function Services() {
                     <div className="mt-6 md:mt-8 flex items-start gap-4">
                         <div className="hidden md:block h-px w-12 bg-[#F97316] mt-3 shrink-0" />
                         <p className="text-[#6B7280] text-base md:text-lg leading-relaxed max-w-2xl">
-                            Two studios under one roof — we design and build the space, then visualize it in breathtaking photoreal quality.
+                            We design and build homes — and we visualize them first, so you understand
+                            every decision before it is executed. Visualization is also offered on its own
+                            to architects, designers and developers.
                         </p>
                     </div>
                 </div>
