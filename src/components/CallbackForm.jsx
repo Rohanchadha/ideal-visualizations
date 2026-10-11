@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { X, Loader2, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { COUNTRIES, SERVICES_OFFERED, CALLBACK_ENDPOINT, whatsappLink, WHATSAPP_PROJECT_BRIEF } from '../config/site';
+import { getAttribution } from '../config/attribution';
 import { trackEvent } from './Analytics';
 
 const MAX_QUALIFIER = 120;
@@ -66,6 +67,7 @@ export default function CallbackForm({ open, onClose }) {
         setStatus('submitting');
         setErrorMsg('');
         try {
+            const attribution = getAttribution();
             const res = await fetch(CALLBACK_ENDPOINT, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -81,6 +83,8 @@ export default function CallbackForm({ open, onClose }) {
                     startDate: form.startDate,
                     message: form.message,
                     website: form.website, // honeypot
+                    source: attribution.source,
+                    campaign: attribution.campaign,
                 }),
             });
             const data = await res.json().catch(() => ({}));

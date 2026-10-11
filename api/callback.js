@@ -12,10 +12,15 @@
 //   LEADS_TO               comma-separated recipients, e.g. "danish@slateconcepts.com"
 //   LEADS_CC               (optional) comma-separated CC list
 //
+// Also appends every submission to the unified Leads Google Sheet (see
+// api/_lib/sheets.js) alongside Meta Ads leads, tagged with the UTM/source
+// captured client-side (falls back to "Organic/Website").
+//
 // Local dev: run `vercel dev` (Vercel CLI) so this function is reachable at
 // http://localhost:3000/api/callback. Plain `vite` won't expose /api/*.
 
 import nodemailer from 'nodemailer';
+import { appendLead, appendNote, newLeadId } from './_lib/sheets.js';
 
 // ---------- Simple in-memory rate limit (per cold-start instance) ----------
 // Vercel serverless instances are reused for warm requests, so this acts as
@@ -142,6 +147,8 @@ export default async function handler(req, res) {
         budget: clean(body.budget, 120),
         startDate: clean(body.startDate, 120),
         message: clean(body.message, 2000),
+        source: clean(body.source, 60),     // e.g. "Meta Ads", "Google Ads", captured client-side from UTM/fbclid/gclid
+        campaign: clean(body.campaign, 160), // utm_campaign, if present
         submittedAt: new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC',
         ip,
     };
@@ -196,6 +203,32 @@ export default async function handler(req, res) {
             });
         } catch (autoErr) {
             console.error('Auto-response failed (notification still sent):', autoErr.message);
+        }
+
+        // 3) Append to the unified Leads Google Sheet (best-effort — don't
+        // fail the user-facing request if Sheets is unreachable/misconfigured).
+        try {
+            const leadId = newLeadId();
+            await appendLead({
+                'Lead ID': leadId,
+                Name: lead.name,
+                'Mobile Number': lead.phone,
+                Email: lead.email,
+                'Lead Source': lead.source || 'Organic/Website',
+                'Campaign Name': lead.campaign,
+                'Lead Type': lead.service,
+                'Budget Range': lead.budget,
+                'Carpet / Built-up Area': lead.area,
+                Location: `${lead.city}, ${lead.country}`,
+                'Planned Starting Date': lead.startDate,
+                'Lead Stage': 'New',
+                'Lead Score': 'Warm',
+            });
+            if (lead.message) {
+                await appendNote(leadId, lead.message, { author: lead.name, type: 'Auto' });
+            }
+        } catch (sheetErr) {
+            console.error('Google Sheets append failed (email still sent):', sheetErr.message);
         }
 
         return res.status(200).json({ ok: true });
