@@ -20,11 +20,16 @@ history) using a Google service account — no Zapier/Make, no manual copy-paste
    `https://docs.google.com/spreadsheets/d/1NVn1XuX9XSMo6eZfQG65vqydt5wOrLBkkD1BZ4pfbJo/edit`
 3. Leave the tabs empty — the code auto-creates `Leads` and `Notes` tabs with
    headers on first run.
-4. (Optional, recommended) On the `Leads` tab, once headers exist:
-   - Add data-validation dropdowns for **Lead Stage**, **Lead Source**,
-     **Lead Score**, **Property Type**, **Project Stage** (Data → Data validation).
-   - Conditional formatting: Lead Stage = "Won" → green, "Lost" → grey,
-     overdue "Follow Up Date" (before TODAY and Stage not Won/Lost) → red.
+4. The first lead or note write after deployment automatically applies a
+  readable layout to `Leads` and `Notes`: frozen headers and Lead ID column,
+  filters, alternating rows, wrapped text and wider columns. Lead Stage,
+  Lead Score and Note Type have dropdowns. The layout is applied once, so
+  subsequent writes do not reset your manual formatting.
+5. Mobile numbers are stored as text, preserving `+` and leading zeros.
+  Existing phone cells with formula errors are repaired only when their
+  stored formula contains a recognizable phone number. Other formulas and
+  existing text values are left untouched. Previously lost leading zeros
+  cannot be reconstructed automatically.
 
 ## Part 2 — Google authentication (lets the server write to the Sheet)
 
@@ -165,6 +170,13 @@ auto-note as raw text, just not placed into a dedicated column.
 
 ## Testing
 
+- Run `node --test scripts/test-sheets.mjs` for mocked regression checks of
+  phone handling, layout requests and safe repair of existing phone errors.
+- To apply the layout without creating a test lead, run
+  `node scripts/format-crm-sheet.mjs` with the Google auth variables and
+  `LEADS_SHEET_ID` available in your environment or an untracked local
+  `.env`. The script reports only tab names and the number of repaired phones.
+  Never commit credentials. If the layout was already applied, it is a no-op.
 - **Meta side:** Meta's webhook setup page has a "Test" button that sends a
   sample `leadgen` event — check Vercel function logs
   (`Deployments → Functions → /api/meta-leads-webhook → Logs`) and the Sheet.

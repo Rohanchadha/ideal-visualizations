@@ -153,6 +153,140 @@ async function ensureSheetsExist() {
         method: 'PUT',
         body: { range: 'Notes!A1', majorDimension: 'ROWS', values: [['Lead ID', 'Timestamp', 'Author', 'Note Type', 'Note Text']] },
     });
+    try {
+        await formatCrmSheet();
+    } catch (error) {
+        console.error('CRM layout update failed; lead capture will continue:', error.message);
+    }
+}
+
+const LAYOUT_KEY = 'slate_crm_layout';
+const LAYOUT_VERSION = '1';
+
+function layoutRequests(sheet, widths) {
+    const sheetId = sheet.properties.sheetId;
+    const range = { sheetId, startColumnIndex: 0, endColumnIndex: widths.length };
+    const header = { ...range, startRowIndex: 0, endRowIndex: 1 };
+    const requests = [
+        {
+            updateSheetProperties: {
+                properties: { sheetId, gridProperties: { frozenRowCount: 1, frozenColumnCount: 1 } },
+                fields: 'gridProperties.frozenRowCount,gridProperties.frozenColumnCount',
+            },
+        },
+        {
+            repeatCell: {
+                range,
+                cell: { userEnteredFormat: {
+                    textFormat: { fontSize: 11, foregroundColor: { red: 0.12, green: 0.16, blue: 0.18 } },
+                    verticalAlignment: 'TOP', horizontalAlignment: 'LEFT', wrapStrategy: 'WRAP',
+                } },
+                fields: 'userEnteredFormat.textFormat,userEnteredFormat.verticalAlignment,userEnteredFormat.horizontalAlignment,userEnteredFormat.wrapStrategy',
+            },
+        },
+        {
+            repeatCell: {
+                range: header,
+                cell: { userEnteredFormat: {
+                    backgroundColor: { red: 0.08, green: 0.25, blue: 0.24 },
+                    textFormat: { bold: true, fontSize: 11, foregroundColor: { red: 1, green: 1, blue: 1 } },
+                    verticalAlignment: 'MIDDLE',
+                } },
+                fields: 'userEnteredFormat.backgroundColor,userEnteredFormat.textFormat,userEnteredFormat.verticalAlignment',
+            },
+        },
+        {
+            updateDimensionProperties: {
+                range: { sheetId, dimension: 'ROWS', startIndex: 0, endIndex: 1 },
+                properties: { pixelSize: 48 }, fields: 'pixelSize',
+            },
+        },
+        ...widths.map((pixelSize, index) => ({
+            updateDimensionProperties: {
+                range: { sheetId, dimension: 'COLUMNS', startIndex: index, endIndex: index + 1 },
+                properties: { pixelSize }, fields: 'pixelSize',
+            },
+        })),
+    ];
+    if (!sheet.basicFilter) requests.push({ setBasicFilter: { filter: { range } } });
+    if (!sheet.bandedRanges?.length) {
+        requests.push({ addBanding: { bandedRange: {
+            range,
+            rowProperties: {
+                headerColor: { red: 0.08, green: 0.25, blue: 0.24 },
+                firstBandColor: { red: 1, green: 1, blue: 1 },
+                secondBandColor: { red: 0.94, green: 0.97, blue: 0.96 },
+            },
+        } } });
+    }
+    return requests;
+}
+
+function dropdownRequest(sheetId, column, values) {
+    return { setDataValidation: {
+        range: { sheetId, startRowIndex: 1, startColumnIndex: column, endColumnIndex: column + 1 },
+        rule: {
+            condition: { type: 'ONE_OF_LIST', values: values.map(userEnteredValue => ({ userEnteredValue })) },
+            strict: false, showCustomUi: true,
+        },
+    } };
+}
+
+export async function formatCrmSheet() {
+    const meta = await sheetsRequest('');
+    const sheets = (meta.sheets || []).filter(sheet => ['Leads', 'Notes'].includes(sheet.properties.title));
+    const pending = sheets.filter(sheet => !sheet.developerMetadata?.some(
+        item => item.metadataKey === LAYOUT_KEY && item.metadataValue === LAYOUT_VERSION
+    ));
+    const requests = [];
+    let repairedPhones = 0;
+    for (const sheet of pending) {
+        const sheetId = sheet.properties.sheetId;
+        if (sheet.properties.title === 'Leads') {
+            requests.push(...layoutRequests(sheet, [
+                170, 210, 210, 190, 180, 260, 160, 220, 210, 180, 210, 200,
+                200, 220, 210, 190, 180, 180, 130, 160, 230, 220, 170, 130,
+            ]));
+            const phoneColumn = LEADS_COLUMNS.indexOf('Mobile Number');
+            requests.push({ repeatCell: {
+                range: { sheetId, startRowIndex: 1, startColumnIndex: phoneColumn, endColumnIndex: phoneColumn + 1 },
+                cell: { userEnteredFormat: { numberFormat: { type: 'TEXT' } } },
+                fields: 'userEnteredFormat.numberFormat',
+            } });
+            requests.push(dropdownRequest(sheetId, LEADS_COLUMNS.indexOf('Lead Stage'), LEAD_STAGES));
+            requests.push(dropdownRequest(sheetId, LEADS_COLUMNS.indexOf('Lead Score'), ['Hot', 'Warm', 'Cold']));
+            const grid = await sheetsRequest('?includeGridData=true&ranges=Leads!E2:E&fields=sheets(data(startRow,rowData(values(userEnteredValue,effectiveValue))))');
+            for (const gridSheet of grid.sheets || []) {
+                for (const data of gridSheet.data || []) {
+                    for (const [offset, row] of (data.rowData || []).entries()) {
+                        const cell = row.values?.[0];
+                        const formula = cell?.userEnteredValue?.formulaValue;
+                        const phone = formula?.replace(/^=/, '').trim();
+                        if (!cell?.effectiveValue?.errorValue || !phone || !/^\+?[\d\s()-]+$/.test(phone)) continue;
+                        const digitCount = phone.replace(/\D/g, '').length;
+                        if (digitCount < 6 || digitCount > 15) continue;
+                        requests.push({ updateCells: {
+                            start: { sheetId, rowIndex: (data.startRow ?? 1) + offset, columnIndex: phoneColumn },
+                            rows: [{ values: [{ userEnteredValue: { stringValue: phone } }] }],
+                            fields: 'userEnteredValue',
+                        } });
+                        repairedPhones += 1;
+                    }
+                }
+            }
+        } else {
+            requests.push(...layoutRequests(sheet, [170, 210, 180, 130, 640]));
+            requests.push(dropdownRequest(sheetId, 3, ['Auto', 'Manual']));
+        }
+        requests.push({ createDeveloperMetadata: { developerMetadata: {
+            metadataKey: LAYOUT_KEY, metadataValue: LAYOUT_VERSION,
+            location: { sheetId }, visibility: 'DOCUMENT',
+        } } });
+    }
+    if (requests.length) {
+        await sheetsRequest(':batchUpdate', { method: 'POST', body: { requests } });
+    }
+    return { formattedTabs: pending.map(sheet => sheet.properties.title), repairedPhones };
 }
 
 let sheetsReady = false;
@@ -177,7 +311,7 @@ export async function appendLead(lead) {
         if (col === 'Lead Stage') return lead['Lead Stage'] || 'New';
         return lead[col] ?? '';
     });
-    await sheetsRequest('/values/Leads!A1:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS', {
+    await sheetsRequest('/values/Leads!A1:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS', {
         method: 'POST',
         body: { values: [row] },
     });
@@ -190,7 +324,7 @@ export async function appendLead(lead) {
 export async function appendNote(leadId, text, { author = 'System', type = 'Auto' } = {}) {
     await ensureReady();
     const now = new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
-    await sheetsRequest('/values/Notes!A1:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS', {
+    await sheetsRequest('/values/Notes!A1:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS', {
         method: 'POST',
         body: { values: [[leadId, now, author, type, text]] },
     });
