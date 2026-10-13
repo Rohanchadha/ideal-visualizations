@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { readFile } from 'node:fs/promises';
+import vm from 'node:vm';
 import { OAuth2Client } from 'google-auth-library';
 
 test('Meta Graph field names map to CRM fields', async () => {
@@ -149,7 +151,16 @@ test('CRM layout, targeted phone repair, and raw intake', async () => {
         const body = options.body ? JSON.parse(options.body) : undefined;
         requests.push({ url, body });
         let result = {};
-        if (url.includes('includeGridData=true')) {
+        if (url.includes('columnMetadata')) {
+            const { PROPERTY_TYPES, PROJECT_STAGES, LEAD_STAGES } = await import('../api/_lib/sheets.js');
+            result = { sheets: [{ properties: { title: 'Leads' }, data: [
+                ...[7, 15].map(startColumn => ({ startColumn, columnMetadata: [{ hiddenByUser: true }] })),
+                ...[[9, PROPERTY_TYPES], [10, PROJECT_STAGES], [20, LEAD_STAGES]].map(([startColumn, values]) => ({
+                    startColumn, rowData: [{ values: [{ dataValidation: { condition: { values: values.map(userEnteredValue => ({ userEnteredValue })) } } }] }],
+                })),
+                { startColumn: 26, rowData: [{ values: [{ effectiveValue: { stringValue: 'Latest Note' } }] }, { values: [{ effectiveValue: { stringValue: 'Example note' } }] }] },
+            ] }] };
+        } else if (url.includes('includeGridData=true')) {
             const errorValue = { type: 'ERROR' };
             result = { sheets: [{ data: [{ startRow: 1, rowData: [
                 { values: [{ userEnteredValue: { formulaValue: '=+91 076960 98468' }, effectiveValue: { errorValue } }] },
@@ -157,6 +168,8 @@ test('CRM layout, targeted phone repair, and raw intake', async () => {
                 { values: [{ userEnteredValue: { formulaValue: '=SUM(A1:A5)' }, effectiveValue: { errorValue } }] },
                 { values: [{ userEnteredValue: { formulaValue: '=123456+987654' }, effectiveValue: { errorValue } }] },
             ] }] }] };
+        } else if (url.includes('/values/Leads!A2:A')) {
+            result = { values: [['TEST'], ['META-100001']] };
         } else if (options.method === 'GET') {
             result = { sheets };
         } else if (url.endsWith(':batchUpdate')) {
@@ -168,22 +181,37 @@ test('CRM layout, targeted phone repair, and raw intake', async () => {
         return { ok: true, json: async () => result };
     };
     try {
-        const { formatCrmSheet, appendLead, appendNote, LEADS_COLUMNS } = await import('../api/_lib/sheets.js');
+        const { formatCrmSheet, appendLead, appendNote, LEADS_COLUMNS, PROPERTY_TYPES, PROJECT_STAGES } = await import('../api/_lib/sheets.js');
         assert.deepEqual(await formatCrmSheet(), { formattedTabs: ['Leads', 'Notes'], repairedPhones: 1 });
         const updates = requests.at(-1).body.requests;
-        const repairs = updates.filter(request => request.updateCells);
+        const repairs = updates.filter(request => request.updateCells?.start.columnIndex === 4);
         assert.equal(repairs.length, 1);
         assert.deepEqual(repairs[0].updateCells.start, { sheetId: 12, rowIndex: 1, columnIndex: 4 });
         assert.equal(repairs[0].updateCells.rows[0].values[0].userEnteredValue.stringValue, '+91 076960 98468');
         assert.equal(updates.filter(request => request.setBasicFilter).length, 1);
         assert.equal(updates.filter(request => request.addBanding).length, 1);
-        assert.equal(updates.filter(request => request.updateSheetProperties).length, 2);
+        assert.equal(updates.filter(request => request.updateSheetProperties?.fields.includes('frozen')).length, 2);
         assert.ok(updates.some(request => request.repeatCell?.cell.userEnteredFormat?.numberFormat?.type === 'TEXT'));
         assert.ok(updates.some(request => request.updateDimensionProperties?.properties.pixelSize === 640));
         assert.ok(updates.some(request => request.setDataValidation?.range.startColumnIndex === LEADS_COLUMNS.indexOf('Lead Stage')));
+        const dropdowns = updates.filter(request => request.setDataValidation).map(request => request.setDataValidation);
+        assert.deepEqual(dropdowns.find(rule => rule.range.startColumnIndex === LEADS_COLUMNS.indexOf('Property Type')).rule.condition.values.map(value => value.userEnteredValue), PROPERTY_TYPES);
+        assert.deepEqual(dropdowns.find(rule => rule.range.startColumnIndex === LEADS_COLUMNS.indexOf('Project Stage')).rule.condition.values.map(value => value.userEnteredValue), PROJECT_STAGES);
+        assert.ok(dropdowns.find(rule => rule.range.startColumnIndex === LEADS_COLUMNS.indexOf('Lead Stage')).rule.condition.values.some(value => value.userEnteredValue === 'Not Qualified'));
+        assert.deepEqual(updates.filter(request => request.updateDimensionProperties?.properties.hiddenByUser && request.updateDimensionProperties.range.sheetId === 12).map(request => request.updateDimensionProperties.range.startIndex), [7, 15]);
+        assert.ok(updates.some(request => request.updateCells?.start.columnIndex === 26 && request.updateCells.rows[0].values[0].userEnteredValue.formulaValue?.includes('$A2')));
         const before = requests.length;
         assert.deepEqual(await formatCrmSheet(), { formattedTabs: [], repairedPhones: 0 });
         assert.equal(requests.length, before + 1);
+        for (const sheet of sheets) sheet.developerMetadata[0].metadataValue = '1';
+        await formatCrmSheet();
+        const migration = requests.at(-1).body.requests;
+        assert.ok(!migration.some(request => request.updateSheetProperties?.fields.includes('frozen')));
+        assert.ok(!migration.some(request => request.addBanding || request.setBasicFilter));
+        assert.ok(!migration.some(request => request.updateDimensionProperties?.properties.pixelSize === 170));
+        assert.deepEqual(await formatCrmSheet(), { formattedTabs: [], repairedPhones: 0 });
+        const { verifyCrmLayout } = await import('../api/_lib/sheets.js');
+        assert.deepEqual(await verifyCrmLayout(), { layoutReady: true, hiddenColumns: 2, dropdownColumns: 3, notesWithPreview: 1, notePreviewErrors: 0 });
         for (const phone of ['+91 076960 98468', '07696098468']) {
             await appendLead({ 'Lead ID': 'TEST', 'Mobile Number': phone });
             const request = requests.at(-1);
@@ -191,13 +219,16 @@ test('CRM layout, targeted phone repair, and raw intake', async () => {
             assert.equal(request.body.values[0][LEADS_COLUMNS.indexOf('Mobile Number')], phone);
         }
         await appendNote('TEST', '=not a formula');
-        assert.equal(new URL(requests.at(-1).url).searchParams.get('valueInputOption'), 'RAW');
-        assert.equal(requests.at(-1).body.values[0][4], '=not a formula');
+        const noteRequest = requests.findLast(request => request.url.includes('/values/Notes!A1:append'));
+        assert.equal(new URL(noteRequest.url).searchParams.get('valueInputOption'), 'RAW');
+        assert.equal(noteRequest.body.values[0][4], '=not a formula');
+        assert.match(noteRequest.body.values[0][5], /^[a-f0-9-]{36}$/);
+        assert.ok(requests.at(-1).body.values[0][0].includes('$A2'));
         const { upsertMetaLead } = await import('../api/_lib/sheets.js');
         const state = { sheetIds: { Leads: 12, Notes: 15 }, leads: [], notes: [] };
         const metaLead = { 'Meta Lead ID': '100001', 'Meta Form ID': '200001', 'Mobile Number': '+910001234567' };
         assert.equal((await upsertMetaLead(metaLead, 'phone: +910001234567', { state })).status, 'imported');
-        const batch = requests.at(-1).body.requests;
+        const batch = requests.findLast(request => request.url.endsWith(':batchUpdate')).body.requests;
         assert.equal(batch.length, 2);
         assert.equal(batch[0].appendCells.sheetId, 12);
         assert.equal(batch[1].appendCells.sheetId, 15);
@@ -210,4 +241,100 @@ test('CRM layout, targeted phone repair, and raw intake', async () => {
         globalThis.fetch = previousFetch;
         OAuth2Client.prototype.getAccessToken = previousGetAccessToken;
     }
+});
+
+test('layout maintenance is disabled without its own secret', async () => {
+    const { default: handler } = await import('../api/crm-layout.js');
+    const previous = process.env.CRM_LAYOUT_TOKEN;
+    const response = { code: 0, status(code) { this.code = code; return this; }, json(body) { this.body = body; return this; } };
+    try {
+        delete process.env.CRM_LAYOUT_TOKEN;
+        await handler({ method: 'POST', headers: { authorization: 'Bearer fake-layout-secret' } }, response);
+        assert.equal(response.code, 401);
+        process.env.CRM_LAYOUT_TOKEN = 'fake-layout-secret';
+        await handler({ method: 'POST', headers: { authorization: 'Bearer wrong' } }, response);
+        assert.equal(response.code, 401);
+        await handler({ method: 'GET', headers: {} }, response);
+        assert.equal(response.code, 405);
+    } finally {
+        if (previous === undefined) delete process.env.CRM_LAYOUT_TOKEN;
+        else process.env.CRM_LAYOUT_TOKEN = previous;
+    }
+});
+
+test('lead notes sidebar preserves identity, treats text literally and detects edit conflicts', async () => {
+    const makeSheet = (name, data) => {
+        const sheet = {
+            getName: () => name,
+            getLastRow: () => data.length,
+            getMaxColumns: () => 27,
+            hideColumns: () => {},
+            getDataRange: () => sheet.getRange(1, 1, data.length, Math.max(...data.map(row => row.length))),
+            getRange(row, column, height = 1, width = 1) {
+                const set = value => {
+                    data[row - 1] ||= [];
+                    data[row - 1][column - 1] = value;
+                };
+                return {
+                    getDisplayValue: () => data[row - 1]?.[column - 1] || '',
+                    getDisplayValues: () => Array.from({ length: height }, (_, offset) => Array.from({ length: width }, (_, index) => data[row + offset - 1]?.[column + index - 1] || '')),
+                    setValue: set,
+                    setFormula: set,
+                    setRichTextValue: value => set(value.text),
+                    setValues: values => values.forEach((items, offset) => items.forEach((value, index) => {
+                        data[row + offset - 1] ||= [];
+                        data[row + offset - 1][column + index - 1] = value;
+                    })),
+                };
+            },
+        };
+        return sheet;
+    };
+    const leadData = [['Lead ID', 'Created On', 'Updated On', 'Name'], ['LEAD-ONE', '', '', 'First'], ['LEAD-TWO', '', '', 'Second']];
+    const noteData = [['Lead ID', 'Timestamp', 'Author', 'Note Type', 'Note Text'], ['LEAD-ONE', '2026-01-01', 'System', 'Auto', 'Original capture'], ['LEAD-ONE', '2026-01-02', 'Owner', 'Manual', 'Call scheduled']];
+    const sheets = { Leads: makeSheet('Leads', leadData), Notes: makeSheet('Notes', noteData) };
+    let selectedRow = 2;
+    let counter = 0;
+    let releases = 0;
+    const spreadsheet = {
+        getSheetByName: name => sheets[name],
+        getActiveRange: () => ({ getSheet: () => sheets.Leads, getRow: () => selectedRow, getNumRows: () => 1 }),
+    };
+    const context = vm.createContext({
+        SpreadsheetApp: {
+            getActiveSpreadsheet: () => spreadsheet,
+            newRichTextValue: () => ({ text: '', setText(text) { this.text = text; return this; }, build() { return { text: this.text }; } }),
+        },
+        LockService: { getDocumentLock: () => ({ tryLock: () => true, releaseLock: () => { releases++; } }) },
+        Session: { getActiveUser: () => ({ getEmail: () => '' }) },
+        Utilities: { getUuid: () => `00000000-0000-4000-8000-${String(++counter).padStart(12, '0')}`, formatDate: () => '2026-10-06 12:00:00' },
+    });
+    vm.runInContext(await readFile(new URL('./crm-notes.gs.js', import.meta.url), 'utf8'), context);
+    const view = context.crmGetSelectedLeadNotes();
+    assert.equal(view.id, 'LEAD-ONE');
+    assert.equal(view.notes.length, 2);
+    assert.equal(view.notes.find(note => note.type === 'Auto').editable, false);
+    const manual = view.notes.find(note => note.type === 'Manual');
+    assert.ok(manual.id);
+    [leadData[1], leadData[2]] = [leadData[2], leadData[1]];
+    [noteData[1], noteData[2]] = [noteData[2], noteData[1]];
+    const edit = { leadId: view.id, mode: 'edit', noteId: manual.id, text: '=not a formula <script>', expectedText: manual.text, expectedEditedOn: manual.editedOn };
+    context.crmSaveLeadNote(edit);
+    assert.equal(noteData.find(row => row[5] === manual.id)[4], edit.text);
+    assert.equal(noteData.find(row => row[5] === manual.id)[7], 'Team Member');
+    assert.equal(leadData[2][2], '2026-10-06 12:00:00 UTC');
+    assert.ok(leadData[2][26].includes('$A3'));
+    assert.equal(leadData[1][2], '');
+    assert.throws(() => context.crmSaveLeadNote(edit), /Someone changed/);
+    const auto = view.notes.find(note => note.type === 'Auto');
+    assert.throws(() => context.crmSaveLeadNote({ ...edit, noteId: auto.id }), /Only existing manual/);
+    const add = { leadId: view.id, mode: 'add', noteId: '11111111-1111-4111-8111-111111111111', text: '+91 00000\nSite visit booked' };
+    context.crmSaveLeadNote(add);
+    context.crmSaveLeadNote(add);
+    assert.equal(noteData.filter(row => row[5] === add.noteId).length, 1);
+    assert.equal(noteData.find(row => row[5] === add.noteId)[4], add.text);
+    selectedRow = 1;
+    assert.throws(() => context.crmGetSelectedLeadNotes(), /Select one lead/);
+    assert.ok(releases >= 7);
+    assert.equal(noteData.find(row => row[3] === 'Auto')[4], 'Original capture');
 });

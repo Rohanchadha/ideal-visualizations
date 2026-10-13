@@ -219,11 +219,61 @@ webhook deliveries or other import processes. Meta typically retains
 retrievable leads for 90 days; older history requires a saved export. API
 permissions and untargeted-lead restrictions can also limit available results.
 
-## Notes tab
+## CRM layout and notes
 
-Every automated capture also writes one row to the `Notes` tab with the raw
-answers, so nothing is lost even for partially-mapped forms. The team can add
-manual rows here too (`Lead ID | Timestamp | Author | Note Type=Manual | Note Text`)
-to log calls, site visits, etc. — a simple `=FILTER(Notes!A:E, Notes!A:A="LD-2026-XXXX")`
-formula on the Leads tab (or a small Apps Script sidebar) can show a lead's
-full history in one place if you want that later.
+Layout version 2 hides Campaign Name (H) and Preferred Contact Channel (P)
+without deleting their data. Property Type (J) and Project Stage (K) have
+dropdowns, and Lead Stage includes Not Qualified. These dropdowns also accept
+custom values; existing answers are not overwritten. Upgrading from version 1
+preserves existing widths, filters, bands, and frozen panes.
+
+Latest Note (AA) shows the first 180 characters of the most recently created
+or edited note. Notes stay in the `Notes` tab with this schema:
+`Lead ID | Timestamp | Author | Note Type | Note Text | Note ID | Edited On | Edited By`.
+The original five columns stay in place. Note ID is hidden and identifies a
+note independently of its row position. Do not change Lead IDs or Note IDs.
+
+### Install the lead notes sidebar once
+
+The sidebar is a **spreadsheet-bound Apps Script**, not a website feature.
+Our existing Sheets-only API authorization cannot install that script; the
+spreadsheet owner must complete this step. No web-app deployment, API key,
+OAuth client secret, or Meta token is needed.
+
+1. Open the CRM spreadsheet and choose **Extensions > Apps Script**.
+2. Replace the default Code.gs contents with `scripts/crm-notes.gs.js`.
+  If this spreadsheet already has an `onOpen`, merge the CRM menu into it
+  rather than replacing the existing menu or script.
+3. Add an **HTML** file named **CrmNotes**, with the contents of
+  `scripts/CrmNotes.html`.
+4. In Project Settings, enable **Show appsscript.json manifest file in editor**.
+  For a new script project, use `scripts/appsscript.json` as the manifest.
+  For an existing project, merge its required scopes instead of removing them.
+  The supplied manifest restricts spreadsheet access to this bound document.
+5. Save the project, return to the spreadsheet, and reload it. Select one lead
+  row and choose **CRM Notes > Open Lead Notes**. Authorize your own bound
+  script when prompted. Each editor may need to authorize it individually.
+
+From the Leads tab, **Load Selected Lead** opens that lead's full history.
+**Add Note** saves a manual note and updates Updated On and Latest Note.
+**Edit Note** changes a manual note and records Edited On/By. Automated raw
+capture notes are read-only in this sidebar. **Refresh** reloads the currently
+displayed lead; selecting another row does not silently switch an unsaved draft.
+Save a draft before closing the sidebar; drafts are not stored automatically.
+
+If Google does not expose an editor's email, Author/Edited By reads
+**Team Member**, not an inferred identity. Notes beginning with `=`, `+`, or
+HTML remain plain text. Editing a note changed by another sidebar user is
+rejected until refreshed. Sidebar actions are serialized with a document lock,
+but direct Sheet edits, sorting during a save, and backend lead imports do not
+participate in that lock. Avoid those operations while a note is saving.
+
+After installing, verify with a sample lead: add a manual note, confirm the
+Latest Note preview, reopen and edit it, and load a different lead to confirm
+its history is separate. Legacy notes receive stable IDs when loaded.
+
+For a one-time server-side layout migration, `/api/crm-layout` accepts POST
+only, authenticated by a separate temporary `CRM_LAYOUT_TOKEN` Bearer secret.
+It returns tab/repair counts, never lead data. Remove that variable and redeploy
+after applying the migration; without it the endpoint returns 401. Alternatively,
+run `node scripts/format-crm-sheet.mjs` with privately supplied Google credentials.

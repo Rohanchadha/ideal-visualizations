@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+    <base target="_top">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root { --ink: #172b29; --muted: #64716d; --accent: #20685b; --line: #d7dfdc; }
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 16px; color: var(--ink); background: #f8faf9; font: 13px Georgia, serif; }
+        button, textarea { font: inherit; }
+        button { cursor: pointer; padding: 9px 12px; border: 1px solid var(--line); background: white; color: var(--ink); border-radius: 4px; }
+        button.primary { color: white; background: var(--accent); border-color: var(--accent); }
+        button:disabled { opacity: .55; cursor: default; }
+        button:focus-visible, textarea:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+        h1 { margin: 18px 0 4px; font-size: 19px; overflow-wrap: anywhere; }
+        p { margin: 6px 0; }
+        .muted, .meta { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+        .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        label { display: block; margin-top: 18px; margin-bottom: 7px; font-weight: bold; }
+        textarea { width: 100%; min-height: 110px; padding: 10px; resize: vertical; border: 1px solid var(--line); border-radius: 4px; background: white; line-height: 1.5; }
+        #notice { min-height: 22px; margin: 12px 0; overflow-wrap: anywhere; }
+        #notice.error { color: #a32929; }
+        #history { margin-top: 20px; border-top: 1px solid var(--line); }
+        article { padding: 14px 0; border-bottom: 1px solid var(--line); }
+        .note { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.5; margin: 8px 0; }
+        article button { padding: 5px 9px; }
+        [hidden] { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="actions"><button id="load" type="button">Load Selected Lead</button><button id="refresh" type="button" hidden>Refresh</button></div>
+    <div id="notice" role="status" aria-live="polite"></div>
+    <main id="panel" hidden>
+        <h1 id="name"></h1><p id="leadId" class="muted"></p>
+        <form id="form">
+            <label for="text" id="label">New Note</label>
+            <textarea id="text" maxlength="10000" required></textarea>
+            <div class="actions"><button id="save" class="primary" type="submit">Add Note</button><button id="cancel" type="button" hidden>Cancel Edit</button></div>
+        </form>
+        <section id="history" aria-label="Note history"></section>
+    </main>
+    <script>
+        let lead = null;
+        let editing = null;
+        let requestId = null;
+        let busy = false;
+        const element = id => document.getElementById(id);
+        function notice(message, error = false) {
+            element('notice').textContent = message;
+            element('notice').className = error ? 'error' : '';
+        }
+        function setBusy(value) {
+            busy = value;
+            document.querySelectorAll('button, textarea').forEach(control => { control.disabled = value; });
+        }
+        function resetEditor() {
+            editing = null;
+            requestId = null;
+            element('text').value = '';
+            element('label').textContent = 'New Note';
+            element('save').textContent = 'Add Note';
+            element('cancel').hidden = true;
+        }
+        function showLead(result) {
+            lead = result;
+            element('panel').hidden = false;
+            element('refresh').hidden = false;
+            element('name').textContent = result.name;
+            element('leadId').textContent = result.id;
+            const history = element('history');
+            history.replaceChildren();
+            if (!result.notes.length) {
+                const empty = document.createElement('p');
+                empty.textContent = 'No notes yet.';
+                history.append(empty);
+            }
+            result.notes.forEach(note => {
+                const article = document.createElement('article');
+                const meta = document.createElement('p');
+                meta.className = 'meta';
+                meta.textContent = [note.type, note.createdOn, note.author].filter(Boolean).join(' | ');
+                const text = document.createElement('p');
+                text.className = 'note';
+                text.textContent = note.text;
+                article.append(meta, text);
+                if (note.editedOn) {
+                    const edited = document.createElement('p');
+                    edited.className = 'meta';
+                    edited.textContent = 'Edited ' + note.editedOn + (note.editedBy ? ' | ' + note.editedBy : '');
+                    article.append(edited);
+                }
+                if (note.editable) {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.textContent = 'Edit Note';
+                    button.addEventListener('click', () => {
+                        if (element('text').value.trim() && !confirm('Discard the current draft?')) return;
+                        editing = note;
+                        element('text').value = note.text;
+                        element('label').textContent = 'Edit Note';
+                        element('save').textContent = 'Save Changes';
+                        element('cancel').hidden = false;
+                        element('text').focus();
+                    });
+                    article.append(button);
+                }
+                history.append(article);
+            });
+        }
+        function load(refresh = false) {
+            if (busy) return;
+            if (element('text').value.trim() && !confirm('Discard the current draft?')) return;
+            setBusy(true);
+            notice('Loading notes...');
+            const runner = google.script.run.withSuccessHandler(result => {
+                resetEditor(); showLead(result); setBusy(false); notice('');
+            }).withFailureHandler(error => {
+                setBusy(false); notice(error.message || 'Could not load notes.', true);
+            });
+            if (refresh && lead) runner.crmGetLeadNotes(lead.id);
+            else runner.crmGetSelectedLeadNotes();
+        }
+        element('load').addEventListener('click', () => load());
+        element('refresh').addEventListener('click', () => load(true));
+        element('cancel').addEventListener('click', () => { resetEditor(); notice(''); });
+        element('text').addEventListener('input', () => { requestId = null; });
+        element('form').addEventListener('submit', event => {
+            event.preventDefault();
+            if (busy || !lead || !element('text').value.trim()) return;
+            requestId ||= crypto.randomUUID();
+            const input = {
+                leadId: lead.id, text: element('text').value,
+                noteId: editing ? editing.id : requestId, mode: editing ? 'edit' : 'add',
+                expectedText: editing ? editing.text : '', expectedEditedOn: editing ? editing.editedOn : '',
+            };
+            setBusy(true); notice('Saving note...');
+            google.script.run.withSuccessHandler(result => {
+                resetEditor(); showLead(result); setBusy(false); notice('Note saved.');
+            }).withFailureHandler(error => {
+                setBusy(false); notice(error.message || 'Could not save note. Your draft is retained.', true);
+            }).crmSaveLeadNote(input);
+        });
+        load();
+    </script>
+</body>
+</html>

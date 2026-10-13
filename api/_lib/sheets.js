@@ -27,6 +27,7 @@
 //
 // See META-LEADS-SETUP.md for step-by-step setup instructions for both modes.
 
+import { randomUUID } from 'node:crypto';
 import { JWT, OAuth2Client } from 'google-auth-library';
 
 const SHEETS_API = 'https://sheets.googleapis.com/v4/spreadsheets';
@@ -119,8 +120,19 @@ export const LEADS_COLUMNS = [
 ];
 
 export const LEAD_STAGES = [
-    'New', 'Attempted Contact', 'Contacted', 'Qualified',
+    'New', 'Attempted Contact', 'Contacted', 'Qualified', 'Not Qualified',
     'Meeting/Site Visit Scheduled', 'Quote Sent', 'Negotiation', 'Won', 'Lost',
+];
+
+export const PROPERTY_TYPES = [
+    'Apartment / Flat', 'Independent House', 'Villa', 'Builder Floor',
+    'Plot / Land', 'Commercial Space', 'Other',
+];
+
+export const PROJECT_STAGES = [
+    'Just Exploring', 'Property Search / Purchase Pending', 'Plot Ready',
+    'Design / Planning', 'Under Construction', 'Possession Awaited',
+    'Possession Ready', 'Occupied / Renovation Needed', 'Work Already Started',
 ];
 
 export const LEAD_SOURCES = [
@@ -153,7 +165,7 @@ async function ensureSheetsExist() {
     });
     await sheetsRequest('/values/Notes!A1?valueInputOption=RAW', {
         method: 'PUT',
-        body: { range: 'Notes!A1', majorDimension: 'ROWS', values: [['Lead ID', 'Timestamp', 'Author', 'Note Type', 'Note Text']] },
+        body: { range: 'Notes!A1', majorDimension: 'ROWS', values: [['Lead ID', 'Timestamp', 'Author', 'Note Type', 'Note Text', 'Note ID', 'Edited On', 'Edited By']] },
     });
     try {
         await formatCrmSheet();
@@ -163,7 +175,7 @@ async function ensureSheetsExist() {
 }
 
 const LAYOUT_KEY = 'slate_crm_layout';
-const LAYOUT_VERSION = '1';
+const LAYOUT_VERSION = '2';
 
 function layoutRequests(sheet, widths) {
     const sheetId = sheet.properties.sheetId;
@@ -234,6 +246,50 @@ function dropdownRequest(sheetId, column, values) {
     } };
 }
 
+export function latestNoteFormula(row) {
+    return `=IFERROR(LEFT(INDEX(SORT(FILTER({Notes!$B$2:$B,Notes!$E$2:$E,IF(Notes!$G$2:$G="",Notes!$B$2:$B,Notes!$G$2:$G),ROW(Notes!$A$2:$A)},Notes!$A$2:$A=$A${row}),3,FALSE,4,FALSE),1,2),180),"")`;
+}
+
+async function updateNotePreview(leadId) {
+    const values = await sheetsRequest('/values/Leads!A2:A');
+    const matches = (values.values || []).map((row, index) => ({ id: row[0], row: index + 2 }))
+        .filter(item => item.id === leadId);
+    if (matches.length !== 1) throw new Error('Cannot identify a unique lead for the notes preview');
+    const range = `Leads!AA${matches[0].row}`;
+    await sheetsRequest(`/values/${range}?valueInputOption=USER_ENTERED`, {
+        method: 'PUT', body: { range, values: [[latestNoteFormula(matches[0].row)]] },
+    });
+}
+
+async function refreshNotePreview(leadId) {
+    try {
+        await updateNotePreview(leadId);
+    } catch {
+        console.error('Note saved; Latest Note preview could not be refreshed');
+    }
+}
+
+export async function verifyCrmLayout() {
+    const query = new URLSearchParams({
+        includeGridData: 'true',
+        fields: 'sheets(properties(title),data(startColumn,columnMetadata(hiddenByUser),rowData(values(effectiveValue,dataValidation))))',
+    });
+    for (const range of ['Leads!H2', 'Leads!P2', 'Leads!J2', 'Leads!K2', 'Leads!U2', 'Leads!AA1:AA']) query.append('ranges', range);
+    const metadata = await sheetsRequest(`?${query}`);
+    const data = metadata.sheets?.find(sheet => sheet.properties.title === 'Leads')?.data || [];
+    const grid = column => data.find(item => item.startColumn === column);
+    const values = column => grid(column)?.rowData?.[0]?.values?.[0]?.dataValidation?.condition?.values?.map(value => value.userEnteredValue) || [];
+    const hiddenColumns = [7, 15].filter(column => grid(column)?.columnMetadata?.[0]?.hiddenByUser === true).length;
+    const dropdownColumns = [[9, PROPERTY_TYPES], [10, PROJECT_STAGES], [20, LEAD_STAGES]]
+        .filter(([column, expected]) => JSON.stringify(values(column)) === JSON.stringify(expected)).length;
+    const previews = grid(26)?.rowData || [];
+    const latestNoteHeader = previews[0]?.values?.[0]?.effectiveValue?.stringValue === 'Latest Note';
+    const notePreviewErrors = previews.slice(1).filter(row => row.values?.[0]?.effectiveValue?.errorValue).length;
+    const notesWithPreview = previews.slice(1).filter(row => row.values?.[0]?.effectiveValue?.stringValue).length;
+    return { layoutReady: hiddenColumns === 2 && dropdownColumns === 3 && latestNoteHeader && !notePreviewErrors,
+        hiddenColumns, dropdownColumns, notesWithPreview, notePreviewErrors };
+}
+
 export async function formatCrmSheet() {
     const meta = await sheetsRequest('');
     const sheets = (meta.sheets || []).filter(sheet => ['Leads', 'Notes'].includes(sheet.properties.title));
@@ -244,8 +300,9 @@ export async function formatCrmSheet() {
     let repairedPhones = 0;
     for (const sheet of pending) {
         const sheetId = sheet.properties.sheetId;
+        const hasPreviousLayout = sheet.developerMetadata?.some(item => item.metadataKey === LAYOUT_KEY);
         if (sheet.properties.title === 'Leads') {
-            requests.push(...layoutRequests(sheet, [
+            if (!hasPreviousLayout) requests.push(...layoutRequests(sheet, [
                 170, 210, 210, 190, 180, 260, 160, 220, 210, 180, 210, 200,
                 200, 220, 210, 190, 180, 180, 130, 160, 230, 220, 170, 130, 190, 190,
             ]));
@@ -257,6 +314,43 @@ export async function formatCrmSheet() {
             } });
             requests.push(dropdownRequest(sheetId, LEADS_COLUMNS.indexOf('Lead Stage'), LEAD_STAGES));
             requests.push(dropdownRequest(sheetId, LEADS_COLUMNS.indexOf('Lead Score'), ['Hot', 'Warm', 'Cold']));
+            requests.push(dropdownRequest(sheetId, LEADS_COLUMNS.indexOf('Property Type'), PROPERTY_TYPES));
+            requests.push(dropdownRequest(sheetId, LEADS_COLUMNS.indexOf('Project Stage'), PROJECT_STAGES));
+            for (const field of ['Campaign Name', 'Preferred Contact Channel']) {
+                const index = LEADS_COLUMNS.indexOf(field);
+                requests.push({ updateDimensionProperties: {
+                    range: { sheetId, dimension: 'COLUMNS', startIndex: index, endIndex: index + 1 },
+                    properties: { hiddenByUser: true }, fields: 'hiddenByUser',
+                } });
+            }
+            if ((sheet.properties.gridProperties?.columnCount ?? 26) < 27) requests.push({ updateSheetProperties: {
+                properties: { sheetId, gridProperties: { columnCount: 27 } }, fields: 'gridProperties.columnCount',
+            } });
+            requests.push({ updateCells: {
+                start: { sheetId, rowIndex: 0, columnIndex: 26 },
+                rows: [{ values: [{ userEnteredValue: { stringValue: 'Latest Note' }, userEnteredFormat: {
+                    backgroundColor: { red: 0.08, green: 0.25, blue: 0.24 },
+                    textFormat: { bold: true, fontSize: 11, foregroundColor: { red: 1, green: 1, blue: 1 } },
+                    wrapStrategy: 'WRAP', verticalAlignment: 'MIDDLE',
+                } }] }], fields: 'userEnteredValue,userEnteredFormat',
+            } });
+            requests.push({ updateDimensionProperties: {
+                range: { sheetId, dimension: 'COLUMNS', startIndex: 26, endIndex: 27 },
+                properties: { pixelSize: 420 }, fields: 'pixelSize',
+            } });
+            requests.push({ repeatCell: {
+                range: { sheetId, startRowIndex: 1, startColumnIndex: 26, endColumnIndex: 27 },
+                cell: { userEnteredFormat: { wrapStrategy: 'CLIP', verticalAlignment: 'TOP', textFormat: { fontSize: 11 } } },
+                fields: 'userEnteredFormat.wrapStrategy,userEnteredFormat.verticalAlignment,userEnteredFormat.textFormat.fontSize',
+            } });
+            const leads = await sheetsRequest('/values/Leads!A2:A');
+            for (const [index, row] of (leads.values || []).entries()) {
+                if (row[0]) requests.push({ updateCells: {
+                    start: { sheetId, rowIndex: index + 1, columnIndex: 26 },
+                    rows: [{ values: [{ userEnteredValue: { formulaValue: latestNoteFormula(index + 2) } }] }],
+                    fields: 'userEnteredValue',
+                } });
+            }
             const grid = await sheetsRequest('?includeGridData=true&ranges=Leads!E2:E&fields=sheets(data(startRow,rowData(values(userEnteredValue,effectiveValue))))');
             for (const gridSheet of grid.sheets || []) {
                 for (const data of gridSheet.data || []) {
@@ -277,8 +371,17 @@ export async function formatCrmSheet() {
                 }
             }
         } else {
-            requests.push(...layoutRequests(sheet, [170, 210, 180, 130, 640]));
+            if (!hasPreviousLayout) requests.push(...layoutRequests(sheet, [170, 210, 180, 130, 640, 190, 210, 180]));
             requests.push(dropdownRequest(sheetId, 3, ['Auto', 'Manual']));
+            requests.push({ updateCells: {
+                start: { sheetId, rowIndex: 0, columnIndex: 5 },
+                rows: [{ values: ['Note ID', 'Edited On', 'Edited By'].map(stringValue => ({ userEnteredValue: { stringValue } })) }],
+                fields: 'userEnteredValue',
+            } });
+            requests.push({ updateDimensionProperties: {
+                range: { sheetId, dimension: 'COLUMNS', startIndex: 5, endIndex: 6 },
+                properties: { hiddenByUser: true }, fields: 'hiddenByUser',
+            } });
         }
         requests.push({ createDeveloperMetadata: { developerMetadata: {
             metadataKey: LAYOUT_KEY, metadataValue: LAYOUT_VERSION,
@@ -328,8 +431,9 @@ export async function appendNote(leadId, text, { author = 'System', type = 'Auto
     const now = new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
     await sheetsRequest('/values/Notes!A1:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS', {
         method: 'POST',
-        body: { values: [[leadId, now, author, type, text]] },
+        body: { values: [[leadId, now, author, type, text, randomUUID(), '', '']] },
     });
+    await refreshNotePreview(leadId);
 }
 
 export async function getMetaCrmState() {
@@ -377,7 +481,7 @@ export async function upsertMetaLead(lead, rawAnswers, { state, dryRun = false, 
     const leadId = existing?.lead['Lead ID'] || `META-${metaId}`;
     const now = new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
     const notePrefix = `Meta lead ID: ${metaId}; Form ID: ${formId}.`;
-    const note = [leadId, now, author, 'Auto', `${notePrefix} Raw answers: ${rawAnswers}`];
+    const note = [leadId, now, author, 'Auto', `${notePrefix} Raw answers: ${rawAnswers}`, randomUUID(), '', ''];
     const hasNote = state.notes.some(item => item[0] === leadId && String(item[4] || '').startsWith(notePrefix));
     const requests = [];
     const updated = existing ? { ...existing.lead } : { ...lead, 'Lead ID': leadId, 'Updated On': now };
@@ -415,6 +519,7 @@ export async function upsertMetaLead(lead, rawAnswers, { state, dryRun = false, 
     if (!dryRun && requests.length) {
         await ensureReady();
         await sheetsRequest(':batchUpdate', { method: 'POST', body: { requests } });
+        await refreshNotePreview(leadId);
     }
     if (existing) existing.lead = updated;
     else state.leads.push({ rowIndex: state.leads.length + 1, lead: updated });
