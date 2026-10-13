@@ -114,6 +114,8 @@ export const LEADS_COLUMNS = [
     'Lost Reason',
     'Assigned To',
     'Lead Score',         // Hot / Warm / Cold
+    'Meta Lead ID',
+    'Meta Form ID',
 ];
 
 export const LEAD_STAGES = [
@@ -245,7 +247,7 @@ export async function formatCrmSheet() {
         if (sheet.properties.title === 'Leads') {
             requests.push(...layoutRequests(sheet, [
                 170, 210, 210, 190, 180, 260, 160, 220, 210, 180, 210, 200,
-                200, 220, 210, 190, 180, 180, 130, 160, 230, 220, 170, 130,
+                200, 220, 210, 190, 180, 180, 130, 160, 230, 220, 170, 130, 190, 190,
             ]));
             const phoneColumn = LEADS_COLUMNS.indexOf('Mobile Number');
             requests.push({ repeatCell: {
@@ -328,4 +330,94 @@ export async function appendNote(leadId, text, { author = 'System', type = 'Auto
         method: 'POST',
         body: { values: [[leadId, now, author, type, text]] },
     });
+}
+
+export async function getMetaCrmState() {
+    const meta = await sheetsRequest('?fields=sheets(properties(sheetId,title))');
+    const sheetIds = Object.fromEntries((meta.sheets || []).map(sheet => [sheet.properties.title, sheet.properties.sheetId]));
+    if (sheetIds.Leads === undefined || sheetIds.Notes === undefined) {
+        throw new Error('The CRM must have Leads and Notes tabs before importing Meta history');
+    }
+    const data = await sheetsRequest('/values:batchGet?ranges=Leads!A1:Z&ranges=Notes!A1:E');
+    const [leadValues, noteValues] = (data.valueRanges || []).map(range => range.values || []);
+    const headers = leadValues?.[0] || [];
+    for (const field of LEADS_COLUMNS.slice(0, 24)) {
+        if (headers[LEADS_COLUMNS.indexOf(field)] !== field) throw new Error('Unexpected CRM column order; import stopped');
+    }
+    return {
+        sheetIds,
+        leads: (leadValues || []).slice(1).map((values, index) => ({
+            rowIndex: index + 1,
+            lead: Object.fromEntries(headers.map((header, column) => [header, values[column] ?? ''])),
+        })),
+        notes: (noteValues || []).slice(1),
+    };
+}
+
+export async function upsertMetaLead(lead, rawAnswers, { state, dryRun = false, author = 'Meta Webhook' } = {}) {
+    const metaId = lead['Meta Lead ID'];
+    const formId = lead['Meta Form ID'];
+    if (!/^\d+$/.test(metaId || '') || !/^\d+$/.test(formId || '')) throw new Error('Missing valid Meta lead/form ID');
+    state ??= await getMetaCrmState();
+    let matches = state.leads.filter(record => record.lead['Meta Lead ID'] === metaId);
+    if (!matches.length) {
+        const answerFingerprint = text => text.split(' | ').sort().join(' | ');
+        const legacyIds = new Set(state.notes.filter(note => {
+            const text = String(note[4] || '');
+            const marker = 'Raw answers \u2014 ';
+            const position = text.indexOf(marker);
+            return text.startsWith(`Auto-captured from Meta Instant Form (${formId}).`) && position !== -1 &&
+                answerFingerprint(text.slice(position + marker.length)) === answerFingerprint(rawAnswers);
+        }).map(note => note[0]));
+        matches = state.leads.filter(record => record.lead['Lead Source'] === 'Meta Ads' &&
+            !record.lead['Meta Lead ID'] && legacyIds.has(record.lead['Lead ID']));
+    }
+    if (matches.length > 1) throw new Error(`Ambiguous existing rows for Meta lead ${metaId}; manual review required`);
+    const existing = matches[0];
+    const leadId = existing?.lead['Lead ID'] || `META-${metaId}`;
+    const now = new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
+    const notePrefix = `Meta lead ID: ${metaId}; Form ID: ${formId}.`;
+    const note = [leadId, now, author, 'Auto', `${notePrefix} Raw answers: ${rawAnswers}`];
+    const hasNote = state.notes.some(item => item[0] === leadId && String(item[4] || '').startsWith(notePrefix));
+    const requests = [];
+    const updated = existing ? { ...existing.lead } : { ...lead, 'Lead ID': leadId, 'Updated On': now };
+    if (existing) {
+        for (const [field, value] of Object.entries(lead)) {
+            if (field === 'Lead ID' || field === 'Updated On' || !value) continue;
+            if (['Meta Lead ID', 'Meta Form ID'].includes(field) || !existing.lead[field] ||
+                (field === 'Created On' && !existing.lead['Meta Lead ID'])) {
+                if (String(existing.lead[field] || '') === String(value)) continue;
+                updated[field] = value;
+                requests.push({ updateCells: {
+                    start: { sheetId: state.sheetIds.Leads, rowIndex: existing.rowIndex, columnIndex: LEADS_COLUMNS.indexOf(field) },
+                    rows: [{ values: [{ userEnteredValue: { stringValue: String(value) } }] }], fields: 'userEnteredValue',
+                } });
+            }
+        }
+        if (requests.length) {
+            updated['Updated On'] = now;
+            requests.push({ updateCells: {
+                start: { sheetId: state.sheetIds.Leads, rowIndex: existing.rowIndex, columnIndex: LEADS_COLUMNS.indexOf('Updated On') },
+                rows: [{ values: [{ userEnteredValue: { stringValue: now } }] }], fields: 'userEnteredValue',
+            } });
+        }
+    } else {
+        requests.push({ appendCells: {
+            sheetId: state.sheetIds.Leads,
+            rows: [{ values: LEADS_COLUMNS.map(field => ({ userEnteredValue: { stringValue: String(updated[field] ?? '') } })) }],
+            fields: 'userEnteredValue',
+        } });
+    }
+    if (!hasNote) requests.push({ appendCells: {
+        sheetId: state.sheetIds.Notes,
+        rows: [{ values: note.map(value => ({ userEnteredValue: { stringValue: value } })) }], fields: 'userEnteredValue',
+    } });
+    if (!dryRun && requests.length) {
+        await ensureReady();
+        await sheetsRequest(':batchUpdate', { method: 'POST', body: { requests } });
+    }
+    if (existing) existing.lead = updated;
+    else state.leads.push({ rowIndex: state.leads.length + 1, lead: updated });
+    if (!hasNote) state.notes.push(note);
+    return { leadId, status: existing ? (requests.length ? 'updated' : 'skipped') : 'imported' };
 }

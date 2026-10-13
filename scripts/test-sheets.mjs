@@ -2,6 +2,134 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { OAuth2Client } from 'google-auth-library';
 
+test('Meta Graph field names map to CRM fields', async () => {
+    const { mapFieldName } = await import('../api/meta-leads-webhook.js');
+    for (const [question, expected] of [
+        ['full_name', 'Name'], ['email', 'Email'], ['phone', 'Mobile Number'],
+        ['what_are_you_looking_for?', 'Lead Type'],
+        ["what's_your_estimated_construction_+_interior_budget?", 'Budget Range'],
+        ['where_is_your_home_located?', 'Location'],
+        ['when_are_you_planning_to_start?', 'Planned Starting Date'],
+        ['inbox_url', null],
+    ]) assert.equal(mapFieldName(question), expected);
+});
+
+test('Meta mapping preserves original dates and phones, and normalizes labels', async () => {
+    const { mapMetaLead } = await import('../api/meta-leads-webhook.js');
+    const data = {
+        id: '100001', form_id: '200001', created_time: '2026-10-06T03:19:21+0000',
+        field_data: [
+            { name: 'full_name', values: ['Sample Person'] },
+            { name: 'phone', values: ['+910001234567'] },
+            { name: 'what_are_you_looking_for?', values: ['interior_design'] },
+            { name: "what's_your_estimated_budget_for_interiors?", values: ['not_decided_yet'] },
+            { name: 'where_is_your_home_located?', values: ['chandigarh'] },
+            { name: 'when_are_you_planning_to_start?', values: ['1-3_months'] },
+            { name: 'inbox_url' },
+        ],
+    };
+    const mapped = mapMetaLead(data);
+    assert.equal(mapped.lead.Name, 'Sample Person');
+    assert.equal(mapped.lead['Mobile Number'], '+910001234567');
+    assert.equal(mapped.lead['Created On'], '2026-10-06 03:19:21 UTC');
+    assert.equal(mapped.lead['Lead Type'], 'Interior Designing');
+    assert.equal(mapped.lead['Budget Range'], 'not decided yet');
+    assert.equal(mapped.lead['Planned Starting Date'], '1-3 months');
+    assert.equal(mapped.lead['Meta Lead ID'], data.id);
+    assert.equal(mapped.isTest, false);
+    assert.ok(mapped.rawAnswers.includes('what_are_you_looking_for?: interior_design'));
+    assert.throws(() => mapMetaLead({ ...data, created_time: undefined }), /timestamp/);
+});
+
+test('historical fetch follows cursors without sending tokens in URLs', async () => {
+    const { fetchFormLeads, importMetaHistory } = await import('./backfill-meta-leads.mjs');
+    const paths = [];
+    const leads = await fetchFormLeads('200001', {
+        token: 'fake-token', fetchImpl: async (url, options) => {
+            assert.equal(options.headers.Authorization, 'Bearer fake-token');
+            assert.equal(url.searchParams.has('access_token'), false);
+            paths.push(url.searchParams.get('after'));
+            return { ok: true, json: async () => ({
+                data: [{ id: paths.length === 1 ? '100001' : '100002', created_time: '2026-10-06T03:19:21+0000', field_data: [] }],
+                ...(paths.length === 1 ? { paging: { next: 'private-url-not-followed', cursors: { after: 'next-page' } } } : {}),
+            }) };
+        },
+    });
+    assert.deepEqual(paths, [null, 'next-page']);
+    assert.equal(leads.length, 2);
+    let saves = 0;
+    const summary = await importMetaHistory([...leads, leads[0], {
+        id: '100003', form_id: '200001', created_time: '2026-10-06T03:19:21+0000',
+        field_data: [{ name: 'phone', values: ['<test lead: dummy data for phone>'] }],
+    }], { state: {}, save: async (lead, raw, options) => {
+        assert.equal(options.dryRun, true);
+        saves += 1;
+        return { status: 'imported' };
+    } });
+    assert.equal(saves, 2);
+    assert.equal(summary.imported, 2);
+    assert.equal(summary.skipped, 1);
+    assert.equal(summary.testLeadsSkipped, 1);
+});
+
+test('Meta upsert preserves manual fields, reconciles legacy notes, and is rerunnable', async () => {
+    const { upsertMetaLead } = await import('../api/_lib/sheets.js');
+    const lead = {
+        'Meta Lead ID': '100001', 'Meta Form ID': '200001', Name: 'Sample Person',
+        'Created On': '2026-10-06 03:19:21 UTC', 'Lead Source': 'Meta Ads', 'Lead Stage': 'New',
+    };
+    const raw = 'full_name: Sample Person | phone: +910001234567';
+    const state = {
+        sheetIds: { Leads: 12, Notes: 15 },
+        leads: [{ rowIndex: 1, lead: {
+            'Lead ID': 'LD-EXISTING', 'Lead Source': 'Meta Ads', 'Lead Stage': 'Qualified',
+            'Assigned To': 'Team Member', 'Created On': '2026-10-13 00:00:00 UTC',
+        } }],
+        notes: [['LD-EXISTING', '', '', '', `Auto-captured from Meta Instant Form (200001). Raw answers \u2014 ${raw}`]],
+    };
+    assert.equal((await upsertMetaLead(lead, raw, { state, dryRun: true })).status, 'updated');
+    assert.equal(state.leads.length, 1);
+    assert.equal(state.leads[0].lead['Lead Stage'], 'Qualified');
+    assert.equal(state.leads[0].lead['Assigned To'], 'Team Member');
+    assert.equal(state.leads[0].lead['Created On'], lead['Created On']);
+    assert.equal(state.leads[0].lead.Name, 'Sample Person');
+    assert.equal((await upsertMetaLead(lead, raw, { state, dryRun: true })).status, 'skipped');
+    assert.equal((await upsertMetaLead({ ...lead, 'Meta Lead ID': '100002' }, raw, { state, dryRun: true })).status, 'imported');
+    assert.equal(state.leads.length, 2);
+    const ambiguous = {
+        sheetIds: state.sheetIds,
+        leads: ['ONE', 'TWO'].map(id => ({ rowIndex: 1, lead: { 'Lead ID': id, 'Lead Source': 'Meta Ads' } })),
+        notes: ['ONE', 'TWO'].map(id => [id, '', '', '', `Auto-captured from Meta Instant Form (200001). Raw answers \u2014 ${raw}`]),
+    };
+    await assert.rejects(upsertMetaLead(lead, raw, { state: ambiguous, dryRun: true }), /Ambiguous/);
+});
+
+test('backfill endpoint requires its own secret and rejects invalid input', async () => {
+    const { default: handler } = await import('../api/meta-leads-backfill.js');
+    const previous = process.env.CRM_BACKFILL_TOKEN;
+    const response = {
+        status(code) { this.code = code; return this; },
+        json(body) { this.body = body; return this; },
+    };
+    try {
+        delete process.env.CRM_BACKFILL_TOKEN;
+        await handler({ method: 'POST', headers: {} }, response);
+        assert.equal(response.code, 401);
+        process.env.CRM_BACKFILL_TOKEN = 'fake-backfill-secret';
+        await handler({ method: 'POST', headers: { authorization: 'Bearer wrong' } }, response);
+        assert.equal(response.code, 401);
+        await handler({ method: 'GET', headers: {} }, response);
+        assert.equal(response.code, 405);
+        await handler({ method: 'POST', headers: { authorization: 'Bearer fake-backfill-secret' }, body: { formIds: ['bad-id'] } }, response);
+        assert.equal(response.code, 400);
+        await handler({ method: 'POST', headers: { authorization: 'Bearer fake-backfill-secret' }, body: { formIds: ['123'], write: 'true' } }, response);
+        assert.equal(response.code, 400);
+    } finally {
+        if (previous === undefined) delete process.env.CRM_BACKFILL_TOKEN;
+        else process.env.CRM_BACKFILL_TOKEN = previous;
+    }
+});
+
 test('CRM layout, targeted phone repair, and raw intake', async () => {
     const previousEnv = { ...process.env };
     const previousFetch = globalThis.fetch;
@@ -65,6 +193,18 @@ test('CRM layout, targeted phone repair, and raw intake', async () => {
         await appendNote('TEST', '=not a formula');
         assert.equal(new URL(requests.at(-1).url).searchParams.get('valueInputOption'), 'RAW');
         assert.equal(requests.at(-1).body.values[0][4], '=not a formula');
+        const { upsertMetaLead } = await import('../api/_lib/sheets.js');
+        const state = { sheetIds: { Leads: 12, Notes: 15 }, leads: [], notes: [] };
+        const metaLead = { 'Meta Lead ID': '100001', 'Meta Form ID': '200001', 'Mobile Number': '+910001234567' };
+        assert.equal((await upsertMetaLead(metaLead, 'phone: +910001234567', { state })).status, 'imported');
+        const batch = requests.at(-1).body.requests;
+        assert.equal(batch.length, 2);
+        assert.equal(batch[0].appendCells.sheetId, 12);
+        assert.equal(batch[1].appendCells.sheetId, 15);
+        assert.equal(batch[0].appendCells.rows[0].values[LEADS_COLUMNS.indexOf('Mobile Number')].userEnteredValue.stringValue, '+910001234567');
+        const total = requests.length;
+        assert.equal((await upsertMetaLead(metaLead, 'phone: +910001234567', { state })).status, 'skipped');
+        assert.equal(requests.length, total);
     } finally {
         process.env = previousEnv;
         globalThis.fetch = previousFetch;

@@ -184,6 +184,41 @@ auto-note as raw text, just not placed into a dedicated column.
   `?utm_source=facebook&utm_campaign=test` appended, confirm the Sheet row
   shows `Lead Source: Meta Ads`, `Campaign Name: test`.
 
+## Historical Meta leads
+
+`node scripts/backfill-meta-leads.mjs --form=FORM_ID` fetches all available
+pages from that form and previews changes without writing. Repeat `--form`
+for other forms, including archived forms used in previous campaigns.
+Add `--write` only after reviewing the preview counts. Google auth variables,
+`LEADS_SHEET_ID` and `META_PAGE_ACCESS_TOKEN` must be available; an ignored
+env file can be selected with `--env-file=PATH`. Never commit lead exports
+or credentials. Use `--file=PATH` for a complete JSON lead array instead of
+live Meta access; do not include pagination URLs or access tokens.
+
+When Vercel does not provide secret values to a local environment pull, use
+the deployed `/api/meta-leads-backfill` maintenance endpoint. It requires a
+separate random `CRM_BACKFILL_TOKEN` in Production and an HTTPS POST with
+`Authorization: Bearer TOKEN`. The JSON body is
+`{"formIds":["FORM_ID"],"write":false}` for a preview; explicitly set
+`write` to `true` for import. Remove the maintenance token and redeploy when
+finished, so the endpoint rejects further requests. Never put tokens in URLs.
+
+Imports preserve Meta's original creation timestamps, store Meta Lead ID
+and Meta Form ID in appended CRM columns, and skip dummy test leads unless
+`--include-tests` (or `includeTests: true`) is explicitly requested. Website
+enquiries are never merged with Meta submissions merely because contact
+details match. Existing Meta rows are matched by their Meta ID, or by an
+exact form/raw-answer note match for legacy rows without IDs. Ambiguous
+matches stop the import. Existing stages, owners and manual notes are
+preserved; missing mapped fields are filled. Lead and auto-note writes use
+one atomic Sheets batch. Repeat imports skip already imported leads.
+
+Run one backfill at a time and do not sort or edit the CRM while it is
+running. This is not a transactional database lock against simultaneous
+webhook deliveries or other import processes. Meta typically retains
+retrievable leads for 90 days; older history requires a saved export. API
+permissions and untargeted-lead restrictions can also limit available results.
+
 ## Notes tab
 
 Every automated capture also writes one row to the `Notes` tab with the raw

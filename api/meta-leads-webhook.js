@@ -28,9 +28,9 @@
 //    from api/_lib/sheets.js)
 
 import crypto from 'node:crypto';
-import { appendLead, appendNote, newLeadId } from './_lib/sheets.js';
+import { upsertMetaLead } from './_lib/sheets.js';
 
-const GRAPH_API = 'https://graph.facebook.com/v19.0';
+export const GRAPH_API = 'https://graph.facebook.com/v26.0';
 
 // ---------- Map Meta's exact question wording (from your sample) to our schema ----------
 // Add more aliases here as you create new/different Instant Forms — matching
@@ -48,9 +48,40 @@ const QUESTION_MAP = [
     { match: /area|sq ?ft|built.?up|carpet/i, field: 'Carpet / Built-up Area' },
 ];
 
-function mapFieldName(question) {
-    const hit = QUESTION_MAP.find((q) => q.match.test(question));
+export function mapFieldName(question) {
+    const normalized = String(question || '').replace(/_/g, ' ');
+    const hit = QUESTION_MAP.find((q) => q.match.test(normalized));
     return hit ? hit.field : null;
+}
+
+export function mapMetaLead(data, { formId = data.form_id, campaignName = '' } = {}) {
+    const answers = {};
+    const rawAnswers = [];
+    for (const field of data.field_data || []) {
+        const value = (field.values || []).join(', ');
+        rawAnswers.push(`${field.name}: ${value}`);
+        const mapped = mapFieldName(field.name);
+        if (mapped && value) answers[mapped] = value;
+    }
+    const leadTypes = {
+        interior_design: 'Interior Designing', home_renovation: 'Home Renovation',
+        full_home_construction: 'Home Construction',
+    };
+    for (const field of ['Budget Range', 'Location', 'Planned Starting Date']) {
+        if (answers[field]) answers[field] = answers[field].replace(/_/g, ' ');
+    }
+    if (answers['Lead Type']) answers['Lead Type'] = leadTypes[answers['Lead Type']] || answers['Lead Type'].replace(/_/g, ' ');
+    const created = new Date(data.created_time);
+    if (Number.isNaN(created.getTime())) throw new Error(`Meta lead ${data.id} has no valid creation timestamp`);
+    return {
+        lead: {
+            ...answers, 'Meta Lead ID': data.id, 'Meta Form ID': formId,
+            'Created On': created.toISOString().replace('T', ' ').slice(0, 19) + ' UTC',
+            'Lead Source': 'Meta Ads', 'Campaign Name': campaignName, 'Lead Stage': 'New', 'Lead Score': 'Warm',
+        },
+        rawAnswers: rawAnswers.join(' | '),
+        isTest: (data.field_data || []).some(field => (field.values || []).some(value => /^<test lead:/i.test(value))),
+    };
 }
 
 function verifySignature(rawBody, signatureHeader) {
@@ -66,7 +97,9 @@ function verifySignature(rawBody, signatureHeader) {
 
 async function fetchLeadFields(leadgenId) {
     const token = process.env.META_PAGE_ACCESS_TOKEN;
-    const res = await fetch(`${GRAPH_API}/${leadgenId}?access_token=${encodeURIComponent(token)}`);
+    const res = await fetch(`${GRAPH_API}/${leadgenId}?fields=id,created_time,form_id,field_data`, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
     if (!res.ok) {
         const text = await res.text().catch(() => '');
         throw new Error(`Graph API lead fetch failed: ${res.status} ${text}`);
@@ -147,42 +180,9 @@ export default async function handler(req, res) {
                     continue; // don't fail the whole batch for one bad lead
                 }
 
-                const answers = {};
-                for (const f of fieldData.field_data || []) {
-                    const mapped = mapFieldName(f.name);
-                    const value = (f.values || [])[0] || '';
-                    if (mapped) answers[mapped] = value;
-                    else answers[f.name] = value; // keep unmapped answers too
-                }
-
                 const campaignName = await fetchAdCampaignName(adId);
-                const leadId = newLeadId();
-
-                await appendLead({
-                    'Lead ID': leadId,
-                    Name: answers['Name'] || '',
-                    'Mobile Number': answers['Mobile Number'] || '',
-                    Email: answers['Email'] || '',
-                    'Lead Source': 'Meta Ads',
-                    'Campaign Name': campaignName,
-                    'Lead Type': answers['Lead Type'] || '',
-                    'Property Type': answers['Property Type'] || '',
-                    'Project Stage': answers['Project Stage'] || '',
-                    'Budget Range': answers['Budget Range'] || '',
-                    'Carpet / Built-up Area': answers['Carpet / Built-up Area'] || '',
-                    Location: answers['Location'] || '',
-                    'Planned Starting Date': answers['Planned Starting Date'] || '',
-                    'Lead Stage': 'New',
-                    'Lead Score': 'Warm',
-                });
-
-                const rawAnswers = (fieldData.field_data || [])
-                    .map((f) => `${f.name}: ${(f.values || [])[0] || ''}`)
-                    .join(' | ');
-                await appendNote(leadId, `Auto-captured from Meta Instant Form (${formId}). Raw answers — ${rawAnswers}`, {
-                    author: 'Meta Webhook',
-                    type: 'Auto',
-                });
+                const mapped = mapMetaLead(fieldData, { formId: fieldData.form_id || formId, campaignName });
+                await upsertMetaLead(mapped.lead, mapped.rawAnswers);
             }
         }
         return res.status(200).json({ ok: true });
