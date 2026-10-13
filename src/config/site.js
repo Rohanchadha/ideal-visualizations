@@ -3,6 +3,9 @@ export const CONTACT = {
     phone: '+91 9646724313',
     phoneRaw: '919646724313', // for wa.me / tel: links
     email: 'danish@slateconcepts.com',
+    address: 'A.G.A, Shopping Complex, 23, Taylor Road, INA Colony, Amritsar, Punjab 143001',
+    mapsLocation: 'https://share.google/Ut2bc2eRpk6ajvmFV',
+    plusCode: 'JVQF+Q2 Amritsar, Punjab',
     instagram: 'https://www.instagram.com/slate.concepts/',
     behance: 'https://www.behance.net/idealvisuali',
     linkedin: 'https://www.linkedin.com/in/danish-seth-59a3601b6/',

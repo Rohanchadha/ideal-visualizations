@@ -6,7 +6,7 @@ import WhyChooseUs from '../components/WhyChooseUs';
 import VideoShowcase from '../components/VideoShowcase';
 import Services from '../components/Services';
 import Portfolio from '../components/Portfolio';
-import FurnitureTeaser from '../components/FurnitureTeaser';
+import ConstructionPortfolio from '../components/ConstructionPortfolio';
 import About from '../components/About';
 import Locations from '../components/Locations';
 import { HOME_TITLE, HOME_DESCRIPTION } from '../config/seo';
@@ -19,9 +19,9 @@ export default function HomePage() {
             <HomeProjectGuide />
             <Services />
             <WhyChooseUs />
+            <ConstructionPortfolio />
             <Portfolio />
             <About />
-            <FurnitureTeaser />
             <VideoShowcase />
             <Locations />
         </>

@@ -1,10 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { MapPin, Navigation } from 'lucide-react';
 import Seo from '../components/Seo';
 import PageHero from '../components/PageHero';
 import CtaBlock from '../components/CtaBlock';
 import Prose from '../components/Prose';
 import { SITE_URL, ORG_ID } from '../config/seo';
+import { CONTACT } from '../config/site';
+
+const mapDestination = `${CONTACT.plusCode}, India`;
+const mapEmbedUrl = `https://www.google.com/maps?${new URLSearchParams({ q: mapDestination, output: 'embed', z: '16' })}`;
+const directionsUrl = `https://www.google.com/maps/dir/?${new URLSearchParams({ api: '1', destination: mapDestination })}`;
 
 export default function AboutPage() {
     const breadcrumb = [
@@ -68,6 +74,38 @@ export default function AboutPage() {
             </div>
 
             <CtaBlock />
+            <section id="studio-location" aria-labelledby="studio-location-heading" className="bg-[#FAFAFA] px-6 py-14 md:px-12 md:py-20">
+                <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-2 md:items-center md:gap-12">
+                    <div className="min-w-0">
+                        <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-[#F97316]">Amritsar Studio</p>
+                        <h2 id="studio-location-heading" className="text-3xl font-bold text-[#52525B] md:text-4xl">Visit our studio</h2>
+                        <address className="mt-5 max-w-md text-base not-italic leading-relaxed text-[#6B7280]">
+                            {CONTACT.address}
+                        </address>
+                        <p className="mt-3 text-sm text-[#6B7280]">Plus code: {CONTACT.plusCode}</p>
+                        <div className="mt-6 flex flex-wrap gap-4">
+                            <a href={CONTACT.mapsLocation} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#52525B]/30 px-5 py-3 text-sm font-semibold text-[#52525B] transition-colors hover:bg-[#E4E4E7]">
+                                <MapPin className="h-4 w-4" aria-hidden="true" /> Google Maps
+                            </a>
+                            <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#F97316] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#EA580C]">
+                                <Navigation className="h-4 w-4" aria-hidden="true" /> Get Directions
+                            </a>
+                        </div>
+                    </div>
+                    <div className="aspect-[4/3] overflow-hidden rounded-lg bg-[#E4E4E7] md:aspect-[16/10]">
+                        <iframe
+                            title="SLATE Concept Studios location in Amritsar"
+                            src={mapEmbedUrl}
+                            width="640"
+                            height="400"
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                            allowFullScreen
+                            className="h-full w-full border-0"
+                        />
+                    </div>
+                </div>
+            </section>
         </>
     );
 }
