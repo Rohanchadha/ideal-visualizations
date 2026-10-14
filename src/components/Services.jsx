@@ -9,10 +9,10 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 const archServices = [
+    { icon: <KeyRound className="w-7 h-7" />, title: 'Turnkey Home Construction', desc: 'Design plus execution through to handover, with scope, site supervision, payment stages and exclusions agreed in the proposal.' },
+    { icon: <Sofa className="w-7 h-7" />, title: 'Renovation & Interiors', desc: 'Layouts, kitchens, storage, lighting and finishes for new homes and renovations, with design-only or agreed execution scope.' },
     { icon: <Compass className="w-7 h-7" />, title: 'Architecture Planning', desc: 'Layouts planned around your household — circulation, room sizes, storage, daylight and ventilation for your specific plot.' },
     { icon: <Building2 className="w-7 h-7" />, title: 'Elevation Designing', desc: 'Façade and elevation design, with material and finish choices explained before you commit to them.' },
-    { icon: <Sofa className="w-7 h-7" />, title: 'Interior Designing', desc: 'Interior layouts, joinery, storage, lighting and material selection for residential and commercial spaces.' },
-    { icon: <KeyRound className="w-7 h-7" />, title: 'Turnkey Projects', desc: 'Design plus execution through to handover, with scope, site supervision, payment stages and exclusions agreed in the proposal.' },
 ];
 
 const vizServices = [

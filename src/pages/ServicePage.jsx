@@ -1,5 +1,6 @@
 import React from 'react';
-import { useParams, Navigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import NotFoundPage from './NotFoundPage';
 import { Check, ArrowRight } from 'lucide-react';
 import Seo from '../components/Seo';
 import PageHero from '../components/PageHero';
@@ -14,9 +15,9 @@ import { imagesForService } from '../config/galleryHelpers';
 export default function ServicePage() {
     const { slug } = useParams();
     const s = SERVICE_BY_SLUG[slug];
-    if (!s) return <Navigate to="/services" replace />;
+    if (!s) return <NotFoundPage />;
     const preview = isPreviewMode();
-    if (s.draft && !preview) return <Navigate to="/services" replace />;
+    if (s.draft && !preview) return <NotFoundPage />;
 
     const breadcrumb = [
         { name: 'Home', path: '/' },
@@ -31,7 +32,9 @@ export default function ServicePage() {
         description: s.description,
         url: `${SITE_URL}/services/${s.slug}`,
         provider: { '@id': ORG_ID },
-        areaServed: ['India', 'United Arab Emirates', 'United States', 'Canada', 'United Kingdom'],
+        areaServed: s.category === '3D Visualization'
+            ? ['India', 'United Arab Emirates', 'United States', 'Canada', 'United Kingdom']
+            : ['Amritsar', 'Ludhiana', 'Chandigarh', 'Delhi'],
         serviceType: s.category,
     };
 
@@ -65,7 +68,7 @@ export default function ServicePage() {
                     <div className="max-w-7xl mx-auto pb-16">
                         <div className="flex items-baseline justify-between mb-5">
                             <h2 className="text-2xl md:text-3xl font-bold text-[#52525B] tracking-tight">
-                                Recent {s.name.toLowerCase()} projects
+                                {s.category === '3D Visualization' ? `Recent ${s.name.toLowerCase()} work` : 'Portfolio: photographs, plans and visualizations'}
                             </h2>
                             <Link to="/portfolio" className="text-sm text-[#F97316] hover:underline font-semibold whitespace-nowrap">
                                 See all →
@@ -101,8 +104,8 @@ export default function ServicePage() {
 
                 <div className="max-w-5xl mx-auto pb-16 grid md:grid-cols-2 gap-4">
                     <div className="bg-[#52525B] text-white rounded-2xl p-6">
-                        <h3 className="text-xs uppercase tracking-wider opacity-70 mb-2">Software</h3>
-                        <p className="text-sm leading-relaxed">{s.software}</p>
+                        <h3 className="text-xs uppercase tracking-wider opacity-70 mb-2">{s.category === '3D Visualization' ? 'Software' : 'Before we quote'}</h3>
+                        <p className="text-sm leading-relaxed">{s.category === '3D Visualization' ? s.software : 'Share your location, approximate area, requirements and investment range. We confirm drawings, consultant and approval responsibilities, materials, execution scope, fees and exclusions before appointment.'}</p>
                     </div>
                     <div className="bg-[#52525B] text-white rounded-2xl p-6">
                         <h3 className="text-xs uppercase tracking-wider opacity-70 mb-2">Turnaround</h3>
@@ -144,7 +147,9 @@ export default function ServicePage() {
                 )}
             </div>
 
-            <CtaBlock title={`Need ${s.name.toLowerCase()}?`} subtitle="Send us your CAD, SketchUp or PDF plans — we'll come back with a quote and turnaround within one business day." />
+            <CtaBlock title={`Need ${s.name.toLowerCase()}?`} subtitle={s.category === '3D Visualization'
+                ? "Send us your CAD, SketchUp or PDF plans — we'll come back with a quote and turnaround within one business day."
+                : 'Tell us your location, approximate area, requirements and preferred start date. Existing drawings are not required; we will discuss the scope and next steps.'} />
         </>
     );
 }

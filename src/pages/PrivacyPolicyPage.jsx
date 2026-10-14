@@ -21,7 +21,7 @@ export default function PrivacyPolicyPage() {
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'WebPage',
-        name: 'Privacy Policy — SLATE Concept Studios',
+        name: 'Privacy Policy — Slate Concepts',
         url: `${SITE_URL}/privacy-policy`,
         about: { '@id': ORG_ID },
     };
@@ -29,8 +29,8 @@ export default function PrivacyPolicyPage() {
     return (
         <>
             <Seo
-                title="Privacy Policy | SLATE Concept Studios"
-                description="How SLATE Concept Studios collects, uses and protects the personal information you share through our website, Meta lead forms, WhatsApp and other enquiry channels."
+                title="Privacy Policy | Slate Concepts"
+                description="How Slate Concepts collects, uses and protects the personal information you share through our website, Meta lead forms, WhatsApp and other enquiry channels."
                 path="/privacy-policy"
                 jsonLd={jsonLd}
                 breadcrumb={breadcrumb}
@@ -47,7 +47,7 @@ export default function PrivacyPolicyPage() {
                 <div className="max-w-3xl mx-auto">
                     <Prose>
                         <p>
-                            SLATE Concept Studios ("SLATE", "we", "us", or "our") respects your privacy and is
+                            Slate Concepts ("SLATE", "we", "us", or "our") respects your privacy and is
                             committed to protecting the personal information you share with us.
                         </p>
 
@@ -96,7 +96,7 @@ export default function PrivacyPolicyPage() {
 
                         <h2>Contact Us</h2>
                         <p>
-                            <strong>SLATE Concept Studios</strong><br />
+                            <strong>Slate Concepts</strong><br />
                             Email: <a href={`mailto:${PRIVACY_EMAIL}`}>{PRIVACY_EMAIL}</a><br />
                             Phone: <a href={`tel:+${CONTACT.phoneRaw}`}>{CONTACT.phone}</a>
                         </p>

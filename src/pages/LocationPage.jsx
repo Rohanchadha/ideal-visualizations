@@ -1,5 +1,6 @@
 import React from 'react';
-import { useParams, Navigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import NotFoundPage from './NotFoundPage';
 import Seo from '../components/Seo';
 import PageHero from '../components/PageHero';
 import CtaBlock from '../components/CtaBlock';
@@ -9,14 +10,17 @@ import { SERVICES } from '../content/services';
 import { isPreviewMode, onlyPublished } from '../config/visibility';
 import { SITE_URL, ORG_ID } from '../config/seo';
 import { imagesForLocation } from '../config/galleryHelpers';
+import { CONTACT } from '../config/site';
 
 export default function LocationPage() {
     const { slug } = useParams();
     const loc = LOCATION_BY_SLUG[slug];
-    if (!loc) return <Navigate to="/" replace />;
-    if (loc.draft && !isPreviewMode()) return <Navigate to="/" replace />;
+    if (!loc) return <NotFoundPage />;
+    if (loc.draft && !isPreviewMode()) return <NotFoundPage />;
 
     const locImages = imagesForLocation(loc.slug, 6);
+    const localStudio = loc.slug === 'amritsar';
+    const visibleServices = onlyPublished(SERVICES).filter((service) => localStudio || service.category === '3D Visualization');
 
     const breadcrumb = [
         { name: 'Home', path: '/' },
@@ -26,21 +30,18 @@ export default function LocationPage() {
 
     const jsonLd = {
         '@context': 'https://schema.org',
-        '@type': 'LocalBusiness',
-        '@id': `${SITE_URL}/locations/${loc.slug}#business`,
-        name: `SLATE Concept Studios — ${loc.city}`,
+        '@type': 'WebPage',
+        '@id': `${SITE_URL}/locations/${loc.slug}#page`,
+        name: loc.h1,
         description: loc.description,
         url: `${SITE_URL}/locations/${loc.slug}`,
-        parentOrganization: { '@id': ORG_ID },
-        areaServed: { '@type': 'City', name: loc.city },
-        address: loc.slug === 'amritsar' ? {
-            '@type': 'PostalAddress',
-            addressLocality: 'Amritsar',
-            addressRegion: 'Punjab',
-            addressCountry: 'IN',
-        } : undefined,
-        telephone: '+91-9646724313',
-        email: 'danish@slateconcepts.com',
+        about: { '@id': ORG_ID },
+        mainEntity: {
+            '@type': 'Service',
+            name: localStudio ? 'Architectural planning, interiors and turnkey construction in Amritsar' : `3D visualization for ${loc.city} clients`,
+            provider: { '@id': ORG_ID },
+            areaServed: { '@type': 'City', name: loc.city },
+        },
     };
 
     return (
@@ -63,7 +64,7 @@ export default function LocationPage() {
                 <div className="max-w-5xl mx-auto pb-16">
                     <h2 className="text-2xl md:text-3xl font-bold text-[#52525B] mb-6 tracking-tight">Services we deliver to {loc.city}</h2>
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                        {onlyPublished(SERVICES).map((s) => (
+                        {visibleServices.map((s) => (
                             <Link key={s.slug} to={`/services/${s.slug}`} className="block bg-white border border-gray-200 hover:border-[#F97316] rounded-2xl p-4 transition-colors">
                                 <h3 className="font-bold text-[#52525B] text-sm">{s.name}</h3>
                             </Link>
@@ -86,10 +87,12 @@ export default function LocationPage() {
                 {loc.showMap && (
                     <div className="max-w-5xl mx-auto pb-16">
                         <h2 className="text-2xl md:text-3xl font-bold text-[#52525B] mb-4 tracking-tight">Visit us in Amritsar</h2>
+                        <address className="not-italic text-[#6B7280] mb-3">{CONTACT.address}</address>
+                        <a href={CONTACT.mapsLocation} target="_blank" rel="noopener noreferrer" className="inline-block text-[#F97316] hover:underline mb-5">Get directions to our studio</a>
                         <div className="aspect-video rounded-2xl overflow-hidden bg-gray-200">
                             <iframe
-                                title="SLATE Concept Studios Amritsar"
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d54802.0!2d74.8723!3d31.6340!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0!2zQW1yaXRzYXI!5e0!3m2!1sen!2sin!4v1700000000000"
+                                title="Slate Concepts Amritsar"
+                                src={`https://www.google.com/maps?${new URLSearchParams({ q: `${CONTACT.plusCode}, India`, output: 'embed', z: '16' })}`}
                                 width="100%"
                                 height="100%"
                                 style={{ border: 0 }}

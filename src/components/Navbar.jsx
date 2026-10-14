@@ -60,7 +60,7 @@ export default function Navbar() {
                 <Link
                     to="/"
                     className="flex items-center gap-3 md:gap-4 shrink-0 group mr-auto"
-                    aria-label="SLATE Concept Studios — Home"
+                    aria-label="Slate Concepts — Home"
                 >
                     <img
                         src="/brand/slate-mark-white.svg"

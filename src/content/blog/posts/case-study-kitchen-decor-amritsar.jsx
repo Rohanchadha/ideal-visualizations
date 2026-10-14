@@ -39,7 +39,7 @@ export default function Post() {
             <p>Interior renders live and die on three things: materials accuracy, lighting calibration, and styling. With Kitchen Decor we have a tight loop on all three:</p>
             <ul>
                 <li><strong>Materials:</strong> exact laminate codes, stone slabs and fabric swatches are shared up front so the render matches what gets specified to the contractor.</li>
-                <li><strong>Lighting:</strong> we calibrate to the building\u2019s real window orientation and the cove / pendant / spot strategy from the lighting plan.</li>
+                <li><strong>Lighting:</strong> we calibrate to the building's real window orientation and the cove / pendant / spot strategy from the lighting plan.</li>
                 <li><strong>Styling:</strong> we keep a shared moodboard so accessories and props feel consistent across rooms in the same project.</li>
             </ul>
 
@@ -47,7 +47,7 @@ export default function Post() {
 
             <h2>What gets delivered per room</h2>
             <ul>
-                <li>2\u20133 hero camera angles per room at 4K.</li>
+                <li>2-3 hero camera angles per room at 4K.</li>
                 <li>One revision round included; additional rounds at a flat per-render rate.</li>
                 <li>Final TIFF / JPG outputs ready for client presentations and marketing.</li>
             </ul>
@@ -55,7 +55,7 @@ export default function Post() {
             <Img id="1BDhp7TlI3CVQaWj6WphN1nnDltgUSzDo" alt="Kitchen Decor — interior set, Amritsar" />
 
             <h2>Why this is the model for designer firms</h2>
-            <p>Kitchen Decor doesn\u2019t need to hire a junior 3D artist, manage their leave, license Lumion, or figure out post in Photoshop. They get studio-grade interior renders on a per-project basis, on the same timeline as a junior would take in-house, at a fraction of the loaded cost. We have written about that economic case in detail in <Link to="/blog/3d-rendering-for-interior-designers">3D rendering for interior designers</Link> and <Link to="/blog/in-house-vs-outsource-rendering">in-house vs outsource rendering</Link>.</p>
+            <p>Kitchen Decor can commission visualization on a per-project basis rather than maintain a dedicated in-house rendering team. The cost comparison depends on workload and scope. We discuss the workflow in <Link to="/blog/3d-rendering-for-interior-designers">3D rendering for interior designers</Link> and the trade-offs in <Link to="/blog/in-house-vs-outsource-rendering">in-house vs outsource rendering</Link>.</p>
 
             <p><strong>Are you an interior designer in Amritsar, Delhi or anywhere in India?</strong> Send your SketchUp files and a moodboard to <a href="mailto:danish@slateconcepts.com">danish@slateconcepts.com</a> or WhatsApp +91 96467 24313 — we will quote within an hour and start within the week.</p>
         </>

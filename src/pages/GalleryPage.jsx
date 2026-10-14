@@ -237,9 +237,9 @@ export default function GalleryPage() {
     return (
         <div className="bg-slate-950 text-white min-h-screen">
             <Seo
-                title="Gallery | SLATE Concept Studios"
+                title="Project Portfolio | Slate Concepts, Amritsar"
                 description="Browse our complete portfolio of architectural visualizations, 3D renderings, walkthroughs and interior design projects."
-                path="/gallery"
+                path="/portfolio"
             />
 
             <PageHero

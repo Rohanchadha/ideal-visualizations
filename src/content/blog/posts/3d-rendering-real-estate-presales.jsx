@@ -61,9 +61,6 @@ export default function Post() {
 
             <p>For the underlying cost framework see our <Link to="/blog/3d-rendering-cost">cost guide</Link> and our <Link to="/blog/roi-of-3d-rendering">full ROI breakdown</Link>.</p>
 
-            <h2>Case study (placeholder)</h2>
-            <p><em>[Danish to add: a developer client, project, asset bundle delivered, pre-sales outcome.]</em></p>
-
             <h2>Common mistakes</h2>
             <ul>
                 <li><strong>Cheap, generic renders that look like everyone else's.</strong> Buyers spot the difference. Premium projects need premium visuals.</li>

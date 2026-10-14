@@ -10,7 +10,7 @@ import { trackEvent } from './Analytics';
 // CDN as the rest of the gallery.
 const HERO_IMAGE = {
     src: 'https://lh3.googleusercontent.com/d/1sJJmeSj3CouF9161yIJApf2SuBaxw4HG=w1920',
-    alt: 'Exterior 3D visualization of a modern farmhouse in Amritsar by SLATE Concept Studios',
+    alt: 'Exterior 3D visualization of a modern farmhouse in Amritsar, not a site photograph',
 };
 
 export default function Hero() {
@@ -47,7 +47,7 @@ export default function Hero() {
                     alt={HERO_IMAGE.alt}
                     width="1920"
                     height="1080"
-                    fetchpriority="high"
+                    fetchPriority="high"
                     decoding="async"
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover object-center scale-105"
@@ -61,12 +61,12 @@ export default function Hero() {
             {/* Content Container positioned at bottom-left */}
             <div className="relative z-20 w-full max-w-7xl mx-auto px-6 pt-28 pb-16 md:pb-24">
                 <div className="max-w-3xl text-white">
-                    <h1 className="hero-text text-[2.25rem] leading-[1.08] sm:text-5xl md:text-6xl font-bold tracking-[-0.02em] mb-5 [text-shadow:0_2px_14px_rgba(0,0,0,0.6)]">
-                        <span className="block">Your home, from</span>
-                        <span className="block text-[#F5F5F4] mt-1 font-serif italic font-normal">first plan to handover.</span>
+                    <h1 className="hero-text text-[2.25rem] leading-[1.08] sm:text-5xl md:text-6xl font-bold tracking-normal mb-5 [text-shadow:0_2px_14px_rgba(0,0,0,0.6)]">
+                        <span className="block">Home construction</span>
+                        <span className="block text-[#F5F5F4] mt-1 font-serif italic font-normal">in Amritsar.</span>
                     </h1>
                     <p className="hero-text text-base md:text-lg text-white/90 leading-[1.65] max-w-lg mb-8 [text-shadow:0_1px_8px_rgba(0,0,0,0.6)]">
-                        Architecture, interiors and turnkey execution, shaped around how you live.
+                        Turnkey construction, renovation and interiors, from the first plan to handover. Based in Amritsar, also serving homeowners in Ludhiana.
                     </p>
                     <div className="hero-text flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center">
                         <button
@@ -83,6 +83,7 @@ export default function Hero() {
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </div>
+                    <p className="mt-6 text-xs text-white/75">Design visualization, not a site photograph</p>
                 </div>
             </div>
         </section>

@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { SITE_URL, DEFAULT_OG_IMAGE, DEFAULT_TITLE, DEFAULT_DESCRIPTION } from '../config/seo';
+import { SeoContext } from '../context/SeoContext';
 
 /**
  * Lightweight SEO head manager. Updates <title>, meta description, canonical,
@@ -33,10 +34,16 @@ export default function Seo({
     breadcrumb = null, // [{ name, path }]
     noIndex = false,
 }) {
+    const collectSeo = useContext(SeoContext);
+    if (collectSeo) collectSeo({ title: title || DEFAULT_TITLE, description: description || DEFAULT_DESCRIPTION, path, image: new URL(image || DEFAULT_OG_IMAGE, SITE_URL).href, type, jsonLd, breadcrumb, noIndex });
+    const jsonLdString = JSON.stringify(jsonLd);
+    const breadcrumbString = JSON.stringify(breadcrumb);
+
     useEffect(() => {
         const fullTitle = title || DEFAULT_TITLE;
         const desc = description || DEFAULT_DESCRIPTION;
-        const canonical = `${SITE_URL}${path}`;
+        const canonical = new URL(path, SITE_URL).href;
+        const imageUrl = new URL(image || DEFAULT_OG_IMAGE, SITE_URL).href;
 
         const prev = {
             title: document.title,
@@ -55,26 +62,31 @@ export default function Seo({
 
         document.title = fullTitle;
         setMeta('meta[name="description"]', 'content', desc);
-        setMeta('link[rel="canonical"]', 'href', canonical);
+        const canonicalLink = document.querySelector('link[rel="canonical"]') || document.createElement('link');
+        canonicalLink.rel = 'canonical';
+        canonicalLink.href = canonical;
+        if (!canonicalLink.parentNode) document.head.appendChild(canonicalLink);
         setMeta('meta[name="robots"]', 'content', noIndex ? 'noindex,follow' : 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1');
         setMeta('meta[property="og:title"]', 'content', fullTitle);
         setMeta('meta[property="og:description"]', 'content', desc);
         setMeta('meta[property="og:url"]', 'content', canonical);
-        setMeta('meta[property="og:image"]', 'content', image);
+        setMeta('meta[property="og:image"]', 'content', imageUrl);
         setMeta('meta[property="og:type"]', 'content', type);
         setMeta('meta[name="twitter:title"]', 'content', fullTitle);
         setMeta('meta[name="twitter:description"]', 'content', desc);
-        setMeta('meta[name="twitter:image"]', 'content', image);
+        setMeta('meta[name="twitter:image"]', 'content', imageUrl);
 
         // Per-page JSON-LD (page-scoped, removed on unmount)
-        if (jsonLd) injectJsonLd('seo-jsonld-page', jsonLd);
+        const pageData = JSON.parse(jsonLdString);
+        if (pageData) injectJsonLd('seo-jsonld-page', pageData);
 
         // Breadcrumb JSON-LD
-        if (breadcrumb && breadcrumb.length) {
+        const breadcrumbItems = JSON.parse(breadcrumbString);
+        if (breadcrumbItems && breadcrumbItems.length) {
             injectJsonLd('seo-jsonld-breadcrumb', {
                 '@context': 'https://schema.org',
                 '@type': 'BreadcrumbList',
-                itemListElement: breadcrumb.map((b, i) => ({
+                itemListElement: breadcrumbItems.map((b, i) => ({
                     '@type': 'ListItem',
                     position: i + 1,
                     name: b.name,
@@ -86,7 +98,8 @@ export default function Seo({
         return () => {
             document.title = prev.title;
             if (prev.desc) setMeta('meta[name="description"]', 'content', prev.desc);
-            if (prev.canon) setMeta('link[rel="canonical"]', 'href', prev.canon);
+            if (prev.canon) canonicalLink.href = prev.canon;
+            else canonicalLink.remove();
             if (prev.robots) setMeta('meta[name="robots"]', 'content', prev.robots);
             if (prev.ogTitle) setMeta('meta[property="og:title"]', 'content', prev.ogTitle);
             if (prev.ogDesc) setMeta('meta[property="og:description"]', 'content', prev.ogDesc);
@@ -99,7 +112,7 @@ export default function Seo({
             document.getElementById('seo-jsonld-page')?.remove();
             document.getElementById('seo-jsonld-breadcrumb')?.remove();
         };
-    }, [title, description, path, image, type, JSON.stringify(jsonLd), JSON.stringify(breadcrumb), noIndex]);
+    }, [title, description, path, image, type, jsonLdString, breadcrumbString, noIndex]);
 
     return null;
 }

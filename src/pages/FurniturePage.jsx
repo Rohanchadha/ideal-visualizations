@@ -135,7 +135,7 @@ function FurnitureSection({ item, index, onOpen }) {
                 >
                     <img
                         src={item.src}
-                        alt={`${meta.name || 'Custom furniture piece'} — ${meta.material || 'designed by SLATE Concept Studios'}`}
+                        alt={`${meta.name || 'Custom furniture piece'} — ${meta.material || 'designed by Slate Concepts'}`}
                         loading={index < 2 ? 'eager' : 'lazy'}
                         decoding="async"
                         referrerPolicy="no-referrer"
@@ -207,9 +207,9 @@ export default function FurniturePage() {
         '@context': 'https://schema.org',
         '@type': 'CollectionPage',
         url: `${SITE_URL}/furniture`,
-        name: 'Signature Furniture Collection — SLATE Concept Studios',
+        name: 'Signature Furniture Collection — Slate Concepts',
         description:
-            'Bespoke furniture designed and visualized by SLATE Concept Studios — console tables, centre tables, wardrobes, sofa sets and chairs in walnut, oak, ash, maple, mango, cherry, acacia and reclaimed wood.',
+            'Bespoke furniture designed and visualized by Slate Concepts — console tables, centre tables, wardrobes, sofa sets and chairs in walnut, oak, ash, maple, mango, cherry, acacia and reclaimed wood.',
         about: { '@id': ORG_ID },
         hasPart: [
             ...CATEGORIES.map((c, idx) => ({
@@ -228,7 +228,7 @@ export default function FurniturePage() {
                     description: meta.design || meta.raw || undefined,
                     material: meta.material || undefined,
                     image: it.src,
-                    brand: { '@type': 'Brand', name: 'SLATE Concept Studios' },
+                    brand: { '@type': 'Brand', name: 'Slate Concepts' },
                     category: 'Bespoke Furniture',
                 };
             }),
@@ -238,8 +238,8 @@ export default function FurniturePage() {
     return (
         <>
             <Seo
-                title="Signature Furniture Collection | SLATE Concept Studios"
-                description="Bespoke furniture by SLATE Concept Studios — console tables, centre tables, wardrobes, sofa sets and chairs designed in premium woods and visualized at photoreal quality."
+                title="Signature Furniture Collection | Slate Concepts"
+                description="Bespoke furniture by Slate Concepts — console tables, centre tables, wardrobes, sofa sets and chairs designed in premium woods and visualized at photoreal quality."
                 path="/furniture"
                 jsonLd={jsonLd}
                 breadcrumb={breadcrumb}

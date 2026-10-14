@@ -12,7 +12,8 @@
     "predev": "npm run gallery:build && npm run sitemap:build",
     "dev": "vite",
     "prebuild": "npm run gallery:build && npm run sitemap:build",
-    "build": "vite build",
+    "build": "vite build && node scripts/prerender.mjs",
+    "build:site": "vite build && node scripts/prerender.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -35,6 +36,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "autoprefixer": "^10.4.27",
+    "cheerio": "^1.2.0",
     "dotenv": "^17.4.2",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",

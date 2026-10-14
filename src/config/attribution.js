@@ -8,14 +8,20 @@
 const STORAGE_KEY = 'slate_lead_attribution';
 
 function detectSource(params) {
-    if (params.get('fbclid') || params.get('utm_source') === 'facebook' || params.get('utm_source') === 'instagram') {
-        return 'Meta Ads';
-    }
-    if (params.get('gclid') || params.get('utm_source') === 'google') {
+    const source = params.get('utm_source')?.trim().toLowerCase();
+    const medium = params.get('utm_medium')?.trim().toLowerCase();
+    const paid = ['cpc', 'ppc', 'paid', 'paidsearch', 'paid_search', 'paid-social', 'paid_social', 'paidsocial', 'display'].includes(medium);
+    if (params.get('gclid') || params.get('gbraid') || params.get('wbraid') || (source === 'google' && paid)) {
         return 'Google Ads';
     }
-    const utmSource = params.get('utm_source');
-    if (utmSource) return utmSource; // e.g. "referral", "newsletter"
+    if (params.get('fbclid') || ((source === 'facebook' || source === 'instagram') && (paid || !medium))) {
+        return 'Meta Ads';
+    }
+    if (['google', 'google-business-profile', 'gbp', 'bing'].includes(source) || medium === 'organic') {
+        return 'Organic/Website';
+    }
+    if (source === 'facebook' || source === 'instagram') return 'Referral';
+    if (source) return params.get('utm_source');
     return null; // unknown at capture time — treated as Organic/Website downstream
 }
 
@@ -23,7 +29,7 @@ export function captureAttribution() {
     if (typeof window === 'undefined') return;
     try {
         const params = new URLSearchParams(window.location.search);
-        const hasAnySignal = ['utm_source', 'utm_campaign', 'utm_medium', 'fbclid', 'gclid'].some(k => params.has(k));
+        const hasAnySignal = ['utm_source', 'utm_campaign', 'utm_medium', 'fbclid', 'gclid', 'gbraid', 'wbraid'].some(k => params.has(k));
         if (!hasAnySignal) return; // don't overwrite an existing stored value with nothing
 
         const source = detectSource(params);

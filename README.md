@@ -1,7 +1,31 @@
-# SLATE Concept Studios — Marketing Site
+# Slate Concepts — Marketing Site
 
-A modern, animated marketing site for **SLATE Concept Studios**, an architecture & 3D-visualization studio.
+A modern, animated marketing site for **Slate Concepts**, an architecture & 3D-visualization studio.
 Built with React 19, Vite 7, Tailwind CSS v4, GSAP and React Router.
+
+## Prerendering and Routing
+
+`npm run build` now renders every published route into its own HTML file, plus `404.html`. The existing prebuild hook still refreshes gallery/sitemap source data. For a website-only build that preserves local generated data, use:
+
+```bash
+npm run build:site
+node --test scripts/test-attribution.mjs scripts/test-prerender.mjs
+npx vite preview --host 127.0.0.1 --port 4177
+```
+
+The render step reuses the React pages and SEO metadata, checks headings/canonicals/JSON-LD, excludes drafts, and generates the deployed sitemap from the same inventory. Unknown modification dates are omitted rather than set to the build date. React hydrates the initial content; development still uses the SPA server. Vercel uses clean HTML URLs and its native custom 404, not a catch-all homepage rewrite. Check redirects, 404 status codes and representative initial HTML on a preview deployment before publishing. Vite preview does not emulate Vercel redirects or serverless APIs.
+
+## Search Measurement Handoff
+
+Account baselines and production verification are pending owner access; build success does not establish indexing, rankings or delivered leads.
+
+- Search Console: export recent 90-day and 28-day query/page data, inspect home, Amritsar, construction, portfolio and one article, and submit the deployed sitemap. Compare Amritsar construction queries separately from brand and international rendering queries before deciding whether home or the Amritsar hub owns each cluster.
+- Google Business Profile: confirm owner access, business name, Taylor Road pin, daily 10:00-19:30 hours, service categories, phone and website. Danish's CoA registration is owner-confirmed; do not invent a registration number. No listing changes have been made.
+- Use a tested GBP website URL such as `https://slateconcepts.com/?utm_source=google&utm_medium=organic&utm_campaign=amritsar-gbp`. Check persistence into the callback payload and CRM campaign; do not classify this as Google Ads.
+- GA4 DebugView/Realtime: verify one page view per route and phone, directions, WhatsApp and callback intent events. `callback_submit_success` must fire only for successful delivery. Never send names, phone numbers or email addresses to analytics; any controlled lead test requires owner approval and cleanup.
+- Existing CRM `Organic/Website` remains a combined website bucket: untagged/direct traffic is not proven organic search. Report it as unassigned website traffic until referrer/direct classification is explicitly implemented and verified. Calls and WhatsApp clicks are intent, not completed enquiries.
+- Each week, record local nonbrand impressions/clicks, indexed priority pages, GBP interactions, verified enquiries, qualified Amritsar/Ludhiana construction leads and consultations. Set numerical goals from the baseline; do not promise rankings or invent traffic improvements.
+- Project-detail pages remain deferred until actual scope, media permissions and project facts are provided. Do not label a visualization as a completed build.
 
 ---
 
@@ -149,5 +173,5 @@ Because the site uses client-side routing, configure your host to **fall back to
 
 ---
 
-© SLATE Concept Studios — All rights reserved.
+© Slate Concepts — All rights reserved.
 

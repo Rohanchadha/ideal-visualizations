@@ -1,5 +1,6 @@
 import React from 'react';
-import { useParams, Navigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import NotFoundPage from './NotFoundPage';
 import Seo from '../components/Seo';
 import PageHero from '../components/PageHero';
 import CtaBlock from '../components/CtaBlock';
@@ -14,8 +15,8 @@ import GalleryGrid from '../components/GalleryGrid';
 export default function IndustryPage() {
     const { slug } = useParams();
     const ind = INDUSTRY_BY_SLUG[slug];
-    if (!ind) return <Navigate to="/services" replace />;
-    if (ind.draft && !isPreviewMode()) return <Navigate to="/services" replace />;
+    if (!ind) return <NotFoundPage />;
+    if (ind.draft && !isPreviewMode()) return <NotFoundPage />;
 
     const breadcrumb = [
         { name: 'Home', path: '/' },

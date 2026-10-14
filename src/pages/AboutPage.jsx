@@ -24,16 +24,20 @@ export default function AboutPage() {
         about: { '@id': ORG_ID },
         mainEntity: {
             '@type': 'Person',
-            name: 'Danish',
-            jobTitle: 'Founder & Principal',
+            name: 'Danish Seth',
+            jobTitle: 'Principal Architect',
+            hasCredential: {
+                '@type': 'EducationalOccupationalCredential',
+                name: 'B.Arch',
+            },
             worksFor: { '@id': ORG_ID },
         },
     };
     return (
         <>
             <Seo
-                title="About SLATE Concept Studios | Architecture, Interiors & Visualization"
-                description="The story behind SLATE Concept Studios — founded by Danish in Amritsar. Architecture, interiors, turnkey execution and 3D visualization for clients in India and abroad."
+                title={`About ${CONTACT.businessName} | Home Construction & Interiors in Amritsar`}
+                description={`Meet Danish Seth and Mansi Seth at ${CONTACT.businessName} in Amritsar. Turnkey home construction, renovation, interiors and planning, with Ludhiana as our next priority market.`}
                 path="/about"
                 jsonLd={jsonLd}
                 breadcrumb={breadcrumb}
@@ -42,16 +46,19 @@ export default function AboutPage() {
                 eyebrow="Our story"
                 title="A studio built on"
                 italic="precision and longevity"
-                subtitle="Founded in Amritsar by Danish. Architecture, interiors and turnkey execution, with visualization work for clients in India and abroad. One studio, one accountable team."
+                subtitle="Turnkey home construction in Amritsar comes first, followed by Ludhiana. We also support homeowners with renovation, interiors and planning, with visualization as part of the design process."
                 breadcrumb={breadcrumb}
             />
 
             <div className="px-6 md:px-12 pb-12">
                 <div className="max-w-3xl mx-auto">
                     <Prose>
-                        <h2>How we got here</h2>
-                        <p>SLATE Concept Studios was founded by Danish in Amritsar with a simple thesis: architects, designers and developers deserve photoreal visualisations that match their ambition — without paying global studio prices, missing deadlines or being passed between freelancers.</p>
-                        <p>Over 10+ years, that thesis has played out across a wide range of work. We have rendered luxury villas in Chandigarh, off-plan towers in Dubai, condo developments in Toronto, restaurant fitouts in Amritsar and commercial pitches in New York. Each project has tightened the pipeline, deepened the team and sharpened the eye.</p>
+                        <h2>Our focus</h2>
+                        <p>{CONTACT.businessName} is based in Amritsar. Our priority is turnkey and home construction, followed by renovation and interiors. We help homeowners bring planning, design and execution together, with the responsibilities and deliverables agreed for each project.</p>
+
+                        <h2>Our team</h2>
+                        <p><strong>Danish Seth</strong> is our Principal Architect, with a B.Arch qualification and registration with the Council of Architecture (CoA). He has five years of full-time experience across architecture, interiors and 3D visualization.</p>
+                        <p><strong>Mansi Seth</strong> works across interiors and marketing.</p>
 
                         <h2>What makes us different</h2>
                         <ul>
@@ -62,7 +69,7 @@ export default function AboutPage() {
                         </ul>
 
                         <h2>Software & tools</h2>
-                        <p>SketchUp and AutoCAD for modelling and planning. Lumion for photoreal rendering and fast turnarounds. Adobe Photoshop for post-production and finishing. A focused toolkit, refined over 10+ years of practice.</p>
+                        <p>SketchUp and AutoCAD for modelling and planning. Lumion for photoreal rendering. Adobe Photoshop for post-production and finishing.</p>
 
                         <h2>Where we work from</h2>
                         <p>The studio is based in <strong>Amritsar</strong>. Residential architecture, interiors and turnkey work is focused on Amritsar, Ludhiana, Chandigarh and Delhi, with execution availability confirmed per site and scope. Meetings and site visits are arranged through the enquiry conversation. Visualization work is delivered remotely worldwide.</p>
@@ -83,6 +90,7 @@ export default function AboutPage() {
                             {CONTACT.address}
                         </address>
                         <p className="mt-3 text-sm text-[#6B7280]">Plus code: {CONTACT.plusCode}</p>
+                        <p className="mt-3 text-sm text-[#6B7280]">{CONTACT.workingHours}. {CONTACT.visitPolicy}</p>
                         <div className="mt-6 flex flex-wrap gap-4">
                             <a href={CONTACT.mapsLocation} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#52525B]/30 px-5 py-3 text-sm font-semibold text-[#52525B] transition-colors hover:bg-[#E4E4E7]">
                                 <MapPin className="h-4 w-4" aria-hidden="true" /> Google Maps
@@ -94,7 +102,7 @@ export default function AboutPage() {
                     </div>
                     <div className="aspect-[4/3] overflow-hidden rounded-lg bg-[#E4E4E7] md:aspect-[16/10]">
                         <iframe
-                            title="SLATE Concept Studios location in Amritsar"
+                            title={`${CONTACT.businessName} location in Amritsar`}
                             src={mapEmbedUrl}
                             width="640"
                             height="400"

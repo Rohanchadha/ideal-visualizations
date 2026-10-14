@@ -48,9 +48,6 @@ export default function Post() {
                 <li><strong>NDA and IP:</strong> Standard. We sign your NDA before files move. UAE-style IP protection clauses are familiar to us.</li>
             </ul>
 
-            <h2>Our UAE experience</h2>
-            <p><em>[Danish to add: number of UAE projects, client types, notable launches, testimonials.]</em></p>
-
             <h2>Typical Dubai project mix</h2>
             <ul>
                 <li>Off-plan tower launch: hero exterior + master plan + 4 unit-type interiors + 90s walkthrough + 360° tour. Budget: $8,000–$25,000 with us; $40,000–$120,000 with Dubai studios.</li>

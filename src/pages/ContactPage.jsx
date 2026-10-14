@@ -22,8 +22,8 @@ export default function ContactPage() {
     return (
         <>
             <Seo
-                title="Contact SLATE Concept Studios | WhatsApp, Email & Callback"
-                description="Get in touch with SLATE Concept Studios. WhatsApp +91 96467 24313, email danish@slateconcepts.com, or request a callback. Studio in Amritsar."
+                title={`Contact ${CONTACT.businessName} | WhatsApp, Email & Callback`}
+                description={`Get in touch with ${CONTACT.businessName}. WhatsApp +91 96467 24313, email danish@slateconcepts.com, or request a callback. Studio in Amritsar.`}
                 path="/contact"
                 jsonLd={jsonLd}
                 breadcrumb={breadcrumb}
@@ -58,6 +58,8 @@ export default function ContactPage() {
                     <div className="bg-white border border-gray-200 rounded-3xl p-8">
                         <MapPinned className="w-10 h-10 text-[#F97316] mb-4" />
                         <h2 className="text-2xl font-bold mb-2 text-[#52525B]">Where we work</h2>
+                        <address className="text-[#52525B] not-italic mb-3">{CONTACT.address}</address>
+                        <a href={CONTACT.mapsLocation} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('cta_directions_click', { location: 'contact_page' })} className="inline-block text-[#F97316] hover:underline mb-3">Get directions to our Amritsar studio</a>
                         <p className="text-[#6B7280] mb-2">Studio base in Amritsar. Residential projects across Amritsar, Ludhiana, Chandigarh and Delhi — meetings and site support are arranged through the enquiry conversation.</p>
                         <p className="text-[#52525B] font-semibold">Amritsar · Ludhiana · Chandigarh · Delhi</p>
                         <div className="flex gap-3 mt-4">
@@ -71,7 +73,7 @@ export default function ContactPage() {
 
                 <div className="max-w-3xl mx-auto mt-12 text-center">
                     <p className="text-[#6B7280] text-sm md:text-base">
-                        Working hours: Mon–Sat, 10am–7pm IST. WhatsApp messages outside these hours are answered first thing the next morning.
+                        Working hours: {CONTACT.workingHours}. {CONTACT.visitPolicy}
                     </p>
                 </div>
             </div>

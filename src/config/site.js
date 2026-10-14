@@ -1,5 +1,8 @@
 // Centralized site contact + service info
 export const CONTACT = {
+    businessName: 'Slate Concepts',
+    workingHours: 'Every day, 10 AM to 7:30 PM IST',
+    visitPolicy: 'Walk-ins are welcome. Appointments are preferred.',
     phone: '+91 9646724313',
     phoneRaw: '919646724313', // for wa.me / tel: links
     email: 'danish@slateconcepts.com',
@@ -9,13 +12,13 @@ export const CONTACT = {
     instagram: 'https://www.instagram.com/slate.concepts/',
     behance: 'https://www.behance.net/idealvisuali',
     linkedin: 'https://www.linkedin.com/in/danish-seth-59a3601b6/',
-    whatsappMessage: "Hi SLATE Concept Studios! I'd like to discuss a project.",
+    whatsappMessage: "Hi Slate Concepts! I'd like to discuss a project.",
 };
 
 // Editable brief prefilled into WhatsApp. Every line is optional for the
 // visitor — it is a prompt, not a required form.
 export const WHATSAPP_PROJECT_BRIEF = [
-    "Hi SLATE Concept Studios! I'd like to discuss a project.",
+    "Hi Slate Concepts! I'd like to discuss a project.",
     'City:',
     'Approximate plot / built-up area (with units):',
     'Service needed (architecture, interiors, turnkey or visualization):',

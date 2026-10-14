@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import Seo from '../components/Seo';
 import PageHero from '../components/PageHero';
@@ -24,7 +24,7 @@ export default function ServicesHub() {
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'CollectionPage',
-        name: 'Services — SLATE Concept Studios',
+        name: 'Services — Slate Concepts',
         url: `${SITE_URL}/services`,
         about: { '@id': ORG_ID },
         hasPart: visibleServices.map((s) => ({
@@ -37,8 +37,8 @@ export default function ServicesHub() {
     return (
         <>
             <Seo
-                title="Services | SLATE Concept Studios — 3D Rendering, Walkthroughs, Turnkey"
-                description="Eight services across 3D visualization (exterior, interior, walkthrough, 360°) and architecture & construction (planning, elevation, interior design, turnkey)."
+                title="Home Construction, Renovation & Design Services | Slate Concepts"
+                description="Turnkey home construction, renovation, interiors, house planning and elevation design in Amritsar and Ludhiana. Separate visualization services for architects and designers."
                 path="/services"
                 jsonLd={jsonLd}
                 breadcrumb={breadcrumb}
@@ -47,7 +47,7 @@ export default function ServicesHub() {
                 eyebrow="What we do"
                 title="Services"
                 italic="end to end"
-                subtitle="From a single render to a complete turnkey building. Eight services, one accountable team, one studio."
+                subtitle="Home construction, renovation and interiors in Amritsar and Ludhiana, supported by architectural planning and design. Visualization services remain available for architects and designers."
                 breadcrumb={breadcrumb}
             />
             <div className="px-6 md:px-12 pb-16 pt-8 md:pt-12">

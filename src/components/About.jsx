@@ -30,17 +30,17 @@ export default function About() {
                 <div className="about-content order-2 lg:order-1">
                     <h2 className="text-[#F97316] font-semibold tracking-wider uppercase mb-4 text-sm md:text-base">Leading with Vision</h2>
                     <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#52525B] leading-[1.1] tracking-tight mb-8">
-                        About Danish — <span className="font-serif italic font-normal text-[#F97316]">Founder.</span>
+                        Danish Seth, <span className="font-serif italic font-normal text-[#F97316]">Principal Architect.</span>
                     </h3>
                     <div className="space-y-6 text-[#6B7280] text-lg leading-relaxed mix-blend-multiply">
                         <p>
-                            Hi, I'm Danish, founder of SLATE Concept Studios. With over a decade of experience in architectural services and visualization, I specialize in transforming ideas into spaces that are both functional and visually compelling.
+                            Danish Seth is a B.Arch-qualified, CoA-registered architect with five years of full-time experience across architecture, interiors and visualization. He leads Slate Concepts from our Amritsar studio.
                         </p>
                         <p>
-                            At SLATE Concept Studios, we bridge the gap between concept and reality through thoughtful architectural design, detailed planning, and photorealistic visualization. From architectural drawings and spatial solutions to immersive 3D renders and presentations, every project is crafted with precision and purpose.
+                            Our focus is turnkey home construction in Amritsar, also serving Ludhiana. Mansi Seth works across interiors and marketing. Together, the team helps homeowners discuss planning, renovation, interiors and execution as one coordinated brief.
                         </p>
                         <p>
-                            Our philosophy is simple: every line has intent, every material adds character, and every visualization should tell a compelling story. We don&rsquo;t just create buildings or renders &mdash; we develop complete design experiences that help architects, developers, and homeowners communicate their vision with clarity and confidence.
+                            We start with your site, daily routines, priorities and investment range. Drawings, materials, site responsibilities and execution stages are agreed for your project, with visualization used to help you review design decisions.
                         </p>
                         <p className="border-l-2 border-[#F97316] pl-6 italic font-serif text-xl text-[#52525B] mt-10">
                             "Precision in design, passion in execution."
@@ -53,7 +53,7 @@ export default function About() {
                         <div className="absolute inset-0 bg-[#F97316]/10 group-hover:bg-transparent transition-colors duration-500 z-10" />
                         <img
                             src="/DanishProfilePicture.png"
-                            alt="Danish, founder and lead 3D visualization artist of SLATE Concept Studios"
+                            alt="Danish Seth, Principal Architect at Slate Concepts in Amritsar"
                             width="800"
                             height="1000"
                             loading="lazy"

@@ -1,5 +1,6 @@
 import React from 'react';
-import { useParams, Navigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import NotFoundPage from './NotFoundPage';
 import Seo from '../components/Seo';
 import PageHero from '../components/PageHero';
 import CtaBlock from '../components/CtaBlock';
@@ -11,8 +12,8 @@ import { SITE_URL, ORG_ID } from '../config/seo';
 export default function BlogPost() {
     const { slug } = useParams();
     const post = POST_BY_SLUG[slug];
-    if (!post) return <Navigate to="/blog" replace />;
-    if (post.draft && !isPreviewMode()) return <Navigate to="/blog" replace />;
+    if (!post) return <NotFoundPage />;
+    if (post.draft && !isPreviewMode()) return <NotFoundPage />;
     const Content = post.Content;
 
     const breadcrumb = [
@@ -31,7 +32,7 @@ export default function BlogPost() {
         dateModified: post.date,
         author: { '@type': 'Person', name: post.author || 'Danish' },
         publisher: { '@id': ORG_ID },
-        image: post.image ? `${SITE_URL}${post.image}` : undefined,
+        image: post.image ? new URL(post.image, SITE_URL).href : undefined,
         mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
         articleSection: post.category,
         keywords: post.keyword,
@@ -69,7 +70,7 @@ export default function BlogPost() {
                             height="600"
                             loading="eager"
                             decoding="async"
-                            fetchpriority="high"
+                            fetchPriority="high"
                             referrerPolicy="no-referrer"
                         />
                     </div>

@@ -16,7 +16,7 @@ export const meta = {
 export default function Post() {
     return (
         <>
-            <p>"Should we hire a renderer in-house?" is the question every growing architecture and design firm eventually asks. The answer is almost always no — and here is the math behind that.</p>
+            <p>"Should we hire a renderer in-house?" is a question growing architecture and design firms often ask. The answer depends on workload, quality requirements and the total cost of each option. The figures below are illustrative planning inputs, not a quote or a universal savings claim.</p>
 
             <h2>The true cost of an in-house renderer</h2>
             <p>The headline number is the salary. The real cost is much higher. Here is what an in-house renderer actually costs in 2026, monthly:</p>
@@ -42,7 +42,7 @@ export default function Post() {
             <p>A senior renderer at full pace produces roughly 12–18 hero-quality stills per month, or one 60–90 second walkthrough per month, or three 360° tours per month. That is your fixed monthly capacity. Busy weeks back up. Slow weeks pay full salary for half the output.</p>
 
             <h2>The cost of outsourcing the same volume</h2>
-            <p>Outsourcing 15 stills/month to a dedicated studio at our published rates costs roughly ₹450,000–₹600,000 in India or $9,000–$15,000 internationally. That is 25–30% of the in-house monthly cost in India, 70–110% in the US. In other words: in India outsourcing wins decisively on cost; in the US the per-render cost is similar, but you gain elastic capacity, no recruitment risk and no capability gaps.</p>
+            <p>Using an illustrative outsourcing budget of ₹450,000–₹600,000 for 15 stills per month, the cost is approximately 2.4–3.2 times the ₹188,000 in-house monthly estimate above, not a saving. A $9,000–$15,000 outsourcing budget is approximately 80–133% of the $11,300 US estimate. These comparisons only become useful when quality, output, revisions and workload are comparable. Outsourcing may still suit intermittent demand or specialist work, but it is not automatically the cheaper option; obtain a scope-specific quote before deciding.</p>
 
             <h2>The hybrid model</h2>
             <p>The smartest mid-sized firms run a hybrid: one mid-level renderer in-house for fast iteration during design, and a dedicated outsourced studio for hero shots, walkthroughs, 360° tours and overflow. This keeps daily design feedback fast and tight, while offloading the high-craft and high-volume work to specialists.</p>

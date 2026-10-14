@@ -4,8 +4,10 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "trailingSlash": false,
-  "rewrites": [
-    { "source": "/((?!api).*)", "destination": "/index.html" }
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/gallery", "destination": "/portfolio", "permanent": true },
+    { "source": "/privacy", "destination": "/privacy-policy", "permanent": true }
   ],
   "headers": [
     {

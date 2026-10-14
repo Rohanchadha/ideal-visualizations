@@ -4,7 +4,7 @@ export const INDUSTRIES = [
     {
         slug: 'architecture-firms',
         audience: 'Architecture Firms',
-        title: '3D Rendering for Architecture Firms | SLATE Concept Studios',
+        title: '3D Rendering for Architecture Firms | Slate Concepts',
         description: 'Outsource your 3D rendering to a dedicated studio. Exterior renders, walkthroughs & 360° tours from your CAD/BIM files. 10+ years of studio practice.',
         h1: '3D Rendering Partner for Architecture Firms',
         subhead: "Your team designs. We visualise. No hiring overhead, no render-farm costs, no missed deadlines.",
@@ -44,7 +44,7 @@ export const INDUSTRIES = [
     {
         slug: 'interior-designers',
         audience: 'Interior Designers',
-        title: '3D Rendering for Interior Designers | SLATE Concept Studios',
+        title: '3D Rendering for Interior Designers | Slate Concepts',
         description: 'Photorealistic interior 3D renders from your mood boards and floor plans. Help clients visualise before committing. 5–10 day delivery.',
         h1: 'Bring Your Interior Concepts to Life in Photorealistic 3D',
         subhead: "Your clients can't visualise from mood boards alone. Our renders close the deal — and reduce expensive change orders during execution.",
@@ -81,7 +81,7 @@ export const INDUSTRIES = [
     {
         slug: 'builders-developers',
         audience: 'Builders & Developers',
-        title: '3D Rendering for Builders & Developers | SLATE Concept Studios',
+        title: '3D Rendering for Builders & Developers | Slate Concepts',
         description: '3D marketing assets that sell properties before they are built. Photorealistic renders, walkthroughs & virtual tours for pre-sales and launches.',
         h1: '3D Marketing Assets That Sell Properties Before They Are Built',
         subhead: "Pre-sales require conviction. Photoreal renders, walkthroughs and virtual tours generate buyer confidence and accelerate bookings.",

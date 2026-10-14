@@ -19,7 +19,9 @@ const FAQS = [
     { q: 'Do you do 3D walkthroughs and 360° tours, not just stills?', a: 'Yes — we deliver cinematic 4K 60fps walkthroughs and interactive 360° virtual tours alongside stills. Walkthroughs come with a 9:16 vertical cut for Instagram and YouTube Shorts at no extra charge.' },
     { q: 'Can you match my supplier\'s exact materials?', a: 'Yes. Send the supplier link, sample photo or material code and we will match it to within visual tolerance.' },
     { q: 'Do you also do architecture planning and interior design, not just rendering?', a: 'Yes. We are a full-stack studio — planning, elevation design, interior design, turnkey construction and 3D rendering all under one roof.' },
-    { q: 'Where are you based?', a: 'We have offices in Amritsar, Delhi and Chandigarh. We serve clients globally — remote-first by default, with walk-in consultations available at all three locations.' },
+    { q: 'Where are you based?', a: 'Our studio is based on Taylor Road in Amritsar. Contact us to arrange a consultation. Meetings, site visits and execution availability outside Amritsar are confirmed per project; visualization is delivered remotely worldwide.' },
+    { q: 'Do I need drawings before discussing my home?', a: 'No. Start with your location, approximate plot or built-up area, requirements, investment range and preferred start date. We discuss what planning or design work is needed before agreeing the scope.' },
+    { q: 'What is the difference between design-only and turnkey?', a: 'For design-only work, drawings, specifications, visualization, revisions and any site support are defined in the proposal; you appoint the execution team. Turnkey includes design and execution within an agreed scope, with responsibilities, specifications, milestones and exclusions recorded before appointment.' },
 ];
 
 export default function FaqPage() {
@@ -41,8 +43,8 @@ export default function FaqPage() {
     return (
         <>
             <Seo
-                title="FAQ | SLATE Concept Studios — 3D Rendering Questions Answered"
-                description="Frequently asked questions about our 3D rendering services — file formats, turnaround, pricing, revisions, NDAs, software, payment and more."
+                title="Home Planning & 3D Rendering FAQ | Slate Concepts, Amritsar"
+                description="Questions about planning a home with our Amritsar studio, design-only versus turnkey scope, consultations, and our separate 3D rendering services."
                 path="/faq"
                 jsonLd={jsonLd}
                 breadcrumb={breadcrumb}
@@ -51,7 +53,7 @@ export default function FaqPage() {
                 eyebrow="Answers"
                 title="Frequently asked"
                 italic="questions"
-                subtitle="Everything you might want to know before sending us your first file."
+                subtitle="Planning your home or commissioning a visualization: answers before we agree your scope."
                 breadcrumb={breadcrumb}
             />
 

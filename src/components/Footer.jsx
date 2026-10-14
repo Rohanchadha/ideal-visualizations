@@ -4,7 +4,6 @@ import { Phone, Mail, MapPinned, MessageCircle, PhoneCall, Instagram, Linkedin }
 import { CONTACT, whatsappLink, WHATSAPP_PROJECT_BRIEF } from '../config/site';
 import { useUI } from '../context/UIContext';
 import { SERVICES } from '../content/services';
-import { LOCATIONS } from '../content/locations';
 import { onlyPublished } from '../config/visibility';
 import { trackEvent } from './Analytics';
 
@@ -48,7 +47,7 @@ export default function Footer() {
 
             <div className="max-w-7xl mx-auto relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16">
                 <div className="lg:col-span-2">
-                    <span className="font-bold text-3xl tracking-tight text-white mb-6 block">SLATE Concept Studios</span>
+                    <span className="font-bold text-3xl tracking-tight text-white mb-6 block">{CONTACT.businessName}</span>
                     <p className="text-gray-400 max-w-sm text-balance text-lg leading-relaxed mb-8">
                         Precision and longevity in architectural services and 3D visualization, bringing your most ambitious concepts to life.
                     </p>
@@ -86,7 +85,7 @@ export default function Footer() {
                 <div>
                     <h4 className="font-semibold mb-6 text-white uppercase tracking-wider text-sm">Services</h4>
                     <ul className="space-y-3 text-gray-400 text-sm">
-                        {onlyPublished(SERVICES).slice(0, 7).map((s) => (
+                        {onlyPublished(SERVICES).map((s) => (
                             <li key={s.slug}><Link to={`/services/${s.slug}`} className="hover:text-white">{s.name}</Link></li>
                         ))}
                         <li><Link to="/services" className="hover:text-[#F97316] font-semibold">All Services →</Link></li>
@@ -96,13 +95,10 @@ export default function Footer() {
                 <div>
                     <h4 className="font-semibold mb-6 text-white uppercase tracking-wider text-sm">Locations</h4>
                     <ul className="space-y-3 text-gray-400 text-sm">
-                        {onlyPublished(LOCATIONS).map((l) => (
-                            <li key={l.slug}>
-                                <Link to={`/locations/${l.slug}`} className="hover:text-white">
-                                    {l.city}{l.slug === 'amritsar' ? ' (HQ)' : ''}
-                                </Link>
-                            </li>
-                        ))}
+                        <li><Link to="/locations/amritsar" className="hover:text-white">Amritsar</Link></li>
+                        <li>Ludhiana</li>
+                        <li><Link to="/locations/chandigarh" className="hover:text-white">Chandigarh</Link></li>
+                        <li><Link to="/locations/delhi-ncr" className="hover:text-white">Delhi-NCR</Link></li>
                     </ul>
                 </div>
 
@@ -123,7 +119,7 @@ export default function Footer() {
 
             <div className="max-w-7xl mx-auto relative z-10 mb-12">
                 <div className="grid sm:grid-cols-3 gap-4 text-gray-400 text-sm">
-                    <a href={`tel:${CONTACT.phoneRaw}`} className="flex items-center gap-3 hover:text-[#F97316] transition-colors">
+                    <a href={`tel:+${CONTACT.phoneRaw}`} onClick={() => trackEvent('cta_phone_click', { location: 'footer' })} className="flex items-center gap-3 hover:text-[#F97316] transition-colors">
                         <Phone className="w-5 h-5 text-[#F97316]" />
                         {CONTACT.phone}
                     </a>
@@ -133,13 +129,13 @@ export default function Footer() {
                     </a>
                     <span className="flex items-center gap-3">
                         <MapPinned className="w-5 h-5 text-[#F97316] shrink-0" />
-                        Amritsar · Delhi · Chandigarh
+                        Studio: {CONTACT.address}
                     </span>
                 </div>
             </div>
 
             <div className="max-w-7xl mx-auto pt-8 border-t border-white/10 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4 relative z-10 text-gray-500 text-sm">
-                <p>© {new Date().getFullYear()} SLATE Concept Studios. All rights reserved.</p>
+                <p>© {new Date().getFullYear()} {CONTACT.businessName}. All rights reserved.</p>
                 <div className="flex items-center gap-4">
                     <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
                     <p className="flex items-center gap-1 font-mono">Powered by Design</p>

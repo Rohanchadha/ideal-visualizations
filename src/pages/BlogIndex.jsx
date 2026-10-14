@@ -61,7 +61,7 @@ export default function BlogIndex() {
     return (
         <>
             <Seo
-                title="Blog | SLATE Concept Studios — 3D Rendering Insights & Guides"
+                title="Blog | Slate Concepts — 3D Rendering Insights & Guides"
                 description="Practical guides on architectural 3D rendering, walkthroughs, 360° tours, pricing, process, software and outsourcing — written for architects, designers and developers."
                 path="/blog"
                 jsonLd={jsonLd}
@@ -98,7 +98,7 @@ export default function BlogIndex() {
 
             <CtaBlock
                 title="Ready to bring your vision to life?"
-                subtitle="Share your CAD files, sketches, references, or even just an idea — and our team will provide a customized quote within one business day. Whether you need architectural design, planning, or photorealistic visualization, SLATE Concept Studios is here to turn concepts into compelling spaces."
+                subtitle="Share your CAD files, sketches, references, or even just an idea — and our team will provide a customized quote within one business day. Whether you need architectural design, planning, or photorealistic visualization, Slate Concepts is here to turn concepts into compelling spaces."
             />
         </>
     );

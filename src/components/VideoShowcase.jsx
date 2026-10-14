@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import 'lite-youtube-embed/src/lite-yt-embed.css';
-import 'lite-youtube-embed';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,6 +17,7 @@ export default function VideoShowcase() {
     const sectionRef = useRef(null);
 
     useEffect(() => {
+        import('lite-youtube-embed');
         let ctx = gsap.context(() => {
             gsap.from(".video-card", {
                 scrollTrigger: {
@@ -51,7 +51,7 @@ export default function VideoShowcase() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-                    {videos.map((vid, i) => (
+                    {videos.map((vid) => (
                         <div key={vid.id} className="video-card relative aspect-video rounded-[2rem] overflow-hidden shadow-2xl group bg-black">
                             <div className="absolute inset-0 border-4 border-transparent group-hover:border-[#F97316]/50 transition-colors duration-500 rounded-[2rem] z-20 pointer-events-none" />
                             <lite-youtube

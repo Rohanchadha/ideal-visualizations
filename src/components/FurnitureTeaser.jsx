@@ -74,7 +74,7 @@ export default function FurnitureTeaser() {
                             >
                                 <img
                                     src={it.thumb}
-                                    alt={`${name || 'Bespoke furniture piece'} — SLATE Concept Studios`}
+                                    alt={`${name || 'Bespoke furniture piece'} — Slate Concepts`}
                                     loading="lazy"
                                     decoding="async"
                                     referrerPolicy="no-referrer"

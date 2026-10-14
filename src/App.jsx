@@ -21,6 +21,7 @@ const BlogIndex = lazy(() => import('./pages/BlogIndex'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
 const FurniturePage = lazy(() => import('./pages/FurniturePage'));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 function App() {
   return (
@@ -45,7 +46,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/portfolio" element={<GalleryPage />} />
             <Route path="/gallery" element={<Navigate to="/portfolio" replace />} />
-            <Route path="/portfolio/:slug" element={<Navigate to="/portfolio" replace />} />
+            <Route path="/portfolio/:slug" element={<NotFoundPage />} />
             <Route path="/services" element={<ServicesHub />} />
             <Route path="/services/:slug" element={<ServicePage />} />
             <Route path="/industries/:slug" element={<IndustryPage />} />
@@ -59,6 +60,7 @@ function App() {
             <Route path="/furniture" element={<FurniturePage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
 
